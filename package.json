@@ -44,7 +44,11 @@
     "config": "cp .env.config .env",
     "test": "jest --forceExit",
     "test:accessibility": "pa11y-ci",
-    "eslint": "./node_modules/.bin/eslint './**/*.js'"
+    "eslint": "./node_modules/.bin/eslint './**/*.js'",
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.10"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
