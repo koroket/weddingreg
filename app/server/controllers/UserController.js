@@ -50,19 +50,19 @@ function canRegister(email, password, callback){
     }
 
     // Check for emails.
-    Settings.getWhitelistedEmails(function(err, emails){
-      if (err || !emails){
-        return callback(err);
+    // Settings.getWhitelistedEmails(function(err, emails){
+    //   if (err || !emails){
+    //     return callback(err);
+    //   }
+      if (validator.isEmail(email)){
+        return callback(null, true);
       }
-      for (var i = 0; i < emails.length; i++) {
-        if (validator.isEmail(email) && endsWith(emails[i], email)){
-          return callback(null, true);
-        }
+      else {
+        return callback({
+          message: "Not a valid email"
+        }, false);
       }
-      return callback({
-        message: "Not a valid educational email."
-      }, false);
-    });
+    // });
 
   });
 }
