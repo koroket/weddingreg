@@ -12,6 +12,10 @@ html {
   -webkit-text-size-adjust: 100%; /* 2 */
 }
 
+.ng-scope{
+  background-image: url("images/ocean.jpeg");
+}
+
 /**
  * Remove default margin.
  */
