@@ -256,9 +256,21 @@ input,
 optgroup,
 select,
 textarea {
-  color: inherit; /* 1 */
-  font: inherit; /* 2 */
-  margin: 0; /* 3 */
+  color: inherit; 
+  font: inherit; 
+  margin: 0; 
+}
+
+/**
+  input div
+*/
+.nameInput{
+  display: inline-block;
+  width: 230px;
+}
+
+.label{
+  font-weight: bold;
 }
 
 /**
@@ -335,7 +347,7 @@ input {
 
 input[type="checkbox"],
 input[type="radio"] {
-  box-sizing: border-box; /* 1 */
+  box-sizing: border-box; /* 1 */ 
   padding: 0; /* 2 */
 }
 

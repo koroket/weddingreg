@@ -38,13 +38,15 @@
           <div class="ui login-password form">
             <form ng-submit="login()">
               <div class="field">
+                <div class="nameInput">
+                  <label class="label">First Name</label>
+                  <input type="text" name="firstName">
+                </div>
 
-                <label>First Name</label>
-                <input type="text" name="firstName">
-
-                <label>Last Name</label>
-                <input type="text" name="lastName">
-
+                <div class="nameInput">
+                  <label class="label">Last Name</label>
+                  <input type="text" name="lastName">
+                </div>
 
                 <label> Email</label>
                 <input type="email" id='email' placeholder="foo@bar.edu" ng-model="email">
