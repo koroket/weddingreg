@@ -91,7 +91,7 @@ controller.sendVerificationEmail = function(email, token, callback) {
 
   var options = {
     to: email,
-    subject: "["+HACKATHON_NAME+"] - Verify your email"
+    subject: HACKATHON_NAME
   };
 
   var locals = {
@@ -128,7 +128,7 @@ controller.sendPasswordResetEmail = function(email, token, callback) {
 
   var options = {
     to: email,
-    subject: "["+HACKATHON_NAME+"] - Password reset requested!"
+    subject: ""+HACKATHON_NAME+" - Password reset requested!"
   };
 
   var locals = {
