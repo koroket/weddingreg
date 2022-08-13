@@ -35,33 +35,34 @@
         </div>
 
         <div ng-show="loginState === 'register'">
-          <div class="ui login-password form">
-            <form ng-submit="login()">
+          <div class="ui register form">
+            <form ng-submit="register()">
               <div class="field">
+
                 <div class="nameInput">
                   <label class="label">First Name</label>
-                  <input type="text" name="firstName">
+                  <input type="text" id="firstName" ng-model="firstName" required>
                 </div>
 
                 <div class="nameInput">
                   <label class="label">Last Name</label>
-                  <input type="text" name="lastName">
+                  <input type="text" id="lastName" ng-model="lastName" required>
                 </div>
 
                 <label> Email</label>
-                <input type="email" id='email' placeholder="foo@bar.edu" ng-model="email">
+                <input type="email" id='email' placeholder="foo@bar.edu" ng-model="email" required>
 
                 <label> Password</label>
                 <input type="password" id='password' placeholder="Password (at least 6 characters)" ng-model="password"
                   required>
                 <label>Event Code</label>
-                <input type="text" name="evntCode">
+                <input type="text" id="evntCode" ng-model="evntCode" required>
               </div>
 
 
 
               <div class="field">
-                <button id="login-password" type="submit" class="fluid ui login button pa11y-click-login">
+                <button id="register" type="submit" class="fluid ui login button pa11y-click-login">
                   Register
                 </button>
               </div>
