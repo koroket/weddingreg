@@ -36,7 +36,8 @@ angular.module('reg')
       $scope.register = function(){
         resetError();
         AuthService.register(
-          $scope.email, $scope.password, onSuccess, onError);
+          $scope.firstName, $scope.lastName, 
+          $scope.email, $scope.password, $scope.evntCode, onSuccess, onError);
       };
 
       $scope.setLoginState = function(state) {

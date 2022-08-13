@@ -133,7 +133,15 @@ UserController.loginWithPassword = function(email, password, callback){
  * @param  {String}   password [description]
  * @param  {Function} callback args(err, user)
  */
-UserController.createUser = function(email, password, callback) {
+UserController.createUser = function(email, password, firstName,
+    lastName, evntCode, callback) {
+
+  evntCode = evntCode.toLowerCase();
+  if (evntCode !== "weddingshower") {
+    return callback({
+      message: "Invalid Event Code"
+    });
+  }
 
   if (typeof email !== "string"){
     return callback({
