@@ -39,12 +39,15 @@
             <form ng-submit="register()">
               <div class="field">
 
-                <label>First Name</label>
-                <input type="text" id="firstName" ng-model="firstName" required>
+                <div class="nameInput">
+                  <label class="label">First Name</label>
+                  <input type="text" id="firstName" ng-model="firstName" required>
+                </div>
 
-                <label>Last Name</label>
-                <input type="text" id="lastName" ng-model="lastName" required>
-
+                <div class="nameInput">
+                  <label class="label">Last Name</label>
+                  <input type="text" id="lastName" ng-model="lastName" required>
+                </div>
 
                 <label> Email</label>
                 <input type="email" id='email' placeholder="foo@bar.edu" ng-model="email" required>
