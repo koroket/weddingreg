@@ -96,7 +96,8 @@
         </div>
 
         <div class="field" ng-show="loginState === 'register'">
-          <button id="backReg" type="submit" class="fluid ui login button pa11y-click-login">
+          <button id="backReg" type="submit" class="fluid ui login button pa11y-click-login"
+            ng-click="setLoginState('login')">
             Back
           </button>
         </div>
