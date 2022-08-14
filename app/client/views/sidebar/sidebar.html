@@ -11,22 +11,35 @@
     Dashboard
   </div>
 
+  <div
+    ui-sref-active="active"
+    ui-sref="app.profile"
+    class="item">
+    Profile
+  </div>
+
   <div ui-sref-active="active"
        ui-sref="app.faq"
        class="item">
     FAQ
   </div>
 
-  <div ng-show="currentUser.verified">
+  <div
+    ui-sref-active="active"
+    ui-sref="app.application"
+    ng-show="!currentUser.status.declined"
+    class="item">
+    [TODO: remove] Dining
+  </div>
 
+  <div ng-show="currentUser.verified">
     <div
       ui-sref-active="active"
       ui-sref="app.application"
       ng-show="!currentUser.status.declined"
       class="item">
-      Application
+      Dining
     </div>
-
     <div
       ui-sref-active="active"
       ui-sref="app.confirmation"
