@@ -3,7 +3,7 @@ const showdown = require('showdown');
 const swal = require('sweetalert');
 
 angular.module('reg')
-  .controller('DashboardCtrl', [
+  .controller('FaqCtrl', [
     '$rootScope',
     '$scope',
     '$sce',

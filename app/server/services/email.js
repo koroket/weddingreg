@@ -87,7 +87,7 @@ function sendOne(templateName, options, data, callback) {
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-controller.sendVerificationEmail = function(email, token, callback) {
+controller.sendVerificationEmail = function(user, email, token, callback) {
 
   var options = {
     to: email,
@@ -95,7 +95,9 @@ controller.sendVerificationEmail = function(email, token, callback) {
   };
 
   var locals = {
-    verifyUrl: ROOT_URL + '/verify/' + token
+    verifyUrl: ROOT_URL + '/verify/' + token,
+    firstName: user.firstName,
+    lastName: user.lastName
   };
 
   /**

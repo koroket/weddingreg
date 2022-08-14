@@ -1,0 +1,51 @@
+<div id="application" class="page">
+  <div class="divided title">
+    Profile
+  </div>
+
+  <div class="ui stackable page grid">
+    <div class="column">
+      <div class="ui form"
+            ng-class="{'loading': loading}">
+
+        <div class="divided title">Your information</div>
+
+        <fieldset ng-disabled="regIsClosed">
+
+        <div class="field">
+          <label> Email </label>
+          <input type="email"
+                 name="email"
+                 disabled="disabled"
+                 ng-model="user.email">
+        </div>
+
+        <div class="field">
+          <label> First Name </label>
+          <input type="text"
+                 name="firstName"
+                 ng-model="user.profile.firstName">
+        </div>
+
+        <div class="field">
+          <label> Last Name </label>
+          <input type="text"
+                 name="lastName"
+                 ng-model="user.profile.lastName">
+        </div>
+
+        <br>
+
+        <div class="field" ng-hide="regIsClosed">
+          <button type="submit"
+                  class="fluid ui purple button"
+                  ng-click="submitForm()">
+            Save
+          </button>
+        </div>
+
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>

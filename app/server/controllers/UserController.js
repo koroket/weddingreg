@@ -161,6 +161,9 @@ UserController.createUser = function(email, password, firstName,
     var u = new User();
     u.email = email;
     u.password = User.generateHash(password);
+    u.profile.firstName = firstName
+    u.profile.lastName = lastName
+    u.evntCode = evntCode
     u.save(function(err){
       if (err){
         // Duplicate key error codes
@@ -177,7 +180,7 @@ UserController.createUser = function(email, password, firstName,
 
         // Send over a verification email
         var verificationToken = u.generateEmailVerificationToken();
-        Mailer.sendVerificationEmail(email, verificationToken);
+        Mailer.sendVerificationEmail(u, email, verificationToken);
 
         return callback(
           null,
@@ -274,7 +277,6 @@ UserController.getById = function (id, callback){
  * @param  {Function} callback Callback with args (err, user)
  */
 UserController.updateProfileById = function (id, profile, callback){
-
   // Validate the user profile, and mark the user as profile completed
   // when successful.
   User.validateProfile(profile, function(err){
@@ -305,8 +307,7 @@ UserController.updateProfileById = function (id, profile, callback){
     });
 
     User.findOneAndUpdate({
-      _id: id,
-      verified: true
+      _id: id
     },
       {
         $set: {
@@ -526,7 +527,7 @@ UserController.sendVerificationEmailById = function(id, callback){
         return callback(err);
       }
       var token = user.generateEmailVerificationToken();
-      Mailer.sendVerificationEmail(user.email, token);
+      Mailer.sendVerificationEmail(user, user.email, token);
       return callback(err, user);
   });
 };

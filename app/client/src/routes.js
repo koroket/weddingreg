@@ -10,6 +10,8 @@ const AdminUsersCtrl = require('../views/admin/users/adminUsersCtrl.js');
 const ApplicationCtrl = require('../views/application/applicationCtrl.js');
 const ConfirmationCtrl = require('../views/confirmation/confirmationCtrl.js');
 const DashboardCtrl = require('../views/dashboard/dashboardCtrl.js');
+// const FaqCtrl = require('../views/faq/faqCtrl.js');
+const ProfileCtrl = require('../views/profile/profileCtrl.js');
 const LoginCtrl = require('../views/login/loginCtrl.js');
 const ResetCtrl = require('../views/reset/resetCtrl.js');
 const SidebarCtrl = require('../views/sidebar/sidebarCtrl.js');
@@ -89,12 +91,28 @@ angular.module('reg')
           }
         },
       })
+      .state('app.profile', {
+        url: "/profile",
+        templateUrl: "views/profile/profile.html",
+        controller: 'ProfileCtrl',
+        data: {
+          // requireVerified: true
+        },
+        resolve: {
+          currentUser: function(UserService){
+            return UserService.getCurrentUser();
+          },
+          settings: function(SettingsService){
+            return SettingsService.getPublicSettings();
+          }
+        }
+      })
       .state('app.application', {
         url: "/application",
         templateUrl: "views/application/application.html",
         controller: 'ApplicationCtrl',
         data: {
-          requireVerified: true
+          // requireVerified: true
         },
         resolve: {
           currentUser: function(UserService){
