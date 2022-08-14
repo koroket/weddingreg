@@ -62,8 +62,13 @@
 
 
               <div class="field">
-                <button id="register" type="submit" class="fluid ui login button pa11y-click-login">
+                <button id="register" type="submit" class="fluid ui register button pa11y-click-login">
                   Register
+                </button>
+              </div>
+              <div class="field">
+                <button id="backReg" type="submit" class="fluid ui login button pa11y-click-login">
+                  Back
                 </button>
               </div>
             </form>
@@ -89,16 +94,17 @@
 
         <div class="ui divider"></div>
 
-        <div ng-show="loginState === 'login'" class="forgot">
-          <a href="#" ng-click="setLoginState('forgot')">
-            Forgot Password?
-          </a>
-        </div>
-
         <div ng-show="loginState === 'login'">
           <button id="register" class="fluid ui register button" ng-click="setLoginState('register')">
             Register
           </button>
+        </div>
+        <br>
+
+        <div ng-show="loginState === 'login'" class="forgot">
+          <a href="#" ng-click="setLoginState('forgot')">
+            Forgot Password?
+          </a>
         </div>
 
         <div ng-show="loginState === 'forgot'" class="forgot">
