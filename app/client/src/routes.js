@@ -76,6 +76,19 @@ angular.module('reg')
           }
         },
       })
+      .state('app.faq', {
+        url: "/",
+        templateUrl: "views/faq/faq.html",
+        controller: 'FaqCtrl',
+        resolve: {
+          currentUser: function(UserService){
+            return UserService.getCurrentUser();
+          },
+          settings: function(SettingsService){
+            return SettingsService.getPublicSettings();
+          }
+        },
+      })
       .state('app.application', {
         url: "/application",
         templateUrl: "views/application/application.html",
