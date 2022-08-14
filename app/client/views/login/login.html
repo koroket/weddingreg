@@ -57,10 +57,24 @@
                   required>
                 <label>Event Code</label>
                 <input type="text" id="evntCode" ng-model="evntCode" required>
-              </div>
 
-              <div class="addGuestForm">
-                <button class="addGuest">Add Guest +</button>
+                <br>
+                <br>
+                <div>
+                  <button class="addGuest" ng-click="addGuest()">Add Guest +</button>
+                  <div class="addGuestName" data-ng-repeat="guest in guests">
+                    <br>
+                    <div class="nameInput">
+                      <label class="label">First Name</label>
+                      <input type="text" name="guest[]">
+                    </div>
+
+                    <div class="nameInput">
+                      <label class="label">Last Name</label>
+                      <input type="text" name="'guest[]">
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <br>

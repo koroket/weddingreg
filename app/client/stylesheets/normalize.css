@@ -15,7 +15,7 @@ html {
   /* 2 */
 }
 
-.ng-scope {
+#root-view {
   background-image: url("images/ocean.jpeg");
 }
 
@@ -37,6 +37,15 @@ Jen added
   height: 35px;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.guestName {
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+.addGuestName {
+  background-color: none;
 }
 
 /* HTML5 display definitions
