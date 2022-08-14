@@ -6,11 +6,12 @@ angular.module('reg')
     'settings',
     'Utils',
     'AuthService',
-    function($scope, $http, $state, settings, Utils, AuthService){
+    function ($scope, $http, $state, settings, Utils, AuthService) {
 
       // Is registration open?
       var Settings = settings.data;
       $scope.regIsOpen = Utils.isRegOpen(Settings);
+      $scope.guests = [];
 
       // Start state for login
       $scope.loginState = 'login';
@@ -19,36 +20,40 @@ angular.module('reg')
         $state.go('app.dashboard');
       }
 
-      function onError(data){
+      function onError(data) {
         $scope.error = data.message;
       }
 
-      function resetError(){
+      function resetError() {
         $scope.error = null;
       }
 
-      $scope.login = function(){
+      $scope.login = function () {
         resetError();
         AuthService.loginWithPassword(
           $scope.email, $scope.password, onSuccess, onError);
       };
 
-      $scope.register = function(){
+      $scope.register = function () {
         resetError();
         AuthService.register(
-          $scope.firstName, $scope.lastName, 
+          $scope.firstName, $scope.lastName,
           $scope.email, $scope.password, $scope.evntCode, onSuccess, onError);
       };
 
-      $scope.setLoginState = function(state) {
+      $scope.setLoginState = function (state) {
         $scope.loginState = state;
       };
 
-      $scope.sendResetEmail = function() {
+      $scope.sendResetEmail = function () {
         var email = $scope.email;
         AuthService.sendResetEmail(email);
         swal("Don't sweat!", "An email should be sent to you shortly.", "success");
       };
 
+      $scope.addGuest = function () {
+        console.log('testing');
+        $scope.guests.push([{ 'id': 'guest', 'name': 'guest' }, { 'id': 'guest', 'name': 'guest' }]);
+      }
     }
   ]);
