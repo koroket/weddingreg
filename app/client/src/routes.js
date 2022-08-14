@@ -128,7 +128,7 @@ angular.module('reg')
         templateUrl: "views/confirmation/confirmation.html",
         controller: 'ConfirmationCtrl',
         data: {
-          requireAdmitted: true
+          // requireAdmitted: true
         },
         resolve: {
           currentUser: function(UserService){

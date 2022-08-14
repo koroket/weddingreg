@@ -85,9 +85,6 @@ function calculateStats(){
 
       async.each(users, function(user, callback){
 
-        // Grab the email extension
-        var email = user.email.split('@')[1];
-
         // Add to the gender
         newStats.demo.gender[user.profile.gender] += 1;
 
@@ -104,7 +101,7 @@ function calculateStats(){
         newStats.confirmed += user.status.confirmed ? 1 : 0;
 
         // Count confirmed that are mit
-        newStats.confirmedMit += user.status.confirmed && email === "mit.edu" ? 1 : 0;
+        newStats.confirmedMit += 0;
 
         newStats.confirmedFemale += user.status.confirmed && user.profile.gender == "F" ? 1 : 0;
         newStats.confirmedMale += user.status.confirmed && user.profile.gender == "M" ? 1 : 0;
@@ -124,19 +121,19 @@ function calculateStats(){
         // Count the number of people who want hardware
         newStats.wantsHardware += user.confirmation.wantsHardware ? 1 : 0;
 
-        // Count schools
-        if (!newStats.demo.schools[email]){
-          newStats.demo.schools[email] = {
-            submitted: 0,
-            admitted: 0,
-            confirmed: 0,
-            declined: 0,
-          };
-        }
-        newStats.demo.schools[email].submitted += user.status.completedProfile ? 1 : 0;
-        newStats.demo.schools[email].admitted += user.status.admitted ? 1 : 0;
-        newStats.demo.schools[email].confirmed += user.status.confirmed ? 1 : 0;
-        newStats.demo.schools[email].declined += user.status.declined ? 1 : 0;
+        // // Count schools
+        // if (!newStats.demo.schools[email]){
+        //   newStats.demo.schools[email] = {
+        //     submitted: 0,
+        //     admitted: 0,
+        //     confirmed: 0,
+        //     declined: 0,
+        //   };
+        // }
+        // newStats.demo.schools[email].submitted += user.status.completedProfile ? 1 : 0;
+        // newStats.demo.schools[email].admitted += user.status.admitted ? 1 : 0;
+        // newStats.demo.schools[email].confirmed += user.status.confirmed ? 1 : 0;
+        // newStats.demo.schools[email].declined += user.status.declined ? 1 : 0;
 
         // Count graduation years
         if (user.profile.graduationYear){
