@@ -68,7 +68,6 @@ function sendOne(templateName, options, data, callback) {
     },
     template: path.join(__dirname, "..", "emails", templateName),
   }).then(res => {
-    console.log(res)
     if (callback) {
       callback(undefined, res);
     }

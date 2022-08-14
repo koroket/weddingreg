@@ -127,6 +127,40 @@ UserController.loginWithPassword = function(email, password, callback){
   });
 };
 
+function createPlusOne(user, guests, index, guest_ids, callback)
+{
+  console.log(guests)
+  if (index < guests.length)
+  {
+    var guest = new User();
+    guest.profile.firstName = guests[index].firstName
+    guest.profile.lastName = guests[index].lastName
+    guest.profile.owner = user._id
+    guest.save(function(err){
+      if (err){
+        console.log(err)
+        // Duplicate key error codes
+        if (err.name === 'MongoError' && (err.code === 11000 || err.code === 11001)) {
+          return callback(user, guest_ids, {
+            message: 'Account created but error occurred for processing plus ones'
+          });
+        }
+
+        return callback(user, guest_ids, err);
+      } else {
+        console.log("guest " + index + " created!")
+        guest_ids.push(guest._id);
+        return createPlusOne(user, guests, index + 1, guest_ids, callback)
+      }
+    });
+  }
+  else
+  {
+    console.log("done generating guests")
+    callback(user, guest_ids, undefined);
+  }
+}
+
 /**
  * Create a new user given an email and a password.
  * @param  {String}   email    User's email.
@@ -164,6 +198,7 @@ UserController.createUser = function(email, password, firstName,
     u.profile.firstName = firstName
     u.profile.lastName = lastName
     u.evntCode = evntCode
+    var guests = [{firstName: "Jena", lastName:"kazu"},{firstName: "kazu", lastName:"jena"}];
     u.save(function(err){
       if (err){
         // Duplicate key error codes
@@ -176,19 +211,37 @@ UserController.createUser = function(email, password, firstName,
         return callback(err);
       } else {
         // yay! success.
-        var token = u.generateAuthToken();
+        return createPlusOne(u, guests, 0, [], function(cbuser, guest_ids, err){
+          cbuser.guests = guest_ids
+          console.log("saving guest ids = " + cbuser.guests);
+          console.log(cbuser)
+          cbuser.save(function(err){
+            if (err){
+              // Duplicate key error codes
+              if (err.name === 'MongoError' && (err.code === 11000 || err.code === 11001)) {
+                return callback({
+                  message: 'An account for this email already exists.'
+                });
+              }
 
-        // Send over a verification email
-        var verificationToken = u.generateEmailVerificationToken();
-        Mailer.sendVerificationEmail(u, email, verificationToken);
+              return callback(err);
+            } else {
+              var token = cbuser.generateAuthToken();
 
-        return callback(
-          null,
-          {
-            token: token,
-            user: u
-          }
-        );
+              // Send over a verification email
+              var verificationToken = cbuser.generateEmailVerificationToken();
+              Mailer.sendVerificationEmail(cbuser, cbuser.email, verificationToken);
+
+              return callback(
+                null,
+                {
+                  token: token,
+                  user: cbuser
+                }
+              );
+            }
+          })
+        })
       }
 
     });

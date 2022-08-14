@@ -172,8 +172,8 @@ var schema = new mongoose.Schema({
 
   email: {
       type: String,
-      required: true,
       unique: true,
+      sparse: true,
       validate: [
         validator.isEmail,
         'Invalid Email',
@@ -182,8 +182,11 @@ var schema = new mongoose.Schema({
 
   password: {
     type: String,
-    required: true,
     select: false
+  },
+
+  guests: {
+    type: [String],
   },
 
   admin: {

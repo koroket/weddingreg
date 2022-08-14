@@ -22,7 +22,6 @@ angular.module('reg')
       }
 
       $scope.regIsClosed = Date.now() > settings.data.timeClose;
-console.log(currentUser.data)
        _setupForm();
 
       function _updateUser(e){
