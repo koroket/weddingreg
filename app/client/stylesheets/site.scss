@@ -80,8 +80,10 @@ body {
  * Semantic-UI Overrides for squareishness
  */
 .ui.segment {
+  height: 550px;
   border-radius: 0;
   box-shadow: none;
+  overflow-y: auto;
 }
 
 input {
