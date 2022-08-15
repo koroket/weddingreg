@@ -61,19 +61,19 @@
                 <br>
                 <br>
                 <div>
-                  <button class="addGuest" ng-click="addGuest()">Add Guest +</button>
                   <div class="addGuestName" data-ng-repeat="guest in guests">
                     <br>
                     <div class="nameInput">
                       <label class="label">First Name</label>
-                      <input type="text" name="guest[]">
+                      <input type="text" ng-model="guest.firstName">
                     </div>
 
                     <div class="nameInput">
                       <label class="label">Last Name</label>
-                      <input type="text" name="'guest[]">
+                      <input type="text" ng-model="guest.lastName">
                     </div>
                   </div>
+                  <button type="button" class="addGuest" ng-click="addGuest()">Add Guest +</button>
                 </div>
               </div>
 

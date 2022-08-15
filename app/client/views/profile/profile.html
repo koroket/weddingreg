@@ -41,12 +41,12 @@
             <br>
             <div class="nameInput">
               <label class="label">First Name</label>
-              <input type="text" ng-model="guest.firstName">
+              <input type="text" ng-model="guests[$index].firstName">
             </div>
 
             <div class="nameInput">
               <label class="label">Last Name</label>
-              <input type="text" ng-model="guest.lastName">
+              <input type="text" ng-model="guests[$index].lastName">
             </div>
           </div> 
           <button class="addGuest" ng-click="addGuest()">Add Guest +</button>

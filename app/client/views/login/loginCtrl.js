@@ -38,7 +38,7 @@ angular.module('reg')
         resetError();
         AuthService.register(
           $scope.firstName, $scope.lastName,
-          $scope.email, $scope.password, $scope.evntCode, onSuccess, onError);
+          $scope.email, $scope.password, $scope.evntCode, $scope.guests, onSuccess, onError);
       };
 
       $scope.setLoginState = function (state) {
@@ -53,7 +53,7 @@ angular.module('reg')
 
       $scope.addGuest = function () {
         console.log('testing');
-        $scope.guests.push([{ 'id': 'guest', 'name': 'guest' }, { 'id': 'guest', 'name': 'guest' }]);
+        $scope.guests.push({});
       }
     }
   ]);
