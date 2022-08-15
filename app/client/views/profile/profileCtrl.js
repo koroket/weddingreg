@@ -16,6 +16,9 @@ angular.module('reg')
       // Set up the user
       $scope.user = currentUser.data;
 
+      $scope.guests = [];
+      $scope.guests_loaded = false;
+
       // If so, default them to adult: true
       if ($scope.isMitStudent){
         $scope.user.profile.adult = true;
@@ -23,6 +26,18 @@ angular.module('reg')
 
       $scope.regIsClosed = Date.now() > settings.data.timeClose;
        _setupForm();
+
+      UserService
+        .getGuests()
+        .then(response => {
+          updateGuests(response.data);
+        });
+
+      function updateGuests(data){
+        console.log(data)
+        $scope.guests = data;
+        $scope.guests_loaded = true;
+      }
 
       function _updateUser(e){
         UserService
@@ -91,4 +106,8 @@ angular.module('reg')
           swal("Uh oh!", "Please Fill The Required Fields", "error");
         }
       };
+
+      $scope.addGuest = function () {
+        $scope.guests.push({});
+      }
     }]);

@@ -66,12 +66,14 @@ module.exports = function(router){
    */
   router.post('/register',
     function(req, res, next){
+      console.log(req.body.guests)
       // Register with an email and password
       var email = req.body.email;
       var password = req.body.password;
       var firstName = req.body.firstName;
       var lastName = req.body.lastName;
       var evntCode = req.body.evntCode;
+      var guests = JSON.parse(req.body.guests);
 
       UserController.createUser(email, password,
         firstName, lastName, evntCode,
