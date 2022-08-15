@@ -34,9 +34,14 @@ angular.module('reg')
         );
       },
 
-      updateProfile: function(id, profile){
+      getGuests: function(){
+        return $http.get(base + Session.getUserId() + '/guests');
+      },
+
+      updateProfile: function(id, profile, guests){
         return $http.put(base + id + '/profile', {
-          profile: profile
+          profile: profile,
+          guests: angular.toJson(guests)
         });
       },
 

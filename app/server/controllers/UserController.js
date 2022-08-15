@@ -130,6 +130,8 @@ UserController.loginWithPassword = function(email, password, callback){
 function createPlusOne(user, guests, index, guest_ids, callback)
 {
   console.log(guests)
+  console.log(index)
+  console.log(guests.length)
   if (index < guests.length)
   {
     var guest = new User();
@@ -168,8 +170,8 @@ function createPlusOne(user, guests, index, guest_ids, callback)
  * @param  {Function} callback args(err, user)
  */
 UserController.createUser = function(email, password, firstName,
-    lastName, evntCode, callback) {
-
+    lastName, evntCode, guests, callback) {
+  console.log(guests)
   evntCode = evntCode.toLowerCase();
   if (evntCode !== "weddingshower") {
     return callback({
@@ -198,7 +200,6 @@ UserController.createUser = function(email, password, firstName,
     u.profile.firstName = firstName
     u.profile.lastName = lastName
     u.evntCode = evntCode
-    var guests = [{firstName: "Jena", lastName:"kazu"},{firstName: "kazu", lastName:"jena"}];
     u.save(function(err){
       if (err){
         // Duplicate key error codes
@@ -497,6 +498,49 @@ UserController.getTeammates = function(id, callback){
       })
       .select('profile.name')
       .exec(callback);
+  });
+};
+
+function fetchGuests(guests, index, results, callback)
+{
+  if (index >= guests.length)
+  {
+    return callback(undefined, results)
+  }
+
+  User.findById(guests[index]).exec(function (err, user) {
+    if (err || !user) {
+      callback(err, results)
+    }
+    console.log(user)
+    var guest_info = {};
+    guest_info.firstName = user.profile.firstName;
+    guest_info.lastName = user.profile.lastName;
+    results.push(guest_info)
+    fetchGuests(guests, index + 1, results, callback);
+  })
+}
+
+/**
+ * Get a specific user's guests. NAMES ONLY.
+ * @param  {String}   id       id of the user we're looking for.
+ * @param  {Function} callback args(err, users)
+ */
+UserController.getGuests = function(id, callback){
+  User.findById(id).exec(function(err, user){
+    if (err || !user){
+      return callback(err, user);
+    }
+
+    var guests = user.guests;
+    console.log(guests)
+    fetchGuests(guests, 0, [], function(err2, results){
+      if (err2)
+      {
+        console.log(err2);
+      }
+      callback(err2, results);
+    });
   });
 };
 

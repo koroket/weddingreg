@@ -273,6 +273,14 @@ module.exports = function(router) {
   });
 
   /**
+   * Get a user's guests
+   */
+  router.get('/users/:id/guests', isOwnerOrAdmin, function(req, res){
+    var id = req.params.id;
+    UserController.getGuests(id, defaultResponse(req, res));
+  });
+
+  /**
    * Update a teamcode. Join/Create a team here.
    * {
    *   code: STRING
