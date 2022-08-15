@@ -28,7 +28,7 @@ body {
 }
 
 /*
-Jen added 
+Jen added login
 */
 .addGuest {
   background-color: rgb(131, 241, 131);
@@ -46,6 +46,18 @@ Jen added
 
 .addGuestName {
   background-color: none;
+}
+
+/*
+dashboard mods
+*/
+
+.inside {
+  background-image: url('images/beach.jpeg');
+}
+
+.divided {
+  color: chocolate;
 }
 
 /* HTML5 display definitions
