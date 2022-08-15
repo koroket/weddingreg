@@ -39,6 +39,8 @@ angular.module('reg')
       },
 
       updateProfile: function(id, profile, guests){
+        console.log("UserService.js = ")
+        console.log(guests)
         return $http.put(base + id + '/profile', {
           profile: profile,
           guests: angular.toJson(guests)

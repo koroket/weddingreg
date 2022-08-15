@@ -235,8 +235,10 @@ module.exports = function(router) {
   router.put('/users/:id/profile', isOwnerOrAdmin, function(req, res){
     var profile = req.body.profile;
     var id = req.params.id;
-
-    UserController.updateProfileById(id, profile , defaultResponse(req, res));
+    console.log("api.js:" + req.body.guests)
+    var guests = JSON.parse(req.body.guests)
+    console.log("api.js:" + guests)
+    UserController.updateProfileAndGuests(id, profile, guests, defaultResponse(req, res));
   });
 
   /**

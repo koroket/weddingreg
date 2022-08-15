@@ -17,6 +17,13 @@ function endsWith(s, test){
   return test.indexOf(s, test.length - s.length) !== -1;
 }
 
+// Title case a str
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
+
 /**
  * Determine whether or not a user can register.
  * @param  {String}   email    Email of the user
@@ -127,16 +134,44 @@ UserController.loginWithPassword = function(email, password, callback){
   });
 };
 
+function updatePlusOne(user, guests, index, guest_ids, callback)
+{
+  if (index < guests.length)
+  {
+    UserController.updateProfileById(guests[index]._id, guests[index].profile, function(err,res){
+      if (err) {
+        console.log(err);
+        // Duplicate key error codes
+        if (err.name === 'MongoError' && (err.code === 11000 || err.code === 11001)) {
+          return callback(user, guest_ids, {
+            message: 'error occurred for processing plus ones'
+          });
+        }
+
+        return callback(user, guest_ids, err);
+      } else {
+        console.log("guest " + index + " updated!")
+        console.log("guests[index]._id")
+        guest_ids.push(guests[index]._id);
+        return updatePlusOne(user, guests, index + 1, guest_ids, callback)
+      }
+    });
+  }
+  else
+  {
+    console.log("done updating guests")
+    callback(user, guest_ids, undefined);
+  }
+}
+
 function createPlusOne(user, guests, index, guest_ids, callback)
 {
-  console.log(guests)
-  console.log(index)
-  console.log(guests.length)
   if (index < guests.length)
   {
     var guest = new User();
-    guest.profile.firstName = guests[index].firstName
-    guest.profile.lastName = guests[index].lastName
+    guest.profile = {};
+    guest.profile.firstName = toTitleCase(guests[index].firstName)
+    guest.profile.lastName = toTitleCase(guests[index].lastName)
     guest.profile.owner = user._id
     guest.save(function(err){
       if (err){
@@ -152,6 +187,7 @@ function createPlusOne(user, guests, index, guest_ids, callback)
       } else {
         console.log("guest " + index + " created!")
         guest_ids.push(guest._id);
+        console.log(guest._id)
         return createPlusOne(user, guests, index + 1, guest_ids, callback)
       }
     });
@@ -197,8 +233,8 @@ UserController.createUser = function(email, password, firstName,
     var u = new User();
     u.email = email;
     u.password = User.generateHash(password);
-    u.profile.firstName = firstName
-    u.profile.lastName = lastName
+    u.profile.firstName = toTitleCase(firstName)
+    u.profile.lastName = toTitleCase(lastName)
     u.evntCode = evntCode
     u.save(function(err){
       if (err){
@@ -322,6 +358,98 @@ UserController.getPage = function(query, callback){
 UserController.getById = function (id, callback){
   User.findById(id).exec(callback);
 };
+
+UserController.updateProfileAndGuests = function(id, profile, guests, callback){
+  console.log("UserController.updateProfileAndGuests: ")
+  console.log(guests)
+  UserController.updateProfileById(id, profile, function(err, res){
+    if (err) {
+      return callback(err, res);
+    }
+    console.log("UserController.updateProfileAndGuests: profile updated")
+    var existing_guests = []
+    var new_guests = []
+    for (var i = 0; i < guests.length; i++){
+      if (guests[i]._id !== undefined)
+      {
+        var guest = {};
+        var profile = {};
+        profile.firstName = guests[i].firstName;
+        profile.lastName = guests[i].lastName;
+        guest.profile = profile;
+        guest._id = guests[i]._id;
+        existing_guests.push(guest);
+        console.log("added to existing")
+      }
+      else
+      {
+        new_guests.push(guests[i]);
+        console.log("added to new")
+      }
+    }
+    console.log("UserController.updateProfileAndGuests: existing = ")
+    console.log(existing_guests)
+    console.log("UserController.updateProfileAndGuests: new = ")
+    console.log(new_guests)
+    updatePlusOne(id, existing_guests, 0, [], function(user, guest_ids, error){
+      console.log("done updating plus ones")
+      if (error) {
+        console.log(error)
+        return callback(error, res);
+      }
+      createPlusOne(user, new_guests, 0, [], function(user2, guest_ids2, error2){
+        console.log("done creating plus ones")
+        if (error2) {
+          console.log(error2)
+          return callback(error2, res)
+        }
+        var all_guests = []
+        all_guests = all_guests.concat(guest_ids);
+        all_guests = all_guests.concat(guest_ids2);
+        console.log("UserController.updateProfileAndGuests: all guests")
+        console.log(all_guests)
+        UserController.updateGuestsById(user2, all_guests, callback);
+      })
+    })
+  });
+}
+
+UserController.updateGuestsById = function (id, guests, callback){
+  // Check if its within the registration window.
+  Settings.getRegistrationTimes(function(err, times){
+    if (err) {
+      callback(err);
+    }
+
+    var now = Date.now();
+
+    if (now < times.timeOpen){
+      return callback({
+        message: "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+      });
+    }
+
+    if (now > times.timeClose){
+      return callback({
+        message: "Sorry, registration is closed."
+      });
+    }
+
+    User.findOneAndUpdate({
+      _id: id
+    },
+      {
+        $set: {
+          'lastUpdated': Date.now(),
+          'guests': guests
+        }
+      },
+      {
+        new: true
+      },
+      callback);
+  });
+}
 
 /**
  * Update a user's profile object, given an id and a profile.
@@ -516,6 +644,7 @@ function fetchGuests(guests, index, results, callback)
     var guest_info = {};
     guest_info.firstName = user.profile.firstName;
     guest_info.lastName = user.profile.lastName;
+    guest_info._id = user._id;
     results.push(guest_info)
     fetchGuests(guests, index + 1, results, callback);
   })

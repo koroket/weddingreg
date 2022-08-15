@@ -40,11 +40,12 @@ angular.module('reg')
       }
 
       function _updateUser(e){
+        console.log($scope.guests)
         UserService
-          .updateProfile(Session.getUserId(), $scope.user.profile)
+          .updateProfile(Session.getUserId(), $scope.user.profile, $scope.guests)
           .then(response => {
             swal("Thanks!", "Your profile has been saved.", "success").then(value => {
-              $state.go("app.dashboard");
+              //$state.go("app.dashboard");
             });
           }, response => {
             swal("Uh oh!", "Something went wrong.", "error");

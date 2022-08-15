@@ -33,7 +33,6 @@ var profile = {
 
   adult: {
     type: Boolean,
-    required: true,
     default: false,
   },
 
