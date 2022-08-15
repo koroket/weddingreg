@@ -367,7 +367,7 @@ UserController.updateProfileById = function (id, profile, callback){
         $set: {
           'lastUpdated': Date.now(),
           'profile': profile,
-          'status.completedProfile': true
+          // 'status.completedProfile': true
         }
       },
       {

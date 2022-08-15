@@ -59,14 +59,15 @@ angular.module('reg')
         $state.go('login');
       };
 
-      authService.register = function(firstName, lastName, email, password, evntCode, onSuccess, onFailure) {
+      authService.register = function(firstName, lastName, email, password, evntCode, guests, onSuccess, onFailure) {
         return $http
           .post('/auth/register', {
             firstName: firstName,
             lastName: lastName,
             email: email,
             password: password,
-            evntCode: evntCode
+            evntCode: evntCode,
+            guests: angular.toJson(guests)
           })
           .then(response => {
             loginSuccess(response.data, onSuccess);

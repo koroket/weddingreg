@@ -76,7 +76,7 @@ module.exports = function(router){
       var guests = JSON.parse(req.body.guests);
 
       UserController.createUser(email, password,
-        firstName, lastName, evntCode,
+        firstName, lastName, evntCode, guests,
         function(err, user){
           if (err){
             return res.status(400).send(err);
