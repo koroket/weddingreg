@@ -17,6 +17,7 @@ const ResetCtrl = require('../views/reset/resetCtrl.js');
 const SidebarCtrl = require('../views/sidebar/sidebarCtrl.js');
 const TeamCtrl = require('../views/team/teamCtrl.js');
 const VerifyCtrl = require('../views/verify/verifyCtrl.js');
+const TodoCtrl = require('../views/todo/todoCtrl.js');
 
 angular.module('reg')
   .config([
@@ -82,6 +83,19 @@ angular.module('reg')
         url: "/",
         templateUrl: "views/faq/faq.html",
         controller: 'FaqCtrl',
+        resolve: {
+          currentUser: function(UserService){
+            return UserService.getCurrentUser();
+          },
+          settings: function(SettingsService){
+            return SettingsService.getPublicSettings();
+          }
+        },
+      })
+      .state('app.todo', {
+        url: "/",
+        templateUrl: "views/todo/todo.html",
+        controller: 'TodoCtrl',
         resolve: {
           currentUser: function(UserService){
             return UserService.getCurrentUser();
