@@ -4,6 +4,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 
 var templatesDir = path.join(__dirname, '../templates');
 var Email = require('email-templates');
+const { url } = require('inspector');
 
 var ROOT_URL = process.env.ROOT_URL;
 
@@ -18,7 +19,7 @@ var EMAIL_PASS = process.env.EMAIL_PASS;
 var EMAIL_PORT = process.env.EMAIL_PORT;
 var EMAIL_CONTACT = process.env.EMAIL_CONTACT;
 var EMAIL_HEADER_IMAGE = process.env.EMAIL_HEADER_IMAGE;
-if(EMAIL_HEADER_IMAGE.indexOf("https") == -1){
+if (EMAIL_HEADER_IMAGE.indexOf("https") == -1) {
   EMAIL_HEADER_IMAGE = ROOT_URL + EMAIL_HEADER_IMAGE;
 }
 
@@ -86,7 +87,7 @@ function sendOne(templateName, options, data, callback) {
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-controller.sendVerificationEmail = function(user, email, token, callback) {
+controller.sendVerificationEmail = function (user, email, token, callback) {
 
   var options = {
     to: email,
@@ -105,14 +106,14 @@ controller.sendVerificationEmail = function(user, email, token, callback) {
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-verify', options, locals, function(err, info){
-    if (err){
+  sendOne('email-verify', options, locals, function (err, info) {
+    if (err) {
       console.log(err);
     }
-    if (info){
+    if (info) {
       console.log(info.message);
     }
-    if (callback){
+    if (callback) {
       callback(err, info);
     }
   });
@@ -125,11 +126,11 @@ controller.sendVerificationEmail = function(user, email, token, callback) {
  * @param  {[type]}   token    [description]
  * @param  {Function} callback [description]
  */
-controller.sendPasswordResetEmail = function(email, token, callback) {
+controller.sendPasswordResetEmail = function (email, token, callback) {
 
   var options = {
     to: email,
-    subject: ""+HACKATHON_NAME+" - Password reset requested!"
+    subject: "" + HACKATHON_NAME + " - Password reset requested!"
   };
 
   var locals = {
@@ -147,14 +148,14 @@ controller.sendPasswordResetEmail = function(email, token, callback) {
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-link-action', options, locals, function(err, info){
-    if (err){
+  sendOne('email-link-action', options, locals, function (err, info) {
+    if (err) {
       console.log(err);
     }
-    if (info){
+    if (info) {
       console.log(info.message);
     }
-    if (callback){
+    if (callback) {
       callback(err, info);
     }
   });
@@ -166,11 +167,11 @@ controller.sendPasswordResetEmail = function(email, token, callback) {
  * @param  {[type]}   email    [description]
  * @param  {Function} callback [description]
  */
-controller.sendPasswordChangedEmail = function(email, callback){
+controller.sendPasswordChangedEmail = function (email, callback) {
 
   var options = {
     to: email,
-    subject: "["+HACKATHON_NAME+"] - Your password has been changed!"
+    subject: "[" + HACKATHON_NAME + "] - Your password has been changed!"
   };
 
   var locals = {
@@ -184,14 +185,14 @@ controller.sendPasswordChangedEmail = function(email, callback){
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-basic', options, locals, function(err, info){
-    if (err){
+  sendOne('email-basic', options, locals, function (err, info) {
+    if (err) {
       console.log(err);
     }
-    if (info){
+    if (info) {
       console.log(info.message);
     }
-    if (callback){
+    if (callback) {
       callback(err, info);
     }
   });

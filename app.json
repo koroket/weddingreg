@@ -40,7 +40,7 @@
         "EMAIL_USER": "foo@bar.com",
         "EMAIL_PASS": "password",
         "EMAIL_PORT": "465",
-        "EMAIL_HEADER_IMAGE": "app/client/stylesheets/images/ohBaby.jpeg",
+        "EMAIL_HEADER_IMAGE": "/app/client/stylesheets/images/ohBaby.jpeg",
         "TEAM_MAX_SIZE": {
             "description": "Limits the number of users that can join a team",
             "value": "4"
