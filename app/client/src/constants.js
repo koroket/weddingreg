@@ -2,7 +2,7 @@ const angular = require('angular');
 
 angular.module('reg')
     .constant('EVENT_INFO', {
-        NAME: 'HackMIT 2015',
+        NAME: 'Jen and Mike 2022',
     })
     .constant('DASHBOARD', {
         UNVERIFIED: 'Once you have be approved, please look out for an email for Dinner option menu!',

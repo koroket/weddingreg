@@ -23,10 +23,13 @@ var app             = express();
 var hostname  = 'bandoevents.com'
 var httpsPort = 443;
 
-const httpsOptions = {
-  cert: fs.readFileSync('../ssl/bandoevents.com.crt'),
-  ca:   fs.readFileSync('../ssl/bandoevents.com.ca-bundle'),
-  key:  fs.readFileSync('../ssl/bandoevents.com.key')
+if (process.env.NODE_ENV != 'dev')
+{
+  const httpsOptions = {
+    cert: fs.readFileSync('../ssl/bandoevents.com.crt'),
+    ca:   fs.readFileSync('../ssl/bandoevents.com.ca-bundle'),
+    key:  fs.readFileSync('../ssl/bandoevents.com.key')
+  }
 }
 
 // Connect to mongodb
@@ -55,20 +58,28 @@ app.use('/auth', authRouter);
 
 require('./app/server/routes')(app);
 
-var httpsServer = https.createServer(httpsOptions, app);
+if (process.env.NODE_ENV != 'dev')
+{
+  var httpsServer = https.createServer(httpsOptions, app);
 
+  // set up plain http server
+  var http = express();
 
-// set up plain http server
-var http = express();
+  // set up a route to redirect http to https
+  http.get('*', function(req, res) {  
+      res.redirect('https://' + req.headers.host + req.url);
+  })
 
-// set up a route to redirect http to https
-http.get('*', function(req, res) {  
-    res.redirect('https://' + req.headers.host + req.url);
-})
+  // have it listen on 8080
+  http.listen(80);
 
-// have it listen on 8080
-http.listen(80);
-
-// listen (start app with node server.js) ======================================
-module.exports = httpsServer.listen(httpsPort);
-console.log("App listening on port " + httpsPort);
+  // listen (start app with node server.js) ======================================
+  module.exports = httpsServer.listen(httpsPort);
+  console.log("App listening on port " + httpsPort);
+}
+else
+{
+  // listen (start app with node server.js) ======================================
+  module.exports = app.listen(port);
+  console.log("App listening on port " + port);
+}
