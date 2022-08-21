@@ -1,6 +1,6 @@
-var Faqs = require('../models/Faqs');
+var Faq = require('../models/Faq');
 
-var FaqsController = {};
+var FaqController = {};
 
 /**
  * Update any field in the Faqs.
@@ -8,26 +8,75 @@ var FaqsController = {};
  * @param  {Any}      value    Value to replace it to
  * @param  {Function} callback args(err, settings)
  */
-FaqsController.updateById = function(id, question, answer, callback){
-  var update = {};
-  update[field] = value;
-  Faqs.findOneAndUpdate({
-    _id: id
-  },
-    {
-      $set: {
-        'question': question,
-        'answer': answer
+FaqController.updateById = function(id, question, answer, position, callback){
+  if (id)
+  {
+    Faq.findOneAndUpdate({
+      _id: id
+    },
+      {
+        $set: {
+          'question': question,
+          'answer': answer,
+          'position': position
+        }
+      },
+      {
+        new: true
+      },
+      callback);
+  }
+  else
+  {
+    console.log("new faq")
+    console.log(question)
+    console.log(answer)
+    var faq = new Faq();
+    faq.question = question;
+    faq.answer = answer;
+    faq.position = position;
+    faq.save(function(err){
+      if (err){
+        console.log(err)
+        // Duplicate key error codes
+        if (err.name === 'MongoError' && (err.code === 11000 || err.code === 11001)) {
+          return callback({
+            message: 'Account created but error occurred for processing plus ones'
+          }, undefined);
+        }
+
+        return callback(err, undefined);
+      } else {
+        return callback(err, faq);
       }
-    },
+    });
+
+  }
+};
+
+FaqController.getFaqs = function(callback){
+  Faq.getFaqs(function(err, faqs){
+    if (err)
     {
-      new: true
-    },
-    callback);
+      console.log(err);
+    }
+    else
+    {
+      // handle empty faqs case
+      if (!faqs) {
+        faqs = [];
+        return callback(err, faqs)
+      }
+    }
+    callback(err, faqs);
+  });
 };
 
-FaqsController.getFaqs = function(callback){
-  Faqs.getFaqs(callback);
+FaqController.deleteById = function(id, callback){
+  Faq.findOneAndDelete({
+    _id: id
+  },callback);
 };
 
-module.exports = FaqsController;
+
+module.exports = FaqController;

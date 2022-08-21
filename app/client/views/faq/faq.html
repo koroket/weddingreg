@@ -10,20 +10,35 @@
           FAQ:
         </div>
         <br>
-        <p><strong>What time does the event start?</strong></p>
-        <p class="answer">Answer</p>
-        <br>
+        
+        <div class="faqList" data-ng-repeat="faq in faqs">
+          <div ng-show="!faq.editing">
+            <p><strong>{{ faq.question }}</strong></p>
+            <p class="answer">{{ faq.answer }}</p>
+            <div ng-show="currentUser.admin">
+              <button class="edit" ng-click="editFaq($index)">Edit</button>
+              <button class="edit" ng-click="deleteFaq($index)" ng-show="faq._id">Delete</button>
+            </div>
+          </div>
+          <div ng-show="faq.editing">
+            <div class="questionInput" style="text-align:left;">
+              <label class="label">Q</label>
+              <textarea ng-model="faq.question"></textarea>
+            </div>
 
-        <p><strong>What time does the event end?</strong></p>
-        <p class="answer">Answer</p>
-        <br>
-
-        <p><strong>Will there be Drinks?</strong></p>
-        <p class="answer">Yes! It is open bar and paid for. You cant request shots but you can request drinks neat!</p>
-        <br>
-
-        <p><strong>What Should I Wear?</strong></p>
-        <p class="answer">It is casual, but please dress nicely</p>
+            <div class="answerInput" style="text-align:left;">
+              <label class="label">A</label>
+              <textarea ng-model="faq.answer"></textarea>
+            </div>
+            <div class="answerInput" style="text-align:left;">
+              <label class="label">Position</label>
+              <input ng-model="faq.position">
+            </div>
+            <button class="save" ng-click="saveFaq($index)">Save</button>
+            <button class="edit" ng-click="deleteFaq($index)" ng-show="faq._id">Delete</button>
+          </div>
+        </div>
+        <button class="addFaq" ng-click="addFaq()" ng-show="currentUser.admin">Add Faq +</button>
       </div>
 
     </div>

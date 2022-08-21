@@ -943,8 +943,7 @@ UserController.checkOutById = function(id, user, callback){
  */
 UserController.makeAdminById = function(id, user, callback){
   User.findOneAndUpdate({
-    _id: id,
-    verified: true
+    _id: id
   },{
     $set: {
       'admin': true
@@ -965,8 +964,7 @@ UserController.makeAdminById = function(id, user, callback){
  */
 UserController.removeAdminById = function(id, user, callback){
   User.findOneAndUpdate({
-    _id: id,
-    verified: true
+    _id: id
   },{
     $set: {
       'admin': false
