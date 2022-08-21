@@ -41,9 +41,11 @@
                 <input type="text" ng-model="guests[$index].lastName">
               </div>
 
-              <button class="removeGuest">x</button>
+              <button class="removeGuest" ng-click="removeGuest(guest.firstName)">x</button>
             </div>
-            <button class="addGuest" ng-click="addGuest()">Add Guest +</button>
+            <div class="addGuestButton">
+              <button type="button" class="addGuest" ng-click="addGuest()">Add Guest +</button>
+            </div>
           </div>
           <div class="field" ng-hide="regIsClosed">
             <button type="submit" class="fluid ui purple button" ng-click="submitForm()">
