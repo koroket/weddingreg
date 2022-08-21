@@ -1,7 +1,7 @@
 #sidebar {
   height: 100%;
   position: fixed;
-  background: #64f3e5;
+  background: #81ecec;
   color: black;
   width: $sidebar-width;
   z-index: 999;
@@ -14,24 +14,24 @@
     padding: 16px;
     transition-duration: .1s;
     transition: border-left, .5s, linear;
-    border-bottom: 1px solid #68f2ee;
+    border-bottom: 1px solid #82eaea;
     opacity: .7;
     border-left: 0px solid transparent;
 
     &.active {
-      background: lighten(#68f2ee, 10%);
+      background: lighten(#82eaea, 10%);
       opacity: 1;
-      border-left: 8px solid lighten(#68f2ee, 20%);
+      border-left: 8px solid lighten(#82eaea, 20%);
     }
 
     &:hover {
       cursor: pointer;
-      background: darken(#68f2ee, 5%);
+      background: darken(#82eaea, 5%);
       opacity: 1;
     }
 
     &:active {
-      background: darken(#68f2ee, 5%);
+      background: darken(#82eaea, 5%);
       opacity: 1;
     }
 
@@ -62,7 +62,7 @@
     position: fixed;
     width: $sidebar-tab-size;
     height: $sidebar-tab-size;
-    background: #68f2ee;
+    background: #82eaea;
     top: 12px;
 
     z-index: 9999;

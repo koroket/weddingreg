@@ -31,16 +31,19 @@ body {
 Jen added login
 */
 .addGuest {
-  background-color: rgb(131, 241, 131);
+  background-color: #2ecc71;
   border: none;
   width: 150px;
   height: 35px;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-weight: bold;
+  color: white;
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
 .removeGuest {
-  background-color: rgb(246, 37, 37);
+  background-color: #e74c3c;
   border: none;
   width: 43px;
   height: 44px;
@@ -49,6 +52,9 @@ Jen added login
   position: absolute;
   bottom: 0;
   margin-left: 2px;
+  font-weight: bold;
+  color: white;
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
 .guestName {
@@ -57,8 +63,12 @@ Jen added login
 }
 
 .addGuestName {
-  background-color: none;
   position: relative;
+}
+
+.addGuestButton {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 #sideBarTab {
