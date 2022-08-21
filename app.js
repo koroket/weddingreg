@@ -15,7 +15,19 @@ var database        = process.env.DATABASE || process.env.MONGODB_URI || "mongod
 var settingsConfig  = require('./config/settings');
 var adminConfig     = require('./config/admin');
 
+var fs              = require('fs');
+var https           = require('https');
+
 var app             = express();
+
+var hostname  = 'bandoevents.com'
+var httpsPort = 443;
+
+const httpsOptions = {
+  cert: fs.readFileSync('../ssl/bandoevents.com.crt'),
+  ca:   fs.readFileSync('../ssl/bandoevents.com.ca-bundle'),
+  key:  fs.readFileSync('../ssl/bandoevents.com.key')
+}
 
 // Connect to mongodb
 mongoose.connect(database);
@@ -43,6 +55,20 @@ app.use('/auth', authRouter);
 
 require('./app/server/routes')(app);
 
+var httpsServer = https.createServer(httpsOptions, app);
+
+
+// set up plain http server
+var http = express();
+
+// set up a route to redirect http to https
+http.get('*', function(req, res) {  
+    res.redirect('https://' + req.headers.host + req.url);
+})
+
+// have it listen on 8080
+http.listen(80);
+
 // listen (start app with node server.js) ======================================
-module.exports = app.listen(port);
-console.log("App listening on port " + port);
+module.exports = httpsServer.listen(httpsPort);
+console.log("App listening on port " + httpsPort);
