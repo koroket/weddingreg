@@ -1,5 +1,6 @@
 var UserController = require('../controllers/UserController');
 var SettingsController = require('../controllers/SettingsController');
+var FaqController = require('../controllers/FaqController');
 var User = require('../models/User');
 var json2csv = require('json2csv').parse;
 var path = require('path');
@@ -63,6 +64,19 @@ module.exports = function(router) {
       return res.status(400).send({
         message: 'Token does not match user id.'
       });
+    });
+  }
+
+  function isLoggedIn(req, res, next){
+    var token = getToken(req);
+
+    UserController.getByToken(token, function(err, user){
+
+      if (err || !user) {
+        return res.status(500).send(err);
+      }
+
+      return next();
     });
   }
 
@@ -325,6 +339,23 @@ module.exports = function(router) {
     //   }
     //   return res.json(user);
     // });
+  });
+
+  router.get('/faqs', isLoggedIn, function(req, res){
+    return FaqController.getFaqs(defaultResponse(req, res));
+  });
+
+  router.put('/faqs/update', isAdmin, function(req, res){
+    var id = req.body._id;
+    var question = req.body.question;
+    var answer = req.body.answer;
+    var position = req.body.position
+    return FaqController.updateById(id, question, answer, position, defaultResponse(req, res));
+  });
+
+  router.put('/faqs/delete', isAdmin, function(req, res){
+    var id = req.body._id;
+    return FaqController.deleteById(id, defaultResponse(req, res));
   });
 
   /**

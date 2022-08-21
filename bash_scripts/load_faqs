@@ -1,0 +1,3 @@
+#!/bin/bash
+
+mongoimport --collection=faqs --db=admin --file=./faqs/current.json

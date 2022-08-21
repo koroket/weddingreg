@@ -15,12 +15,15 @@ var schema = new mongoose.Schema({
   },
   answer: {
     type: String
+  },
+  position: {
+    type: Number
   }
 });
 
 schema.statics.getFaqs = function(callback){
   this
-    .findOne({})
+    .find({})
     .exec(function(err, faqs){
       return callback(err, faqs);
     });
