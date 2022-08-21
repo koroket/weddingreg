@@ -39,6 +39,18 @@ Jen added login
   transition: all 0.2s ease;
 }
 
+.removeGuest {
+  background-color: rgb(246, 37, 37);
+  border: none;
+  width: 43px;
+  height: 44px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: absolute;
+  bottom: 0;
+  margin-left: 2px;
+}
+
 .guestName {
   font-weight: bold;
   padding-left: 5px;
@@ -46,6 +58,7 @@ Jen added login
 
 .addGuestName {
   background-color: none;
+  position: relative;
 }
 
 
@@ -302,7 +315,7 @@ textarea {
 */
 .nameInput {
   display: inline-block;
-  width: 225px;
+  width: 205px;
 }
 
 @media screen and (max-width: 450px) {
