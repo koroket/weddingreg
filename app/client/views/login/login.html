@@ -73,7 +73,7 @@
                       <input type="text" ng-model="guest.lastName">
                     </div>
 
-                    <button class="removeGuest">x</button>
+                    <button class="removeGuest" ng-click="removeGuest(guest.firstName)">x</button>
                   </div>
                   <button type="button" class="addGuest" ng-click="addGuest()">Add Guest +</button>
                 </div>
