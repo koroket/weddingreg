@@ -61,6 +61,11 @@ Jen added login
   position: relative;
 }
 
+#sideBarTab {
+  height: 35px;
+  width: 35px;
+}
+
 
 /*
 dashboard mods

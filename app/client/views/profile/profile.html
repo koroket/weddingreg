@@ -5,59 +5,51 @@
 
   <div class="ui stackable page grid">
     <div class="column">
-      <div class="ui form"
-            ng-class="{'loading': loading}">
+      <div class="ui form" ng-class="{'loading': loading}">
 
         <div class="divided title">Your information</div>
 
         <fieldset ng-disabled="regIsClosed">
 
-        <div class="field">
-          <label> Email </label>
-          <input type="email"
-                 name="email"
-                 disabled="disabled"
-                 ng-model="user.email">
-        </div>
+          <div class="field">
+            <label> Email </label>
+            <input type="email" name="email" disabled="disabled" ng-model="user.email">
+          </div>
 
-        <div class="field">
-          <label> First Name </label>
-          <input type="text"
-                 name="firstName"
-                 ng-model="user.profile.firstName">
-        </div>
+          <div class="field">
+            <label> First Name </label>
+            <input type="text" name="firstName" ng-model="user.profile.firstName">
+          </div>
 
-        <div class="field">
-          <label> Last Name </label>
-          <input type="text"
-                 name="lastName"
-                 ng-model="user.profile.lastName">
-        </div>
+          <div class="field">
+            <label> Last Name </label>
+            <input type="text" name="lastName" ng-model="user.profile.lastName">
+          </div>
 
-        <br>
+          <br>
 
-        <div ng-show="guests_loaded">
-          <div class="addGuestName" data-ng-repeat="guest in guests">
-            <br>
-            <div class="nameInput">
-              <label class="label">First Name</label>
-              <input type="text" ng-model="guests[$index].firstName">
+          <div ng-show="guests_loaded">
+            <div class="addGuestName" data-ng-repeat="guest in guests">
+              <br>
+              <div class="nameInput">
+                <label class="label">First Name</label>
+                <input type="text" ng-model="guests[$index].firstName">
+              </div>
+
+              <div class="nameInput">
+                <label class="label">Last Name</label>
+                <input type="text" ng-model="guests[$index].lastName">
+              </div>
+
+              <button class="removeGuest">x</button>
             </div>
-
-            <div class="nameInput">
-              <label class="label">Last Name</label>
-              <input type="text" ng-model="guests[$index].lastName">
-            </div>
-          </div> 
-          <button class="addGuest" ng-click="addGuest()">Add Guest +</button>
-        </div>
-        <div class="field" ng-hide="regIsClosed">
-          <button type="submit"
-                  class="fluid ui purple button"
-                  ng-click="submitForm()">
-            Save
-          </button>
-        </div>
+            <button class="addGuest" ng-click="addGuest()">Add Guest +</button>
+          </div>
+          <div class="field" ng-hide="regIsClosed">
+            <button type="submit" class="fluid ui purple button" ng-click="submitForm()">
+              Save
+            </button>
+          </div>
 
         </fieldset>
       </div>
