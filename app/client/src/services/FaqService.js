@@ -25,7 +25,14 @@ angular.module('reg')
         return $http.put(base + 'delete', {
           _id: id
         });
-      }
+      },
+
+      submitFaq: function(id, question){
+        return $http.put(base + 'submit', {
+          question: question,
+          _id: id
+        });
+      },
     };
   }
   ]);

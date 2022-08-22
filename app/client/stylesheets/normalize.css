@@ -16,7 +16,7 @@ html {
 }
 
 #root-view {
-  background-image: url("images/ocean.jpeg");
+  background-image: url("https://www.dropbox.com/s/0vgejb2dve3mut2/zcl-Casa-Real-at-Ruby-Hill-Winery-Pleasanton-South-Asian-Wedding-Photography.jpeg?raw=1");
 }
 
 /**
@@ -45,16 +45,21 @@ Jen added login
 .removeGuest {
   background-color: #e74c3c;
   border: none;
-  width: 43px;
-  height: 44px;
+  width: 150px;
+  height: 74%;
   cursor: pointer;
   transition: all 0.2s ease;
-  position: absolute;
-  bottom: 0;
-  margin-left: 2px;
+  position: relative;
+  top: 16%;
+  margin-left: 4px;
+  margin-top: 5px;
   font-weight: bold;
   color: white;
   font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.nameInput.removeGuestContainer {
+  height: 60px;
 }
 
 .guestName {
@@ -83,7 +88,7 @@ dashboard mods
 
 .inside {
   background-size: cover;
-  background-image: url('images/beach.jpeg');
+  background-image: url('https://www.dropbox.com/s/0vgejb2dve3mut2/zcl-Casa-Real-at-Ruby-Hill-Winery-Pleasanton-South-Asian-Wedding-Photography.jpeg?raw=1');
 }
 
 /* HTML5 display definitions
@@ -517,4 +522,31 @@ table {
 td,
 th {
   padding: 0;
+}
+
+.statuscontainerverified {
+  height: 44px;
+  background: #00b894;
+  width: 168px;
+  text-align: center;
+}
+
+.statuscontainerunverified {
+  height: 44px;
+  background: #ffeaa7;
+  width: 168px;
+  text-align: center;
+}
+
+.saveWarningContainer {
+  height: 44px;
+  background: #ffeaa7;
+  width: 100%;
+  text-align: center; 
+}
+
+.statuslabel {
+  top: 18%;
+  position: relative;
+  height: 100%;
 }

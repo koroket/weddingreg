@@ -89,23 +89,8 @@
                ng-model="selectedUser.profile.name">
       </div>
 
-      <div class="field" ng-show="autoFilledSchool">
-        <label> School </label>
-        <input class="ui input"
-               disabled="disabled"
-               ng-show="autoFilledSchool"
-               ng-model="selectedUser.profile.school">
-      </div>
-
-      <div class="field" ng-show="!autoFilledSchool">
-        <label> School </label>
-        <input class="ui input"
-               name="school"
-               ng-model="selectedUser.profile.school">
-      </div>
-
       <div class="field">
-        <label>Graduation Year</label>
+        <label>Enter Option</label>
         <select
           name="year"
           ng-model="selectedUser.profile.graduationYear">

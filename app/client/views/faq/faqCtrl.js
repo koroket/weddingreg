@@ -13,13 +13,15 @@ angular.module('reg')
     'AuthService',
     'UserService',
     'FaqService',
+    'Session',
     'EVENT_INFO',
     'DASHBOARD',
-    function($rootScope, $scope, $sce, currentUser, settings, Utils, AuthService, UserService, FaqService, EVENT_INFO, DASHBOARD){
+    function($rootScope, $scope, $sce, currentUser, settings, Utils, AuthService, UserService, FaqService, Session, EVENT_INFO, DASHBOARD){
       var Settings = settings.data;
       var user = currentUser.data;
       $scope.user = user;
       $scope.faqs = [];
+      $scope.question = "";
 
       FaqService
         .getAll()
@@ -28,6 +30,13 @@ angular.module('reg')
         });
 
       function updateFaqs(data){
+        for (var i = 0; i < data.length; i++)
+        {
+          if (!data[i].unanswered)
+          {
+            data[i].htmlAnswer = $sce.trustAsHtml(data[i].answer);
+          }
+        }
         console.log(data)
         data.sort( compareFaq );
         $scope.faqs = data;
@@ -63,6 +72,7 @@ angular.module('reg')
             {
               $scope.faqs[index]._id = response.data._id
             }
+            $scope.faqs[index].htmlAnswer = $sce.trustAsHtml($scope.faqs[index].answer);
             $scope.faqs[index].editing = false;
             $scope.faqs.sort( compareFaq );
           });
@@ -81,6 +91,27 @@ angular.module('reg')
             console.log("doone...")
             console.log(response);
             $scope.faqs.splice(index, 1);
+          });
+      }
+
+      $scope.submitPressed = function () {
+        if ($('.ui.form').form('is valid')) {
+          submitfaq();
+        } else {
+          swal("Uh oh!", "Please Fill The Required Fields", "error");
+        }
+      };
+
+      function submitfaq(e) {
+        FaqService
+          .submitFaq(Session.getUserId(), $scope.question)
+          .then(response => {
+            $scope.question = ""
+            swal("Thanks!", "We'll get back to you asap!", "success").then(value => {
+              //$state.go("app.dashboard");
+            });
+          }, response => {
+            swal("Uh oh!", "Something went wrong.", "error");
           });
       }
   }]);

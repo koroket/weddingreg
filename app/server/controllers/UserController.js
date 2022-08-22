@@ -170,6 +170,14 @@ function createPlusOne(user, guests, index, guest_ids, callback)
   {
     var guest = new User();
     guest.profile = {};
+    if (!guests[index].firstName)
+    {
+      guests[index].firstName = ""
+    }
+    if (!guests[index].lastName)
+    {
+      guests[index].lastName = ""
+    }
     guest.profile.firstName = toTitleCase(guests[index].firstName)
     guest.profile.lastName = toTitleCase(guests[index].lastName)
     guest.profile.owner = user._id

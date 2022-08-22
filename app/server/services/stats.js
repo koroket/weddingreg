@@ -17,7 +17,6 @@ function calculateStats(){
         O: 0,
         N: 0
       },
-      schools: {},
       year: {
         '2016': 0,
         '2017': 0,
@@ -121,25 +120,6 @@ function calculateStats(){
         // Count the number of people who want hardware
         newStats.wantsHardware += user.confirmation.wantsHardware ? 1 : 0;
 
-        // // Count schools
-        // if (!newStats.demo.schools[email]){
-        //   newStats.demo.schools[email] = {
-        //     submitted: 0,
-        //     admitted: 0,
-        //     confirmed: 0,
-        //     declined: 0,
-        //   };
-        // }
-        // newStats.demo.schools[email].submitted += user.status.completedProfile ? 1 : 0;
-        // newStats.demo.schools[email].admitted += user.status.admitted ? 1 : 0;
-        // newStats.demo.schools[email].confirmed += user.status.confirmed ? 1 : 0;
-        // newStats.demo.schools[email].declined += user.status.declined ? 1 : 0;
-
-        // Count graduation years
-        if (user.profile.graduationYear){
-          newStats.demo.year[user.profile.graduationYear] += 1;
-        }
-
         // Grab the team name if there is one
         // if (user.teamCode && user.teamCode.length > 0){
         //   if (!newStats.teams[user.teamCode]){
@@ -192,18 +172,6 @@ function calculateStats(){
             });
           });
         newStats.dietaryRestrictions = restrictions;
-
-        // Transform schools into an array of objects
-        var schools = [];
-        _.keys(newStats.demo.schools)
-          .forEach(function(key){
-            schools.push({
-              email: key,
-              count: newStats.demo.schools[key].submitted,
-              stats: newStats.demo.schools[key]
-            });
-          });
-        newStats.demo.schools = schools;
 
         // Likewise, transform the teams into an array of objects
         // var teams = [];

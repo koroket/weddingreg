@@ -5,7 +5,7 @@ angular.module('reg')
         NAME: 'Jen and Mike 2022',
     })
     .constant('DASHBOARD', {
-        UNVERIFIED: 'Once you have be approved, please look out for an email for Dinner option menu!',
+        UNVERIFIED: 'Will be approved soon! Please look out for an email for Dinner option menu!',
         INCOMPLETE_TITLE: 'You still need to complete your application!',
         INCOMPLETE: 'If you do not complete your application before the [APP_DEADLINE], you will not be considered for the admissions lottery!',
         SUBMITTED_TITLE: 'Your changes has been submitted!',

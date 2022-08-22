@@ -192,8 +192,8 @@ module.exports = function(router) {
     var filename = "export_quill_users" + timeStamp() + ".csv";
 
     var fields = ['_id','email','verified','timestamp','lastUpdated',
-                  'profile.adult','profile.name','profile.school',
-                  'profile.gender','profile.graduationYear',
+                  'profile.adult','profile.name',
+                  'profile.gender',
                   'profile.description','profile.essay','status.name',
                   'status.completedProfile','status.admitted',
                   'status.confirmed','status.declined','status.checkedIn',
@@ -350,7 +350,19 @@ module.exports = function(router) {
     var question = req.body.question;
     var answer = req.body.answer;
     var position = req.body.position
-    return FaqController.updateById(id, question, answer, position, defaultResponse(req, res));
+    var unanswered = false;
+    var originator = "";
+    return FaqController.updateById(id, question, answer, position, unanswered, originator, defaultResponse(req, res));
+  });
+
+  router.put('/faqs/submit', isLoggedIn, function(req, res){
+    var id = undefined;
+    var question = req.body.question;
+    var answer = "";
+    var position = 0;
+    var unanswered = true;
+    var originator = req.body._id;
+    return FaqController.updateById(id, question, answer, position, unanswered, originator, defaultResponse(req, res));
   });
 
   router.put('/faqs/delete', isAdmin, function(req, res){
