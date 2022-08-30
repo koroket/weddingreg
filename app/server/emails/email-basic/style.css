@@ -627,7 +627,7 @@ h4 {
   * @tip Make the main body image fluid for portrait or landscape view adaptability, and set the image's original width as the max-width. If a fluid setting doesn't work, set the image width to half its original size instead.
   */
   #bodyImage {
-    height: auto !important;
+    height: 560px !important;
     /*@editable*/
     max-width: 560px !important;
     /*@editable*/
