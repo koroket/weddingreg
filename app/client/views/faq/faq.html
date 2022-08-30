@@ -12,34 +12,43 @@
         <br>
         
         <div class="faqList" data-ng-repeat="faq in faqs">
-          <div ng-show="!faq.editing">
-            <p><strong>{{ faq.question }}</strong></p>
-            <p class="answer">{{ faq.answer }}</p>
-            <div ng-show="currentUser.admin">
-              <button class="edit" ng-click="editFaq($index)">Edit</button>
+          <div ng-show="!faq.unanswered || currentUser.admin">
+            <div ng-show="!faq.editing">
+              <p><strong>{{ faq.question }}</strong></p>
+              <p class="answer" ng-bind-html="faq.htmlAnswer"></p>
+              <div ng-show="currentUser.admin">
+                <button class="edit" ng-click="editFaq($index)">Edit</button>
+                <button class="edit" ng-click="deleteFaq($index)" ng-show="faq._id">Delete</button>
+              </div>
+            </div>
+            <div ng-show="faq.editing">
+              <div class="questionInput" style="text-align:left;">
+                <label class="label">Q</label>
+                <textarea ng-model="faq.question"></textarea>
+              </div>
+
+              <div class="answerInput" style="text-align:left;">
+                <label class="label">A</label>
+                <textarea ng-model="faq.answer"></textarea>
+              </div>
+              <div class="answerInput" style="text-align:left;">
+                <label class="label">Position</label>
+                <input ng-model="faq.position">
+              </div>
+              <button class="save" ng-click="saveFaq($index)">Save</button>
               <button class="edit" ng-click="deleteFaq($index)" ng-show="faq._id">Delete</button>
             </div>
           </div>
-          <div ng-show="faq.editing">
-            <div class="questionInput" style="text-align:left;">
-              <label class="label">Q</label>
-              <textarea ng-model="faq.question"></textarea>
-            </div>
-
-            <div class="answerInput" style="text-align:left;">
-              <label class="label">A</label>
-              <textarea ng-model="faq.answer"></textarea>
-            </div>
-            <div class="answerInput" style="text-align:left;">
-              <label class="label">Position</label>
-              <input ng-model="faq.position">
-            </div>
-            <button class="save" ng-click="saveFaq($index)">Save</button>
-            <button class="edit" ng-click="deleteFaq($index)" ng-show="faq._id">Delete</button>
-          </div>
         </div>
         <button class="addFaq" ng-click="addFaq()" ng-show="currentUser.admin">Add Faq +</button>
-      </div>
+        <div>
+        <div class="answerInput" style="text-align:left;">
+          <label class="label">Have a question not answered here?</label>
+          <div>
+            <textarea ng-model="question"></textarea>
+          </div>
+          <button class="addFaq" ng-click="submitPressed()">Submit Question</button>
+        </div>
 
     </div>
   </div>

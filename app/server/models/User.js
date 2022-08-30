@@ -36,19 +36,6 @@ var profile = {
     default: false,
   },
 
-  school: {
-    type: String,
-    min: 1,
-    max: 150,
-  },
-
-  graduationYear: {
-    type: String,
-    enum: {
-      values: '2016 2017 2018 2019'.split(' '),
-    }
-  },
-
   description: {
     type: String,
     min: 0,
@@ -382,7 +369,7 @@ schema.virtual('status.name').get(function(){
   }
 
   if (this.status.completedProfile){
-    return "submitted";
+    return "registered";
   }
 
   if (!this.verified){

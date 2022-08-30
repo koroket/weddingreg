@@ -8,7 +8,7 @@ var FaqController = {};
  * @param  {Any}      value    Value to replace it to
  * @param  {Function} callback args(err, settings)
  */
-FaqController.updateById = function(id, question, answer, position, callback){
+FaqController.updateById = function(id, question, answer, position, unanswered, originator, callback){
   if (id)
   {
     Faq.findOneAndUpdate({
@@ -18,7 +18,8 @@ FaqController.updateById = function(id, question, answer, position, callback){
         $set: {
           'question': question,
           'answer': answer,
-          'position': position
+          'position': position,
+          'unanswered': false
         }
       },
       {
@@ -35,6 +36,8 @@ FaqController.updateById = function(id, question, answer, position, callback){
     faq.question = question;
     faq.answer = answer;
     faq.position = position;
+    faq.unanswered = unanswered;
+    faq.originator = originator;
     faq.save(function(err){
       if (err){
         console.log(err)

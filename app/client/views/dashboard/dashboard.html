@@ -6,22 +6,36 @@
   <div class="ui stackable centered page grid">
     <div class="column">
       <div class="ui status segment">
-        <div class="small title">
+        <div class="divided small title">
           Thank you for Registering!
         </div>
         <br>
+        <br>
+        <div class="divided small title">
+          Date
+        </div>
+        <div class="small title">
+          Sunday, December 11th
+        </div>
+        <br>
+        <br>
+        <div class="divided small title">
+          Venue
+        </div>
+        <div class="small title">
+          Casa Real at Ruby Hill Winery
+        </div>
+        <div class="small title">
+          410 Vineyard Ave, Pleasanton, CA 94566
+        </div>
+        <br>
 
-        <div class="state" ng-class="user.status.name" ng-if="!showWaitlist && !dashState('admittedAndCannotConfirm')">
+        <div class="state" ng-class="user.status.name">
           {{user.status.name}}
         </div>
 
         <div class="declined state" ng-if="dashState('admittedAndCannotConfirm')">
           Expired Admission
-        </div>
-
-
-        <div ng-if="showWaitlist" class="waitlist state">
-          On waitlist
         </div>
 
         <div class="ui divider"></div>
@@ -42,11 +56,20 @@
           </p>
           <p>
             <strong>
-              Waiting for your account to be Varified by Admin
+              Waiting for registration approval!
             </strong>
           </p>
           <p>
             {{ DASHBOARD.UNVERIFIED }}
+          </p>
+          <p>
+            In the meantime feel free to do the following:
+          </p>
+          <p>
+            - Adjust Invitation information
+          </p>
+          <p>
+            - Check our FAQ to learn more about what you can expect and submit any questions for us!
           </p>
         </div>
         <!-- 
@@ -82,7 +105,7 @@
 
         </div>
 
-        <div ng-if="dashState('openAndSubmitted')" class="description">
+<!--         <div ng-if="dashState('openAndSubmitted')" class="description">
           <p>
             <strong>
               {{ DASHBOARD.SUBMITTED_TITLE }}
@@ -92,7 +115,7 @@
             {{ DASHBOARD.SUBMITTED }}
           </p>
 
-        </div>
+        </div> -->
 
         <div ng-if="dashState('closedAndIncomplete')">
           <p>

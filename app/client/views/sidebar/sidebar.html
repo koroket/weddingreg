@@ -8,23 +8,11 @@
   </div>
 
   <div ui-sref-active="active" ui-sref="app.profile" class="item">
-    Profile
+    Invitation
   </div>
 
   <div ui-sref-active="active" ui-sref="app.faq" class="item">
     FAQ
-  </div>
-
-  <div ui-sref-active="active" ui-sref="app.application" ng-show="!currentUser.status.declined" class="item">
-    [TODO: remove] Dining
-  </div>
-
-  <div ui-sref-active="active" ui-sref="app.confirmation" ng-show="!currentUser.status.declined" class="item">
-    [TODO: remove]Confirmation
-  </div>
-
-  <div ui-sref-active="active" ui-sref="app.todo" ng-show="!currentUser.status.declined" class="item">
-    [TODO: remove]TODO
   </div>
 
   <div ng-show="currentUser.verified">
@@ -44,6 +32,17 @@
       Admin
     </div>
 
+    <div ui-sref-active="active" ui-sref="app.application" ng-show="currentUser.admin" class="item">
+      [TODO: remove] Dining
+    </div>
+
+    <div ui-sref-active="active" ui-sref="app.confirmation" ng-show="currentUser.admin" class="item">
+      [TODO: remove]Confirmation
+    </div>
+
+    <div ui-sref-active="active" ui-sref="app.todo" ng-show="currentUser.admin" class="item">
+      [TODO: remove]TODO
+    </div>
   </div>
 
   <div class="item" ng-click="logout()">

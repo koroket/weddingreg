@@ -1,15 +1,28 @@
 <div id="application" class="page">
   <div class="divided title">
-    Profile
+    Invitation
   </div>
-
   <div class="ui stackable page grid">
     <div class="column">
-      <div class="ui form" ng-class="{'loading': loading}">
+      <div class="ui form status segment" ng-class="{'loading': loading}">
 
         <div class="divided title">Your information</div>
 
-        <fieldset ng-disabled="regIsClosed">
+        <div class="field">
+          <div class="title">
+            Feel free to edit before
+          </div>
+          <div class="divided title">
+            {{ timeClose }}
+          </div>
+          <!-- <input type="datetime-local" ng-model="settings.timeClose"> -->
+        </div>
+
+        <div class="ui small error message" ng-show="error">
+          {{error}}
+        </div>
+
+        <form class="profile-form" ng-disabled="regIsClosed">
 
           <div class="field">
             <label> Email </label>
@@ -31,21 +44,37 @@
           <div ng-show="guests_loaded">
             <div class="addGuestName" data-ng-repeat="guest in guests">
               <br>
-              <div class="nameInput">
+              <div class="field">
                 <label class="label">First Name</label>
-                <input type="text" ng-model="guests[$index].firstName">
+                <input type="text" name="guestFirstName" ng-model="guests[$index].firstName" required/>
               </div>
 
-              <div class="nameInput">
+              <div class="field">
                 <label class="label">Last Name</label>
-                <input type="text" ng-model="guests[$index].lastName">
+                <input type="text" name="guestLastName" ng-model="guests[$index].lastName" required/>
               </div>
-
-              <button class="removeGuest" ng-click="removeGuest(guest.firstName)">x</button>
+              <div class="nameInput">
+                <label class="label">Status</label>
+                <div class="statuscontainerverified" ng-show="guests[$index].verified">
+                  <label class="label statuslabel">Verified</label>
+                </div>
+                <div class="statuscontainerunverified" ng-show="!guests[$index].verified">
+                  <label class="label statuslabel">Pending Approval</label>
+                </div>
+              </div>
+              <div class="nameInput removeGuestContainer">
+                <button class="removeGuest" ng-click="removeGuest($index)">Remove Guest</button>
+              </div>
             </div>
             <div class="addGuestButton">
               <button type="button" class="addGuest" ng-click="addGuest()">Add Guest +</button>
             </div>
+          </div>
+          <div ng-show="displaySaveWarning">
+            <div class="saveWarningContainer">
+              <label class="label statuslabel">Don't forget to hit save when updating your guest list!</label>
+            </div>
+            <br>
           </div>
           <div class="field" ng-hide="regIsClosed">
             <button type="submit" class="fluid ui purple button" ng-click="submitForm()">
@@ -53,7 +82,7 @@
             </button>
           </div>
 
-        </fieldset>
+        </form>
       </div>
     </div>
   </div>

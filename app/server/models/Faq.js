@@ -18,6 +18,12 @@ var schema = new mongoose.Schema({
   },
   position: {
     type: Number
+  },
+  unanswered: {
+    type: Boolean
+  },
+  originator: {
+    type: String
   }
 });
 

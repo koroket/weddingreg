@@ -11,7 +11,31 @@ angular.module('reg')
     'settings',
     'Session',
     'UserService',
-    function ($scope, $rootScope, $state, $http, currentUser, settings, Session, UserService) {
+    'SettingsService',
+    function ($scope, $rootScope, $state, $http, currentUser, settings, Session, UserService, SettingsService) {
+
+      $scope.settings = {};
+      $scope.loading = true;
+      $scope.displaySaveWarning = false;
+      SettingsService
+        .getPublicSettings()
+        .then(response => {
+          updateSettings(response.data);
+        });
+
+      var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', hour12: true };
+
+      function updateSettings(settings){
+         // Format the dates in settings.
+        settings.timeOpen = new Date(settings.timeOpen);
+        settings.timeClose = new Date(settings.timeClose);
+        settings.timeConfirm = new Date(settings.timeConfirm);
+
+        $scope.timeClose = settings.timeClose.toLocaleDateString("en-US", options)
+        $scope.loading = false;
+        $scope.settings = settings;
+        console.log(settings)
+      }
 
       // Set up the user
       $scope.user = currentUser.data;
@@ -37,6 +61,7 @@ angular.module('reg')
         console.log(data)
         $scope.guests = data;
         $scope.guests_loaded = true;
+        _setupForm();
       }
 
       function _updateUser(e) {
@@ -47,9 +72,15 @@ angular.module('reg')
             swal("Thanks!", "Your profile has been saved.", "success").then(value => {
               //$state.go("app.dashboard");
             });
-          }, response => {
-            swal("Uh oh!", "Something went wrong.", "error");
-          });
+          }, onError);
+      }
+
+      function onError(data) {
+        $scope.error = data.message;
+      }
+
+      function resetError() {
+        $scope.error = null;
       }
 
       function isMinor() {
@@ -95,12 +126,32 @@ angular.module('reg')
                   prompt: 'Please enter your last name.'
                 }
               ]
+            },
+            guestFirstName: {
+              identifier: 'guestFirstName',
+              rules: [
+                {
+                  type: ['minLength[1]', 'empty'],
+                  prompt: "Please enter your guest's first name."
+                }
+              ]
+            },
+            guestLastName: {
+              identifier: 'guestLastName',
+              rules: [
+                {
+                  type: ['minLength[1]', 'empty'],
+                  prompt: "Please enter your guest's last name."
+                }
+              ]
             }
           }
         });
       }
 
       $scope.submitForm = function () {
+        resetError();
+        $scope.displaySaveWarning = false;
         if ($('.ui.form').form('is valid')) {
           _updateUser();
         } else {
@@ -109,21 +160,12 @@ angular.module('reg')
       };
 
       $scope.addGuest = function () {
+        $scope.displaySaveWarning = true;
         $scope.guests.push({});
       }
 
-      $scope.removeGuest = function (guest) {
-        console.log(guest);
-        var i = 0;
-        var index;
-        $scope.guests.forEach(element => {
-          console.log(element);
-          if (element.firstName == guest) {
-            index = i;
-          } else {
-            i++;
-          }
-        });
+      $scope.removeGuest = function (index) {
+        $scope.displaySaveWarning = true;
         $scope.guests.splice(index, 1);
       }
     }]);

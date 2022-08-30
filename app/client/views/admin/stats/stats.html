@@ -227,28 +227,6 @@
       </div>
     <div class="ui divider"></div>
     <div class="ui list">
-      <div
-        class="item"
-        ng-repeat="school in stats.demo.schools | orderBy: '-count'">
-        <div class="content">
-          <strong>{{school.email}}</strong> : {{school.count}} ({{school.count / stats.total * 100 | number: 1}}%)
-          <p>
-          <div class="ui purple mini label">
-            Submitted: {{school.stats.submitted}}
-          </div>
-          <div class="ui pink mini label">
-            Admitted: {{school.stats.admitted}}
-          </div>
-          <div class="ui green mini label">
-            Confirmed: {{school.stats.confirmed}}
-          </div>
-          <div class="ui red mini label">
-            Declined: {{school.stats.declined}}
-          </div>
-          </p>
-          <div class="ui divider"></div>
-        </div>
-      </div>
     </div>
   </div>
 
