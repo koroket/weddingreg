@@ -2,10 +2,10 @@
   height: 100%;
   width: 100%;
   background-color: $login-bg-color;
-  background: $login-bg; 
+  background: $login-bg;
   background-size: cover;
 
-  > .container {
+  >.container {
     position: relative;
     top: 50%;
 
@@ -13,13 +13,14 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 
-    > .content {
+    >.content {
       max-width: 500px;
       margin: 0 auto;
 
       .logo {
         max-width: 100px;
         margin: .5rem auto 1rem auto;
+
         img {
           width: 100px;
           height: 100px;
@@ -28,9 +29,11 @@
 
       .button {
         color: white;
+
         &.login {
           background: $login-color;
         }
+
         &.register {
           background: $register-color
         }
@@ -61,11 +64,13 @@
   -ms-animation: glitter 4.5s linear 0s infinite normal;
   -o-animation: glitter 4.5s linear 0s infinite normal;
 }
+
 .star-top,
 .star-bottom {
   position: relative;
   display: block;
 }
+
 .star-top:before,
 .star-top:after,
 .star-bottom:before,
@@ -77,24 +82,29 @@
   border-radius: 50%;
   position: absolute;
 }
+
 /*CSS3 pseudo class for positioning curves*/
 
 .star-top:before {
   top: -24px;
   left: -24px;
 }
+
 .star-top:after {
   bottom: -24px;
   left: 24px;
 }
+
 .star-bottom:before {
   top: 24px;
   left: -24px;
 }
+
 .star-bottom:after {
   top: 24px;
   left: 24px;
 }
+
 /*CSS3 keyframes for glittering effect*/
 
 @-webkit-keyframes glitter {
@@ -102,61 +112,72 @@
     -webkit-transform: scale(1);
     opacity: 1;
   }
+
   25% {
     -webkit-transform: scale(0.5);
     opacity: 0;
   }
+
   50% {
     -webkit-transform: scale(1);
     opacity: 1;
   }
+
   75% {
     -webkit-transform: scale(0.5);
     opacity: 0;
   }
+
   100% {
     -webkit-transform: scale(1);
     opacity: 1;
   }
 }
+
 @-moz-keyframes glitter {
   0% {
     -moz-transform: scale(1);
     opacity: 1;
   }
+
   25% {
     -moz-transform: scale(0.5);
     opacity: 0;
   }
+
   50% {
     -moz-transform: scale(1);
     opacity: 1;
   }
+
   75% {
     -moz-transform: scale(0.5);
     opacity: 0;
   }
+
   100% {
     -moz-transform: scale(1);
     opacity: 1;
   }
 }
+
 .bg-container {
-width: 110%;
-    height: 35%;
-    overflow: hidden;
-    position: relative;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0 auto 0 auto;
-    max-width: 100%;
+  width: 110%;
+  height: 35%;
+  overflow: hidden;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto 0 auto;
+  max-width: 100%;
 }
+
 .bg-video {
-width: 190%;
-    left: -45%;
-    position: absolute;
-    height: 120%;
-    top: 0%;
+  width: 190%;
+  left: -45%;
+  position: absolute;
+  height: 120%;
+  top: 0%;
 }
