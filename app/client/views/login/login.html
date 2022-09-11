@@ -82,9 +82,16 @@
                     <button class="removeGuest" ng-click="removeGuest(guest.firstName)">x</button>
                   </div>
                   <div class="addGuestButton">
+                    <div class="guestInfoContainer">
+                      You can either have your guests create their own account, or add them to your account as a guest.
+                      Don't worry you can also add/remove guests later as well!
+                    </div>
                     <button type="button" class="addGuest" ng-click="addGuest()">Add Guest +</button>
+                    <div class="infoicon" ng-Mouseover="guestInfoHovered()" ng-mouseleave="guestInfoUnhovered()">
+                      <img class="infoicon" ng-show="!isInfoHovered" src="assets/images/info-unhovered.png" />
+                      <img class="infoicon" ng-show="isInfoHovered" src="assets/images/info-hovered.png" />
+                    </div>
                   </div>
-
                 </div>
               </div>
 
@@ -145,7 +152,6 @@
             {{regIsOpen ? 'Login or Register' : 'Login'}}
           </a>
         </div>
-
 
       </div>
     </div>

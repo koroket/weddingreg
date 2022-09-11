@@ -12,6 +12,7 @@ angular.module('reg')
       var Settings = settings.data;
       $scope.regIsOpen = Utils.isRegOpen(Settings);
       $scope.guests = [];
+      $scope.isInfoHovered = false;
 
       // Start state for login
       $scope.loginState = 'login';
@@ -68,6 +69,16 @@ angular.module('reg')
           }
         });
         $scope.guests.splice(index, 1);
+      }
+
+      $scope.guestInfoHovered = function(){
+        console.log("hover tested");
+        $scope.isInfoHovered = true;
+      }
+
+      $scope.guestInfoUnhovered = function(){
+        console.log("unhover tested");
+        $scope.isInfoHovered = false;
       }
     }
   ]);
