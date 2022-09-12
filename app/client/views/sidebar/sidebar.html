@@ -7,7 +7,7 @@
     Dashboard
   </div>
 
-  <div ui-sref-active="active" ui-sref="app.profile" ng-show="!currentUser.status.declined" class="item">
+  <div ui-sref-active="active" ui-sref="app.profile" ng-show="!myUser.status.declined" class="item">
     Your Invitation
   </div>
 
@@ -15,32 +15,32 @@
     FAQ
   </div>
 
-  <div ng-show="currentUser.verified">
-    <div ui-sref-active="active" ui-sref="app.application" ng-show="!currentUser.status.declined" class="item">
+  <div ng-show="myUser.verified">
+    <div ui-sref-active="active" ui-sref="app.application" ng-show="!myUser.status.declined" class="item">
       Dining
     </div>
     <div ui-sref-active="active" ui-sref="app.confirmation"
-      ng-show="!pastConfirmation && currentUser.status.admitted && !currentUser.status.declined" class="item">
+      ng-show="!pastConfirmation && myUser.status.admitted && !myUser.status.declined" class="item">
       Confirmation
     </div>
 
-    <div ui-sref-active="active" ui-sref="app.team" ng-show="!currentUser.status.declined" class="item">
+    <div ui-sref-active="active" ui-sref="app.team" ng-show="!myUser.status.declined" class="item">
       Team
     </div>
 
-    <div ui-sref-active="active" ui-sref="app.admin.stats" class="item" ng-show="currentUser.admin">
+    <div ui-sref-active="active" ui-sref="app.admin.stats" class="item" ng-show="myUser.admin">
       Admin
     </div>
 
-    <div ui-sref-active="active" ui-sref="app.application" ng-show="currentUser.admin" class="item">
+    <div ui-sref-active="active" ui-sref="app.application" ng-show="myUser.admin" class="item">
       [TODO: remove] Dining
     </div>
 
-    <div ui-sref-active="active" ui-sref="app.confirmation" ng-show="currentUser.admin" class="item">
+    <div ui-sref-active="active" ui-sref="app.confirmation" ng-show="myUser.admin" class="item">
       [TODO: remove]Confirmation
     </div>
 
-    <div ui-sref-active="active" ui-sref="app.todo" ng-show="currentUser.admin" class="item">
+    <div ui-sref-active="active" ui-sref="app.todo" ng-show="myUser.admin" class="item">
       [TODO: remove]TODO
     </div>
   </div>
