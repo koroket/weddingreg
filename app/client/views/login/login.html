@@ -62,7 +62,7 @@
                 <input type="password" id='password' placeholder="Password (at least 6 characters)" ng-model="password"
                   required>
                 <label>Event Code</label>
-                <input type="text" id="evntCode" ng-model="evntCode" required>
+                <input type="text" id="evntCode" ng-model="evntCode" placeholder="IYKYK" required>
 
                 <br>
                 <br>
@@ -79,17 +79,24 @@
                       <input type="text" ng-model="guest.lastName">
                     </div>
 
-                    <button class="removeGuest" ng-click="removeGuest(guest.firstName)">x</button>
+                    <button class="removeGuest" ng-click="removeGuest($index)">Remove Guest</button>
                   </div>
                   <div class="addGuestButton">
-                    <div class="guestInfoContainer">
-                      You can either have your guests create their own account, or add them to your account as a guest.
-                      Don't worry you can also add/remove guests later as well!
-                    </div>
                     <button type="button" class="addGuest" ng-click="addGuest()">Add Guest +</button>
-                    <div class="infoicon" ng-Mouseover="guestInfoHovered()" ng-mouseleave="guestInfoUnhovered()">
-                      <img class="infoicon" ng-show="!isInfoHovered" src="assets/images/info-unhovered.png" />
-                      <img class="infoicon" ng-show="isInfoHovered" src="assets/images/info-hovered.png" />
+                    <div class="guestParentContainer">
+                      <div class="guestInfoContainer" ng-show="isInfoHovered">
+                        <div class="guestInfoContainerText">
+                          You can either have your guests create their own account, or add them to your account as a guest.
+                          <br>
+                          Don't worry you can also add/remove guests later as well!
+                          <br>
+                          Tip: We need to approve each person, so if we can't recognize your guest by name, it would be best to add them as your guest.
+                        </div>
+                      </div>
+                      <div class="infoicon guestChildIcon" ng-Mouseover="guestInfoHovered()" ng-mouseleave="guestInfoUnhovered()">
+                        <img class="infoicon" ng-show="!isInfoHovered" src="assets/images/info-unhovered.png" />
+                        <img class="infoicon" ng-show="isInfoHovered" src="assets/images/info-hovered.png" />
+                      </div>
                     </div>
                   </div>
                 </div>

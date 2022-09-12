@@ -24,7 +24,7 @@
       font-size: 1.3em;
       text-transform: uppercase;
 
-      &.unverified {
+      &.pending {
         background: $status-unverified-color;
       }
 

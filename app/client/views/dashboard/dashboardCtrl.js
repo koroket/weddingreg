@@ -41,8 +41,8 @@ angular.module('reg')
       $scope.dashState = function(status){
         var user = $scope.user;
         switch (status) {
-          case 'unverified':
-            return !user.verified;
+          case 'pending':
+            return !user.status.declined && !user.verified;
           case 'openAndIncomplete':
             return regIsOpen && user.verified && !user.status.completedProfile;
           case 'openAndSubmitted':
@@ -79,6 +79,48 @@ angular.module('reg')
           });
       };
 
+      $scope.declineInvite = function($event) {
+        $event.stopPropagation();
+
+        swal({
+          buttons: {
+            cancel: {
+              text: "Cancel",
+              value: null,
+              visible: true
+            },
+            accept: {
+              className: "danger-button",
+              closeModal: false,
+              text: "Yes, I/We won't be able to make the event",
+              value: true,
+              visible: true
+            }
+          },
+          dangerMode: true,
+          icon: "warning",
+          title: "Please confirm",
+          text: "You are about to decline the invite for yourself as well as any guests under your account"
+        }).then(value => {
+            if (!value) {
+              return;
+            }
+            console.log("confirmed")
+            UserService
+              .declineAdmission(user._id)
+              .then(response => {
+                if (!response || !response.data)
+                {
+                  swal("Something went wrong...", 'If problem keeps happening please let us know', "error");
+                  return;
+                }
+                $rootScope.currentUser = response.data;
+                $scope.user = response.data;
+                swal("Thanks!", "We hope to catch up with you next time!", "success");
+              });
+        });
+      };
+
 
       // -----------------------------------------------------
       // Text!
@@ -87,37 +129,4 @@ angular.module('reg')
       $scope.acceptanceText = $sce.trustAsHtml(converter.makeHtml(Settings.acceptanceText));
       $scope.confirmationText = $sce.trustAsHtml(converter.makeHtml(Settings.confirmationText));
       $scope.waitlistText = $sce.trustAsHtml(converter.makeHtml(Settings.waitlistText));
-
-      $scope.declineAdmission = function(){
-
-      swal({
-        title: "Whoa!",
-        text: "Are you sure you would like to decline your admission? \n\n You can't go back!",
-        icon: "warning",
-        buttons: {
-          cancel: {
-            text: "Cancel",
-            value: null,
-            visible: true
-          },
-          confirm: {
-            text: "Yes, I can't make it",
-            value: true,
-            visible: true,
-            className: "danger-button"
-          }
-        }
-      }).then(value => {
-        if (!value) {
-          return;
-        }
-
-        UserService
-          .declineAdmission(user._id)
-          .then(response => {
-            $rootScope.currentUser = response.data;
-            $scope.user = response.data;
-          });
-      });
-    };
   }]);

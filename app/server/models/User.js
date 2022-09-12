@@ -373,7 +373,7 @@ schema.virtual('status.name').get(function(){
   }
 
   if (!this.verified){
-    return "unverified";
+    return "pending";
   }
 
   return "incomplete";

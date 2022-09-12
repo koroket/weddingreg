@@ -56,18 +56,7 @@ angular.module('reg')
         $scope.guests.push({});
       }
 
-      $scope.removeGuest = function (guest) {
-        console.log(guest);
-        var i = 0;
-        var index;
-        $scope.guests.forEach(element => {
-          console.log(element);
-          if (element.firstName == guest) {
-            index = i;
-          } else {
-            i++;
-          }
-        });
+      $scope.removeGuest = function (index) {
         $scope.guests.splice(index, 1);
       }
 

@@ -565,18 +565,12 @@ UserController.updateConfirmationById = function (id, confirmation, callback){
  * @param  {Function} callback      Callback with args (err, user)
  */
 UserController.declineById = function (id, callback){
-
-  // You can only decline if you've been accepted.
   User.findOneAndUpdate({
     '_id': id,
-    'verified': true,
-    'status.admitted': true,
     'status.declined': false
   },
     {
       $set: {
-        'lastUpdated': Date.now(),
-        'status.confirmed': false,
         'status.declined': true
       }
     }, {

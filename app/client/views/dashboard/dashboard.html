@@ -50,7 +50,7 @@
           </p>
         </div>
 
-        <div ng-if="dashState('unverified')" class="description">
+        <div ng-if="dashState('pending')" class="description">
           <p>
             Next Step:
           </p>
@@ -60,16 +60,16 @@
             </strong>
           </p>
           <p>
-            {{ DASHBOARD.UNVERIFIED }}
+            {{ DASHBOARD.PENDING }}
           </p>
           <p>
             In the meantime feel free to do the following:
           </p>
           <p>
-            - Adjust Invitation information
+            - Adjust Invitation information <a ui-sref-active="active" ui-sref="app.profile">here</a>
           </p>
           <p>
-            - Check our FAQ to learn more about what you can expect and submit any questions for us!
+            - Check our <a ui-sref-active="active" ui-sref="app.faq">FAQ</a> to learn more about what you can expect and submit any questions for us!
           </p>
         </div>
         <!-- 
@@ -80,14 +80,6 @@
           </strong>
           {{ timeClose }}
         </div> -->
-
-        <div ng-class="settings.timeConfirm"
-          ng-if="dashState('admittedAndCanConfirm') || dashState('admittedAndCannotConfirm') || dashState('confirmed') || dashState('declined')">
-          <strong>
-            Confirmation Deadline:
-          </strong>
-          {{ timeConfirm }}
-        </div>
 
         <div ng-if="dashState('openAndIncomplete')" class="description">
           <p>
@@ -211,6 +203,11 @@
           </p>
         </div>
 
+        <div ng-if="!dashState('declined')">
+          <div class="addGuestButton">
+            <button type="button" class="declineInvite fluid ui red button" ng-click="declineInvite($event)">Sorry, I can't make the event</button>
+          </div>
+        </div>
       </div>
 
     </div>

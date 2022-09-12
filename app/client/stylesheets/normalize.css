@@ -16,7 +16,8 @@ html {
 }
 
 #root-view {
-  background-image: url("https://www.dropbox.com/s/0vgejb2dve3mut2/zcl-Casa-Real-at-Ruby-Hill-Winery-Pleasanton-South-Asian-Wedding-Photography.jpeg?raw=1");
+  background-image: url("https://www.dropbox.com/s/mxkxiishx61msgz/celebrate.jpg?raw=1");
+  background-size: cover;
 }
 
 /**
@@ -51,9 +52,9 @@ Jen added login
   transition: all 0.2s ease;
   position: relative;
   top: 16%;
-  margin-left: 4px;
   margin-top: 5px;
   font-weight: bold;
+  padding: 5px;
   color: white;
   font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
@@ -335,7 +336,7 @@ textarea {
 */
 .nameInput {
   display: inline-block;
-  width: 205px;
+  width: 225px;
 }
 
 @media screen and (max-width: 450px) {
@@ -542,7 +543,7 @@ th {
   height: 44px;
   background: #ffeaa7;
   width: 100%;
-  text-align: center; 
+  text-align: center;
 }
 
 .statuslabel {

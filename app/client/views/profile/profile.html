@@ -53,7 +53,7 @@
                 <label class="label">Last Name</label>
                 <input type="text" name="guestLastName" ng-model="guests[$index].lastName" required/>
               </div>
-              <div class="nameInput">
+              <div class="statusContainer">
                 <label class="label">Status</label>
                 <div class="statuscontainerverified" ng-show="guests[$index].verified">
                   <label class="label statuslabel">Verified</label>
@@ -62,7 +62,7 @@
                   <label class="label statuslabel">Pending Approval</label>
                 </div>
               </div>
-              <div class="nameInput removeGuestContainer">
+              <div class="removeGuestContainer">
                 <button class="removeGuest" ng-click="removeGuest($index)">Remove Guest</button>
               </div>
             </div>
