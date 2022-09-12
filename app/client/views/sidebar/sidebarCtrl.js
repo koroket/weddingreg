@@ -6,12 +6,13 @@ angular.module('reg')
   .controller('SidebarCtrl', [
     '$rootScope',
     '$scope',
+    'currentUser',
     'settings',
     'Utils',
     'AuthService',
     'Session',
     'EVENT_INFO',
-    function($rootScope, $scope, settings, Utils, AuthService, Session, EVENT_INFO){
+    function($rootScope, $scope, currentUser, settings, Utils, AuthService, Session, EVENT_INFO){
 
       var settings = settings.data;
       var user = $rootScope.currentUser;
