@@ -256,12 +256,14 @@ UserController.createUser = function(email, password, firstName,
         return callback(err);
       } else {
         // yay! success.
+        console.log("account created")
         return createPlusOne(u, guests, 0, [], function(cbuser, guest_ids, err){
           cbuser.guests = guest_ids
           console.log("saving guest ids = " + cbuser.guests);
           console.log(cbuser)
           cbuser.save(function(err){
             if (err){
+              console.log(err)
               // Duplicate key error codes
               if (err.name === 'MongoError' && (err.code === 11000 || err.code === 11001)) {
                 return callback({
@@ -271,6 +273,7 @@ UserController.createUser = function(email, password, firstName,
 
               return callback(err);
             } else {
+              console.log("guests created, sending email")
               var token = cbuser.generateAuthToken();
 
               // Send over a verification email
