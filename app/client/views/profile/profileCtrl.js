@@ -43,11 +43,6 @@ angular.module('reg')
       $scope.guests = [];
       $scope.guests_loaded = false;
 
-      // If so, default them to adult: true
-      if ($scope.isMitStudent) {
-        $scope.user.profile.adult = true;
-      }
-
       $scope.regIsClosed = Date.now() > settings.data.timeClose;
       _setupForm();
 
@@ -61,7 +56,7 @@ angular.module('reg')
         console.log(data)
         $scope.guests = data;
         $scope.guests_loaded = true;
-        _setupForm();
+        // _setupForm();
       }
 
       function _updateUser(e) {

@@ -24,6 +24,22 @@ angular.module('reg')
       }, profile: ''});
 
       function updatePage(data){
+        for (var i = 0; i < data.users.length; i++){
+          var user = data.users[i]
+          var guests = user.guests
+          if (guests.length > 0)
+          {
+            data.users[i].guests = []
+            UserService.getGuestsById(user._id)
+              .then(response => {
+                console.log(response)
+                data.users[i].guests = response.data
+
+                // updateGuests(response)
+              })
+          }
+        }
+
         $scope.users = data.users;
         $scope.currentPage = data.page;
         $scope.pageSize = data.size;
@@ -35,9 +51,12 @@ angular.module('reg')
         $scope.pages = p;
       }
 
+      console.log("test")
+
       UserService
         .getPage($stateParams.page, $stateParams.size, $stateParams.query)
         .then(response => {
+          console.log(response.data)
           updatePage(response.data);
         });
 
@@ -230,6 +249,7 @@ angular.module('reg')
       }
 
       $scope.rowClass = function(user) {
+        if (!user) { return 'warning' }
         if (user.admin){
           return 'admin';
         }

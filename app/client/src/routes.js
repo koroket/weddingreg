@@ -16,7 +16,7 @@ const ProfileCtrl = require('../views/profile/profileCtrl.js');
 const LoginCtrl = require('../views/login/loginCtrl.js');
 const ResetCtrl = require('../views/reset/resetCtrl.js');
 const SidebarCtrl = require('../views/sidebar/sidebarCtrl.js');
-const TeamCtrl = require('../views/team/teamCtrl.js');
+const CovidCtrl = require('../views/covid/covidCtrl.js');
 const VerifyCtrl = require('../views/verify/verifyCtrl.js');
 const TodoCtrl = require('../views/todo/todoCtrl.js');
 
@@ -151,10 +151,10 @@ angular.module('reg')
           }
         }
       })
-      .state('app.team', {
-        url: "/team",
-        templateUrl: "views/team/team.html",
-        controller: 'TeamCtrl',
+      .state('app.covid', {
+        url: "/covid",
+        templateUrl: "views/covid/covid.html",
+        controller: 'CovidCtrl',
         data: {
           requireVerified: true
         },

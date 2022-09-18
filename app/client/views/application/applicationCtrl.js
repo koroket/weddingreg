@@ -13,86 +13,74 @@ angular.module('reg')
     'UserService',
     function($scope, $rootScope, $state, $http, currentUser, settings, Session, UserService) {
 
+      console.log(currentUser.data)
+
       // Set up the user
       $scope.user = currentUser.data;
 
-      // Is the student from MIT?
-      $scope.isMitStudent = $scope.user.email.split('@')[1] == 'mit.edu';
+      $scope.user.profile.adult = true;
 
-      // If so, default them to adult: true
-      if ($scope.isMitStudent){
-        $scope.user.profile.adult = true;
-      }
+      $scope.user.confirmation["entree"] = ""
+      $scope.user.confirmation["entree-option"] = ""
 
       _setupForm();
 
       $scope.regIsClosed = Date.now() > settings.data.timeClose;
 
+      $scope.selectGuest = function(){
+        console.log("SELECTED!")
+      }
+
       function _updateUser(e){
-        UserService
-          .updateProfile(Session.getUserId(), $scope.user.profile)
-          .then(response => {
-            swal("Awesome!", "Your application has been saved.", "success").then(value => {
-              $state.go("app.dashboard");
-            });
-          }, response => {
-            swal("Uh oh!", "Something went wrong.", "error");
-          });
-      }
-
-      function isMinor() {
-        return !$scope.user.profile.adult;
-      }
-
-      function minorsAreAllowed() {
-        return settings.data.allowMinors;
-      }
-
-      function minorsValidation() {
-        // Are minors allowed to register?
-        if (isMinor() && !minorsAreAllowed()) {
-          return false;
-        }
-        return true;
+        console.log("test submit")
+        // UserService
+        //   .updateProfile(Session.getUserId(), $scope.user.profile)
+        //   .then(response => {
+        //     swal("Awesome!", "Your dining selection has been saved.", "success").then(value => {
+        //       $state.go("app.dashboard");
+        //     });
+        //   }, response => {
+        //     swal("Uh oh!", "Something went wrong.", "error");
+        //   });
       }
 
       function _setupForm(){
-        // Custom minors validation rule
-        $.fn.form.settings.rules.allowMinors = function (value) {
-          return minorsValidation();
-        };
+        // // Custom minors validation rule
+        // $.fn.form.settings.rules.allowMinors = function (value) {
+        //   return minorsValidation();
+        // };
 
         // Semantic-UI form validation
         $('.ui.form').form({
           inline: true,
           fields: {
-            name: {
-              identifier: 'name',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please enter your name.'
-                }
-              ]
-            },
+            // name: {
+            //   identifier: 'name',
+            //   rules: [
+            //     {
+            //       type: 'empty',
+            //       prompt: 'Please enter your name.'
+            //     }
+            //   ]
+            // },
             gender: {
-              identifier: 'gender',
+              identifier: 'entree',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please select a gender.'
+                  prompt: 'Please select an entree.'
                 }
               ]
             },
-            adult: {
-              identifier: 'adult',
-              rules: [
-                {
-                  type: 'allowMinors',
-                  prompt: 'You must be an adult, or an MIT student.'
-                }
-              ]
-            }
+            // adult: {
+            //   identifier: 'adult',
+            //   rules: [
+            //     {
+            //       type: 'allowMinors',
+            //       prompt: 'You must be an adult, or an MIT student.'
+            //     }
+            //   ]
+            // }
           }
         });
       }

@@ -1,75 +1,100 @@
 <div id="application" class="page">
   <div class="divided title">
-    Profile
+    Menu
   </div>
 
   <div class="ui stackable page grid">
     <div class="column">
-      <div class="ui form"
+      <div class="guest-select-container"> 
+        <button class="guest-select-button" ng-click="selectGuest()">
+          Masakazu Bando
+        </button>
+        <button class="guest-select-button" ng-click="selectGuest()">
+          Jennakazu Bando
+        </button>
+      </div>
+      <div class="ui form status segment"
             ng-class="{'loading': loading}">
 
-        <div class="divided title">Your information</div>
+        <div class="divided title">Soup</div>
+
+        <label> French Onion Soup </label>
+
+        <p> Onion, Gruyère Cheese </p>
+
+        <br>
+
+        <div class="divided title">Salad</div>
+
+        <label> Mixed Salad </label>
+
+        <p> Mixed Greens, Strawberries, Walnuts, Gorgonzola, Balsamic Vinaigrette </p>
+
+        <br>
 
         <fieldset ng-disabled="regIsClosed">
-
-        <div class="field">
-          <label> Email </label>
-          <input type="email"
-                 name="email"
-                 disabled="disabled"
-                 ng-model="user.email">
-        </div>
-
-        <div class="field">
-          <label> Full Name </label>
-          <input type="text"
-                 name="name"
-                 ng-model="user.profile.name">
-        </div>
-
-        <div class="field">
-          <label>Gender</label>
-          <select
-            name="gender"
-            ng-model="user.profile.gender">
-            <option value="">Gender</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-            <option value="O">Other</option>
-            <option value="N">I prefer not to answer.</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>I would describe myself as a...</label>
-          <input type="text"
-                 placeholder="Designer, Data Scientist, iOS Wizard, Hacker Extraordinaire"
-                 ng-model="user.profile.description">
-        </div>
-
-        <div class="field">
-          <label>
-              What would you like to learn or get out of HackMIT? (optional)
-          </label>
-          <textarea ng-model="user.profile.essay">
-          </textarea>
-        </div>
-
-        <div class="field"
-             ng-hide="isMitStudent">
-          <p>
-            Because of limitations imposed by MIT, we are not legally allowed to host
-            non-MIT minors (those under 18) for HackMIT 2015. Checking the box below affirms that you are or will be 18 years or older by September 19th, 2015.
-          </p>
-          <p>
-            <strong>
-            We will be checking ID. If you are a non-MIT minor, you will be turned away at the door.
-            </strong>
-          </p>
-          <div class="ui checkbox">
-            <input type="checkbox" id="adult" ng-model="user.profile.adult">
-            <label for="adult">I am 18 or older.</label>
+        <div class="divided title">
+          <div class="entree entree-select field">
+            <select
+              name="entree"
+              ng-model="user.confirmation.entree"
+              class="entree-select-style">
+              <option value="">-- Select --</option>
+              <option value="M">Beef</option>
+              <option value="F">Fish</option>
+              <option value="V">Vegetarian</option>
+              <option value="K">Kid's</option>
+            </select>
           </div>
+          <div class="entree">Entree</div>
+        </div>
+
+        <div>
+          <div ng-if='user.confirmation.entree === ""'>
+            <label> Please select an entree above </label>
+
+            <p> Entree details </p>
+          </div>
+          <div ng-if='user.confirmation.entree === "M"'>
+            <label> Filet Mignon </label>
+
+            <p> Filet Mignon, Red Wine Demi, Potatoes Au Gratin, Creamed Spinach </p>
+
+            <label> Doneness <label>
+            <div class="">
+              <select
+                name="entree-option"
+                ng-model="user.confirmation.entree-option">
+                <option value="">-- Select --</option>
+                <option value="R">Medium Rare</option>
+                <option value="W">Medium Well</option>
+              </select>
+            </div>
+          </div>
+          <div ng-if='user.confirmation.entree === "F"'>
+            <label> Pistachio-Crusted Cod </label>
+
+            <p> Pistachio-Crusted Cod, Lemon-Herb Butter, Potato Hash, Broccolini </p>
+          </div>
+          <div ng-if='user.confirmation.entree === "V"'>
+            <label> Thai Coconut Curry </label>
+
+            <p> Thai Coconut Curry: Basmati Rice, Sweet Potato, Broccolini, Crispy Chickpeas, Green Onion </p>
+          </div>
+          <div ng-if='user.confirmation.entree === "K"'>
+            <label> Chicken Tenders </label>
+
+            <p> Chicken Tenders, French Fries, Fresh Steamed Vegetables </p>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="field">
+          <label>I am allergict to...</label>
+          <input type="text"
+                 placeholder="Dairy, Peanuts, etc..."
+                 ng-model="user.confirmation.allergies">
         </div>
 
         <br>

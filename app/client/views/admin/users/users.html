@@ -40,7 +40,7 @@
       <div class="ui long user modal">
         <i class="close icon"></i>
         <div class="header">
-          {{selectedUser.profile.name ? selectedUser.profile.name : selectedUser.email}}
+          {{selectedUser.profile.fistName ? selectedUser.profile.firstName + " " +  selectedUser.profile.lastName: selectedUser.email}}
           <span
             ng-show="selectedUser.admin">
             (Admin)
@@ -106,13 +106,13 @@
           </tr>
         </thead>
         <tbody>
+          <tr ng-if="0" ng-repeat-start="user in users"></tr>
           <tr
             ng-click="selectUser(user)"
-            ng-repeat="user in users"
             ng-class="rowClass(user)">
             <td>
               <strong>
-                {{user.profile.name}}
+                {{user.profile.firstName}} {{user.profile.lastName}}
                 &nbsp;
 
               </strong>
@@ -254,6 +254,18 @@
 
             </td>
           </tr>
+          <tr
+            ng-click="selectUser(guest)"
+            ng-repeat="guest in user.guests"
+            ng-class="rowClass(user)">
+            <td>
+              <strong>
+                &nbsp;&nbsp;{{guest.firstName}} {{guest.lastName}}
+                &nbsp;
+
+              </strong>
+            </td>
+          <tr ng-if="0" ng-repeat-end></tr>
         </tbody>
       </table>
 

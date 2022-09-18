@@ -38,6 +38,10 @@ angular.module('reg')
         return $http.get(base + Session.getUserId() + '/guests');
       },
 
+      getGuestsById: function(user_id) {
+        return $http.get(base + user_id + '/guests');
+      },
+
       updateProfile: function(id, profile, guests){
         console.log("UserService.js = ")
         console.log(guests)
