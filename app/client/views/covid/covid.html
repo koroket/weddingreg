@@ -32,79 +32,88 @@
           <br>
         </div>
       </div>
+      <br>
+      <div class="guest-select-container" data-ng-repeat="guest in guests" style="display:inline-block">
+        <button class="guest-select-button" ng-click="selectGuest(guest._id)" ng-model="guests[guest._id]" ng-disabled="guest._id == selectedGuest">
+          {{guests[$index].profile.firstName}} {{guests[$index].profile.lastName}}
+          <div class="has-actionable" ng-show="guest.covidOptionUpdates > 0">{{ guest.covidOptionUpdates }}</div>
+        </button>
+      </div>
 
-      <div class="ui segment">
-        <div
-          class="ui form">
-          <div class="covid-step-container">
-            <label class="covid-step-label"> Step 1: Vaccination </label>
-            <div class="covid-step-inside">
-              <p class="covid-step-text">
-                Upload a photo of your COVID vaccine
-              </p>
-              <input type="file" 
-                class="ui chooseFile"
-                ng-model="user.unusedVaccineField"
-                ng-upload-change="fileChanged($event)">
+      <div data-ng-repeat="guest in guests">
+        <div class="ui segment" ng-show="guest._id == selectedGuest">
+          <div
+            class="ui form">
+            <div class="covid-step-container">
+              <label class="covid-step-label"> Step 1: Vaccination </label>
+              <div class="covid-step-inside">
+                <p class="covid-step-text">
+                  Upload a photo of your COVID vaccine
+                </p>
+                <input type="file" 
+                  class="ui chooseFile"
+                  ng-model="guest.unusedVaccineField"
+                  ng-upload-change="fileChanged($event, $index)">
 
-              <button ng-click="onUpload()"
-                  class="ui purple button uploadButton">
-                  Upload
-              </button>
-              <div class="covid-test-cover done" ng-if="user.status.uploadedVaccine && !wantsToReupload">
-                <div class="cover-background">
-                  <div class="covid-test-cover-text">
-                    <div class="done-icon-container"> 
-                      <img class="done-icon" src="assets/images/done-icon.svg" />
-                    </div>
-                    Thanks for uploading your COVID Vaccine!
-                    <br>
-                    <button ng-click="reupload()"
-                      class="ui purple button">
-                      Reupload
-                    </button>
-                  </div>         
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="covid-step-container" ng-disabled="isDisabled">
-            <div class="covid-step-label-container">
-              <label class="covid-step-label"> Step 2: COVID Test Result</label>
-              <div class="guestParentContainer step2">
-                <div class="guestInfoContainer" ng-show="isInfoHovered">
-                  <div class="guestInfoContainerText">
-                    Any type of Covid Test is fine. Feel free to choose a test that is the most convinient for you.
+                <button ng-click="onUpload($index)"
+                    class="ui purple button uploadButton">
+                    Upload
+                </button>
+                <div class="covid-test-cover done" ng-if="guest.status.uploadedVaccine && !guest.wantsToReupload">
+                  <div class="cover-background">
+                    <div class="covid-test-cover-text">
+                      <div class="done-icon-container"> 
+                        <img class="done-icon" src="assets/images/done-icon.svg" />
+                      </div>
+                      Thanks for uploading your COVID Vaccine!
+                      <br>
+                      <button ng-click="reupload($index)"
+                        class="ui purple button">
+                        Reupload
+                      </button>
+                    </div>         
                   </div>
                 </div>
-                <div class="infoicon guestChildIcon" ng-Mouseover="guestInfoHovered()" ng-mouseleave="guestInfoUnhovered()">
-                  <img class="infoicon" ng-show="!isInfoHovered" src="assets/images/info-unhovered.png" />
-                  <img class="infoicon" ng-show="isInfoHovered" src="assets/images/info-hovered.png" />
+              </div>
+            </div>
+
+            <div class="covid-step-container" ng-disabled="isDisabled">
+              <div class="covid-step-label-container">
+                <label class="covid-step-label"> Step 2: COVID Test Result</label>
+                <div class="guestParentContainer step2">
+                  <div class="guestInfoContainer" ng-show="isInfoHovered">
+                    <div class="guestInfoContainerText">
+                      Any type of Covid Test is fine. Feel free to choose a test that is the most convinient for you.
+                    </div>
+                  </div>
+                  <div class="infoicon guestChildIcon" ng-Mouseover="guestInfoHovered()" ng-mouseleave="guestInfoUnhovered()">
+                    <img class="infoicon" ng-show="!isInfoHovered" src="assets/images/info-unhovered.png" />
+                    <img class="infoicon" ng-show="isInfoHovered" src="assets/images/info-hovered.png" />
+                  </div>
+                </div>
+              </div>
+              <div class="covid-step-inside">
+                <p>
+                  Upload a photo of your Negative COVID Test Result
+                </p>
+                <input type="file"
+                  class="chooseFile"
+                  ng-model="guest.unusedTestField"
+                  ng-upload-change="testFileChanged($event, $index)"
+                  ng-disabled="isDisabled">
+
+                <button ng-click="onTestUpload($index)"
+                    class="btn btn-success"
+                    ng-disabled="isDisabled">
+                    Upload
+                </button>
+                <div class="covid-test-cover">
+                  <p class="covid-test-cover-text">Uploading Test Results will become available 3 days prior to the event. We will also send out an email as a reminder. Thanks!</p>
                 </div>
               </div>
             </div>
-            <div class="covid-step-inside">
-              <p>
-                Upload a photo of your Negative COVID Test Result
-              </p>
-              <input type="file"
-                class="chooseFile"
-                ng-model="user.unusedTestField"
-                ng-upload-change="testFileChanged($event)"
-                ng-disabled="isDisabled">
 
-              <button ng-click="onTestUpload()"
-                  class="btn btn-success"
-                  ng-disabled="isDisabled">
-                  Upload
-              </button>
-              <div class="covid-test-cover">
-                <p class="covid-test-cover-text">Uploading Test Results will become available 3 days prior to the event. We will also send out an email as a reminder. Thanks!</p>
-              </div>
-            </div>
           </div>
-
         </div>
       </div>
     </div>

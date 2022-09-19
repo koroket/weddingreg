@@ -23,23 +23,7 @@ angular.module('reg')
         dietaryRestrictions: []
       }, profile: ''});
 
-      function updatePage(data){
-        for (var i = 0; i < data.users.length; i++){
-          var user = data.users[i]
-          var guests = user.guests
-          if (guests.length > 0)
-          {
-            data.users[i].guests = []
-            UserService.getGuestsById(user._id)
-              .then(response => {
-                console.log(response)
-                data.users[i].guests = response.data
-
-                // updateGuests(response)
-              })
-          }
-        }
-
+      function refreshPage(data) {
         $scope.users = data.users;
         $scope.currentPage = data.page;
         $scope.pageSize = data.size;
@@ -49,6 +33,36 @@ angular.module('reg')
           p.push(i);
         }
         $scope.pages = p;
+      }
+
+      function loadUser(data, i, callback) {
+        var user = data.users[i]
+        var guests = user.guests
+        if (guests.length > 0)
+        {
+          UserService.getGuestsById(user._id)
+            .then(response => {
+              console.log(response)
+              data.users[i].guests = response.data
+              callback(data);
+            })
+        }
+        else {
+          callback(data);
+        }
+      }
+
+      function updatePage(data){
+        var numCompleted = 0
+        for (var i = 0; i < data.users.length; i++){
+          loadUser(data, i, function(data){
+            numCompleted += 1
+            if (numCompleted == data.users.length)
+            {
+              refreshPage(data)
+            }
+          })
+        }
       }
 
       console.log("test")
@@ -85,6 +99,51 @@ angular.module('reg')
 
       $scope.getCSV = function(){
         UserService.getCSV();
+      };
+
+      $scope.toggleVerify = function($event, user, index) {
+        $event.stopPropagation();
+
+        if (!user.verified){
+          swal({
+            title: "Whoa, wait a minute!",
+            text: "You are about verify " + user.profile.firstName + "!",
+            icon: "warning",
+            buttons: {
+              cancel: {
+                text: "Cancel",
+                value: null,
+                visible: true
+              },
+              checkIn: {
+                className: "danger-button",
+                closeModal: false,
+                text: "Yes, verify them as our guest and send them next step email",
+                value: true,
+                visible: true
+              }
+            }
+          })
+          .then(value => {
+            if (!value) {
+              return;
+            }
+
+            UserService
+              .verify(user._id)
+              .then(response => {
+                $scope.users[index] = response.data;
+                swal("Verified", response.data.profile.firstName + " has been verified in.", "success");
+              });
+          });
+        } else {
+          UserService
+            .unverify(user._id)
+            .then(response => {
+              $scope.users[index] = response.data;
+              swal("Unverified", response.data.profile.firstName + ' has been unverified.', "success");
+            });
+        }
       };
 
       $scope.toggleCheckIn = function($event, user, index) {

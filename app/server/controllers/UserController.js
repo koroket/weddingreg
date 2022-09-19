@@ -589,8 +589,7 @@ UserController.updateProfileById = function (id, profile, callback){
       {
         $set: {
           'lastUpdated': Date.now(),
-          'profile': profile,
-          // 'status.completedProfile': true
+          'profile': profile
         }
       },
       {
@@ -599,6 +598,51 @@ UserController.updateProfileById = function (id, profile, callback){
       callback);
 
   });
+};
+
+/**
+ * Update a user's profile object, given an id and a profile.
+ *
+ * @param  {String}   id       Id of the user
+ * @param  {Object}   profile  Profile object
+ * @param  {Function} callback Callback with args (err, user)
+ */
+UserController.updateDining = function (id, diningOption, callback){
+  // Check if its within the registration window.
+  Settings.getRegistrationTimes(function(err, times){
+    if (err) {
+      callback(err);
+    }
+
+    var now = Date.now();
+
+    if (now < times.timeOpen){
+      return callback({
+        message: "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+      });
+    }
+
+    if (now > times.timeClose){
+      return callback({
+        message: "Sorry, registration is closed."
+      });
+    }
+  });
+
+  User.findOneAndUpdate({
+    _id: id
+  },
+    {
+      $set: {
+        'lastUpdated': Date.now(),
+        'diningOption': diningOption,
+        'status.completedProfile': true
+      }
+    },
+    {
+      new: true
+    },
+    callback);
 };
 
 /**
@@ -975,6 +1019,32 @@ UserController.admitUser = function(id, user, callback){
       },
       callback);
   });
+};
+
+UserController.verifyById = function(id, user, callback){
+  User.findOneAndUpdate({
+    _id: id
+  },{
+    $set: {
+      'verified': true
+    }
+  }, {
+    new: true
+  },
+  callback);
+};
+
+UserController.unverifyById = function(id, user, callback){
+  User.findOneAndUpdate({
+    _id: id
+  },{
+    $set: {
+      'verified': false
+    }
+  }, {
+    new: true
+  },
+  callback);
 };
 
 /**

@@ -18,20 +18,25 @@ angular.module('reg')
       // Set up the user
       $scope.user = currentUser.data;
 
-      $scope.user.profile.adult = true;
-
-      $scope.user.confirmation["entree"] = ""
-      $scope.user.confirmation["entree-option"] = ""
-
-      _setupForm();
+      $scope.selectedGuest = currentUser.data.id
 
       $scope.regIsClosed = Date.now() > settings.data.timeClose;
 
       $scope.guests = [];
       $scope.guests_loaded = false;
 
-      $scope.selectGuest = function () {
-        console.log("SELECTED!")
+      $scope.selectGuest = function (guestId) {
+        $scope.selectedGuest = guestId
+      }
+
+      $scope.isInfoHovered = false;
+
+      $scope.guestInfoHovered = function(){
+        $scope.isInfoHovered = true;
+      }
+
+      $scope.guestInfoUnhovered = function(){
+        $scope.isInfoHovered = false;
       }
 
       UserService
@@ -40,78 +45,54 @@ angular.module('reg')
           updateGuests(response.data);
         });
 
+      function pushGuests(guest, list) {
+        if (!guest.diningOption) {
+          guest["diningOption"] = {}
+        }
+        if (!guest.diningOption.dietaryRestrictions) {
+          guest.diningOption["dietaryRestrictions"] = ""
+        }
+        guest.diningOptionUpdates = UserService.hasDiningUpdates(guest);
+        list.push(guest)
+      }
+
       function updateGuests(data) {
-        console.log(data)
-        $scope.guests.push(currentUser.data)
+        var newGuests = []
+        pushGuests(currentUser.data, newGuests)
         data.forEach(item => {
-          $scope.guests.push(item);
+          pushGuests(item, newGuests)
         })
+        $scope.guests = newGuests;
         $scope.guests_loaded = true;
-        console.log($scope.guests)
-        // _setupForm();
       }
 
-      function _updateUser(e) {
-        console.log("test submit")
-        // UserService
-        //   .updateProfile(Session.getUserId(), $scope.user.profile)
-        //   .then(response => {
-        //     swal("Awesome!", "Your dining selection has been saved.", "success").then(value => {
-        //       $state.go("app.dashboard");
-        //     });
-        //   }, response => {
-        //     swal("Uh oh!", "Something went wrong.", "error");
-        //   });
-      }
-
-      function _setupForm() {
-        // // Custom minors validation rule
-        // $.fn.form.settings.rules.allowMinors = function (value) {
-        //   return minorsValidation();
-        // };
-
-        // Semantic-UI form validation
-        $('.ui.form').form({
-          inline: true,
-          fields: {
-            // name: {
-            //   identifier: 'name',
-            //   rules: [
-            //     {
-            //       type: 'empty',
-            //       prompt: 'Please enter your name.'
-            //     }
-            //   ]
-            // },
-            gender: {
-              identifier: 'entree',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please select an entree.'
-                }
-              ]
-            },
-            // adult: {
-            //   identifier: 'adult',
-            //   rules: [
-            //     {
-            //       type: 'allowMinors',
-            //       prompt: 'You must be an adult, or an MIT student.'
-            //     }
-            //   ]
-            // }
-          }
-        });
+      function _updateUser(selectedGuest) {
+        UserService.updateDiningOption(selectedGuest._id, selectedGuest.diningOption)
+        .then(response => {
+          console.log(response)
+          $rootScope.$emit("RecalculateUpdates", response.data);
+          selectedGuest.diningOptionUpdates = UserService.hasDiningUpdates(response.data);
+          swal("Saved!", "Dining option has been saved", "success").then(value => {
+            // $state.go("app.dashboard");
+          });
+        })
       }
 
       $scope.submitForm = function (index) {
         console.log(index)
         console.log($scope.guests[index])
-        if ($('.ui.form').form('is valid')) {
-          _updateUser();
-        } else {
-          swal("Uh oh!", "Please Fill The Required Fields", "error");
+        var selectedGuest = $scope.guests[index]
+        console.log(selectedGuest.diningOption)
+        if (!selectedGuest.diningOption.entree) {
+          swal("Please select an entree", "Entree selection is required", "error");
+          return;
         }
+        if (selectedGuest.diningOption.entree == "M" && 
+            !selectedGuest.diningOption.entreeOption || 
+            selectedGuest.diningOption.entreeOption == "") {
+          swal("Please select doneness", "Doneness for Filet Mignon is required", "error");
+          return;
+        }
+        _updateUser(selectedGuest);
       };
     }]);

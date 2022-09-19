@@ -51,6 +51,12 @@ angular.module('reg')
         });
       },
 
+      updateDiningOption: function(id, diningOption) {
+        return $http.put(base + id + '/dining', {
+          diningOption: diningOption
+        });
+      },
+
       updateConfirmation: function(id, confirmation){
         return $http.put(base + id + '/confirm', {
           confirmation: confirmation
@@ -117,6 +123,14 @@ angular.module('reg')
         return $http.post(base + id + '/admit');
       },
 
+      verify: function(id){
+        return $http.post(base + id + '/verify');
+      },
+
+      unverify: function(id){
+        return $http.post(base + id + '/unverify');
+      },
+
       checkIn: function(id){
         return $http.post(base + id + '/checkin');
       },
@@ -132,6 +146,24 @@ angular.module('reg')
       removeAdmin: function(id){
         return $http.post(base + id + '/removeadmin');
       },
+
+      hasDiningUpdates: function(guest){
+        var numUpdates = 0;
+        if (!guest.status.completedProfile)
+        {
+          numUpdates += 1
+        }
+        return numUpdates
+      },
+
+      hasCovidUpdates: function(guest){
+        var numUpdates = 0;
+        if (!guest.status.uploadedVaccine)
+        {
+          numUpdates += 1
+        }
+        return numUpdates
+      }
     };
   }
   ]);

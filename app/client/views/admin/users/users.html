@@ -228,23 +228,23 @@
               class="right aligned collapsing">
 
               <button
-                class="accept ui circular mini basic green icon button"
-                ng-click="acceptUser($event, user, $index)">
-                <i class="add user icon"></i>
-              </button>
-
-              <button
-                ng-click="toggleCheckIn($event, user, $index)"
+                ng-click="toggleVerify($event, user, $index)"
                 class="ui circular mini basic green icon button">
 
                 <i
-                  ng-if="!user.status.checkedIn"
+                  ng-if="!user.verified"
                   class="flag outline icon"></i>
 
                 <i
-                  ng-if="user.status.checkedIn"
+                  ng-if="user.verified"
                   class="green flag icon"></i>
 
+              </button>
+
+              <button
+                class="accept ui circular mini basic green icon button"
+                ng-click="acceptUser($event, user, $index)">
+                <i class="add user icon"></i>
               </button>
 
               <button

@@ -4,6 +4,7 @@
     text-align: center;
     opacity: 80%;
   }
+
   #school .title {
     text-align: left;
     text-transform: none;
@@ -30,8 +31,37 @@
     /* border-radius: 10px; */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+
+    .has-actionable {
+      height: 24px;
+      width: 24px;
+      line-height: 22px;
+    }
   }
+
   .guest-select-button:hover {
-    background-color: yellow;
+    background-color: #82eaea;
+  }
+
+  button[disabled] {
+    background: darkgray;
+  }
+
+  button[disabled]:hover {
+    background: darkgray;
+  }
+
+  .has-actionable {
+    margin-left: 9px;
+  }
+
+  .guestParentContainer {
+    display: inline-block;
+    float: none;
+  }
+
+  .guestInfoContainerText {
+    font-family: "Lucida Handwriting";
+    font-size: 13px;
   }
 }

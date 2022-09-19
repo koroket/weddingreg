@@ -6,98 +6,111 @@
   <div class="ui stackable page grid">
     <div class="column">
       <div class="guest-select-container" data-ng-repeat="guest in guests" style="display:inline-block">
-        <button class="guest-select-button" ng-click="selectGuest()">
+        <button class="guest-select-button" ng-click="selectGuest(guest._id)" ng-model="guests[guest._id]" ng-disabled="guest._id == selectedGuest">
           {{guests[$index].profile.firstName}} {{guests[$index].profile.lastName}}
+          <div class="has-actionable" ng-show="guest.diningOptionUpdates > 0">{{ guest.diningOptionUpdates }}</div>
         </button>
       </div>
-      <div class="ui form status segment" ng-class="{'loading': loading}">
+      <div data-ng-repeat="guest in guests">
+        <div class="ui form status segment" ng-class="{'loading': loading}" ng-show="guest._id == selectedGuest">
 
-        <div class="divided title">Soup</div>
+          <div class="divided title">Soup</div>
 
-        <label> French Onion Soup </label>
+          <label> French Onion Soup </label>
 
-        <p> Onion, Gruyère Cheese </p>
+          <p> Onion, Gruyère Cheese </p>
 
-        <br>
+          <br>
 
-        <div class="divided title">Salad</div>
+          <div class="divided title">Salad</div>
 
-        <label> Mixed Salad </label>
+          <label> Mixed Salad </label>
 
-        <p> Mixed Greens, Strawberries, Walnuts, Gorgonzola, Balsamic Vinaigrette </p>
+          <p> Mixed Greens, Strawberries, Walnuts, Gorgonzola Cheese, Balsamic Vinaigrette </p>
 
-        <br>
+          <br>
 
-        <fieldset ng-disabled="regIsClosed">
+          <fieldset ng-disabled="regIsClosed">
 
-          <div class="divided title">
-            <div class="entree">Entree</div>
-            <br>
-            <br>
-            <div class="entree entree-select field">
-              <select name="entree" ng-model="user.diningOption.entree" class="entree-select-style">
-                <option value="">-- Select --</option>
-                <option value="M">Beef</option>
-                <option value="F">Fish</option>
-                <option value="V">Vegetarian</option>
-                <option value="K">Kid's</option>
-              </select>
-            </div>
-
-          </div>
-          <div>
-            <div ng-if='user.diningOption.entree === ""'>
-              <label> Please select an entree above </label>
-
-              <p> Entree details </p>
-            </div>
-            <div ng-if='user.diningOption.entree === "M"'>
-              <label> Filet Mignon </label>
-
-              <p> Filet Mignon, Red Wine Demi, Potatoes Au Gratin, Creamed Spinach </p>
-
-              <label> Doneness <label>
-                  <div class="">
-                    <select name="entree-option" ng-model="user.diningOption.entreeOptions">
-                      <option value="">-- Select --</option>
-                      <option value="R">Medium Rare</option>
-                      <option value="W">Medium Well</option>
-                    </select>
+            <div class="divided title">
+              <div class="entree entree-select field">
+                <select name="entree" ng-model="guest.diningOption.entree" class="entree-select-style">
+                  <option value="">-- Select --</option>
+                  <option value="M">Beef</option>
+                  <option value="F">Fish</option>
+                  <option value="V">Vegetarian</option>
+                  <option value="K">Kid's</option>
+                  <option value="U">No Entree</option>
+                </select>
+              </div>
+              <div class="entree">Entree</div>
+              <div class="guestParentContainer step2">
+                <div class="guestInfoContainer" ng-show="isInfoHovered">
+                  <div class="guestInfoContainerText">
+                    If you/your guest does not need a meal (usually cases where they are few years old), please select "No Entree"
                   </div>
+                </div>
+                <div class="infoicon guestChildIcon" ng-Mouseover="guestInfoHovered()" ng-mouseleave="guestInfoUnhovered()">
+                  <img class="infoicon" ng-show="!isInfoHovered" src="assets/images/info-unhovered.png" />
+                  <img class="infoicon" ng-show="isInfoHovered" src="assets/images/info-hovered.png" />
+                </div>
+              </div>
             </div>
-            <div ng-if='user.diningOption.entree === "F"'>
-              <label> Pistachio-Crusted Cod </label>
 
-              <p> Pistachio-Crusted Cod, Lemon-Herb Butter, Potato Hash, Broccolini </p>
+            <div>
+              <div ng-if='guest.diningOption.entree === ""'>
+                <label> Please select an entree above </label>
+
+                <p> Entree details </p>
+              </div>
+              <div ng-if='guest.diningOption.entree === "M"'>
+                <label> Filet Mignon </label>
+
+                <p> Filet Mignon, Red Wine Demi, Potatoes Au Gratin, Creamed Spinach </p>
+
+                <label> Doneness <label>
+                    <div class="">
+                      <select name="entree-option" ng-model="guest.diningOption.entreeOption">
+                        <option value="">-- Select --</option>
+                        <option value="R">Medium Rare</option>
+                        <option value="W">Medium Well</option>
+                      </select>
+                    </div>
+              </div>
+              <div ng-if='guest.diningOption.entree === "F"'>
+                <label> Pistachio-Crusted Cod </label>
+
+                <p> Pistachio-Crusted Cod, Lemon-Herb Butter, Potato Hash, Broccolini </p>
+              </div>
+              <div ng-if='guest.diningOption.entree === "V"'>
+                <label> Thai Coconut Curry </label>
+
+                <p> Thai Coconut Curry: Basmati Rice, Sweet Potato, Broccolini, Crispy Chickpeas, Green Onion </p>
+              </div>
+              <div ng-if='guest.diningOption.entree === "K"'>
+                <label> Chicken Tenders </label>
+
+                <p> Chicken Tenders, French Fries, Fresh Steamed Vegetables </p>
+              </div>
             </div>
-            <div ng-if='user.diningOption.entree === "V"'>
-              <label> Thai Coconut Curry </label>
 
-              <p> Thai Coconut Curry: Basmati Rice, Sweet Potato, Broccolini, Crispy Chickpeas, Green Onion </p>
+            <br>
+
+            <div class="field">
+              <label>I am allergict to...</label>
+              <input type="text" placeholder="Dairy, Peanuts, etc..." ng-model="guest.diningOption.dietaryRestrictions">
             </div>
-            <div ng-if='user.diningOption.entree === "K"'>
-              <label> Chicken Tenders </label>
 
-              <p> Chicken Tenders, French Fries, Fresh Steamed Vegetables </p>
+            <br>
+
+            <div class="field" ng-hide="regIsClosed">
+              <button type="submit" class="fluid ui purple button" ng-click="submitForm($index)">
+                Save
+              </button>
             </div>
-          </div>
 
-          <br>
-
-          <div class="field">
-            <label>I am allergict to...</label>
-            <input type="text" placeholder="Dairy, Peanuts, etc..." ng-model="user.diningOption.dietaryRestrictions">
-          </div>
-
-          <br>
-
-          <div class="field" ng-hide="regIsClosed">
-            <button type="submit" class="fluid ui purple button" ng-click="submitForm($index)">
-              Submit
-            </button>
-          </div>
-
-        </fieldset>
+          </fieldset>
+        </div>
       </div>
     </div>
   </div>

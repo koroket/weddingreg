@@ -18,15 +18,19 @@
   <div ng-show="currentUser.verified || currentUser.admin">
     <div ui-sref-active="active" ui-sref="app.application" ng-show="!currentUser.status.declined" class="item">
       Dining
-      <div class="has-actionable">1</div>
-    </div>
-    <div ui-sref-active="active" ui-sref="app.confirmation"
-      ng-show="!pastConfirmation && currentUser.status.admitted && !currentUser.status.declined" class="item">
-      Confirmation
+      <div class="has-actionable" ng-if="diningOptionUpdates > 0">{{ diningOptionUpdates }}</div>
     </div>
 
     <div ui-sref-active="active" ui-sref="app.covid" ng-show="!currentUser.status.declined" class="item">
       Covid Safety
+      <div class="has-actionable" ng-if="covidOptionUpdates > 0">{{ covidOptionUpdates }}</div>
+    </div>
+  </div>
+
+  <div ng-show="currentUser.admin">
+    <div ui-sref-active="active" ui-sref="app.confirmation"
+      ng-show="!pastConfirmation && currentUser.status.admitted && !currentUser.status.declined" class="item">
+      Confirmation
     </div>
 
     <div ui-sref-active="active" ui-sref="app.admin.stats" class="item" ng-show="currentUser.admin">
@@ -45,7 +49,6 @@
       [TODO: remove]TODO
     </div>
   </div>
-
   <div class="item" ng-click="logout()">
     Logout
   </div>
