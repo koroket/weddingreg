@@ -42,7 +42,7 @@ angular.module('reg')
 
       function updateGuests(data) {
         console.log(data)
-        $scope.guests.push({ _id: currentUser.data.id, firstName: currentUser.data.profile.firstName, lastName: currentUser.data.profile.lastName })
+        $scope.guests.push(currentUser.data)
         data.forEach(item => {
           $scope.guests.push(item);
         })
@@ -105,7 +105,9 @@ angular.module('reg')
         });
       }
 
-      $scope.submitForm = function () {
+      $scope.submitForm = function (index) {
+        console.log(index)
+        console.log($scope.guests[index])
         if ($('.ui.form').form('is valid')) {
           _updateUser();
         } else {

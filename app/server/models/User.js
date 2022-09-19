@@ -103,6 +103,12 @@ var confirmation = {
   signatureCodeOfConduct: String,
 };
 
+var diningOption = {
+  entree: String,
+  entreeOption: String,
+  dietaryRestrictions: String
+}
+
 var status = {
   /**
    * Whether or not the user's profile has been completed.
@@ -230,6 +236,8 @@ var schema = new mongoose.Schema({
    * Extension of the user model, but can only be edited after acceptance.
    */
   confirmation: confirmation,
+
+  diningOption: diningOption,
 
   status: status,
 
