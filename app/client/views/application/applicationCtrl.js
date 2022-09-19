@@ -22,6 +22,7 @@ angular.module('reg')
 
       $scope.user.confirmation["entree"] = ""
       $scope.user.confirmation["entree-option"] = ""
+      $scope.selectedGuest = currentUser.data.id
 
       _setupForm();
 
@@ -30,8 +31,12 @@ angular.module('reg')
       $scope.guests = [];
       $scope.guests_loaded = false;
 
-      $scope.selectGuest = function () {
-        console.log("SELECTED!")
+      $scope.selectGuest = function (guestId) {
+        $scope.selectedGuest = guestId
+        UserService.get(guestId).then(result => {
+          console.log(result.data);
+        });
+        console.log($scope.selectedGuest)
       }
 
       UserService
@@ -53,15 +58,6 @@ angular.module('reg')
 
       function _updateUser(e) {
         console.log("test submit")
-        // UserService
-        //   .updateProfile(Session.getUserId(), $scope.user.profile)
-        //   .then(response => {
-        //     swal("Awesome!", "Your dining selection has been saved.", "success").then(value => {
-        //       $state.go("app.dashboard");
-        //     });
-        //   }, response => {
-        //     swal("Uh oh!", "Something went wrong.", "error");
-        //   });
       }
 
       function _setupForm() {

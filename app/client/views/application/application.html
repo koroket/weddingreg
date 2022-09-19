@@ -6,98 +6,100 @@
   <div class="ui stackable page grid">
     <div class="column">
       <div class="guest-select-container" data-ng-repeat="guest in guests" style="display:inline-block">
-        <button class="guest-select-button" ng-click="selectGuest()">
+        <button class="guest-select-button" ng-click="selectGuest(guest._id)" ng-model="guests[guest._id]">
           {{guests[$index].firstName}} {{guests[$index].lastName}}
         </button>
       </div>
-      <div class="ui form status segment" ng-class="{'loading': loading}">
+      <div data-ng-repeat="guest in guests">
+        <div class="ui form status segment" ng-class="{'loading': loading}" ng-show="guest._id">
 
-        <div class="divided title">Soup</div>
+          <div class="divided title">Soup</div>
 
-        <label> French Onion Soup </label>
+          <label> French Onion Soup </label>
 
-        <p> Onion, Gruyère Cheese </p>
-
-        <br>
-
-        <div class="divided title">Salad</div>
-
-        <label> Mixed Salad </label>
-
-        <p> Mixed Greens, Strawberries, Walnuts, Gorgonzola, Balsamic Vinaigrette </p>
-
-        <br>
-
-        <fieldset ng-disabled="regIsClosed">
-
-          <div class="divided title">
-            <div class="entree">Entree</div>
-            <br>
-            <br>
-            <div class="entree entree-select field">
-              <select name="entree" ng-model="user.confirmation.entree" class="entree-select-style">
-                <option value="">-- Select --</option>
-                <option value="M">Beef</option>
-                <option value="F">Fish</option>
-                <option value="V">Vegetarian</option>
-                <option value="K">Kid's</option>
-              </select>
-            </div>
-
-          </div>
-          <div>
-            <div ng-if='user.confirmation.entree === ""'>
-              <label> Please select an entree above </label>
-
-              <p> Entree details </p>
-            </div>
-            <div ng-if='user.confirmation.entree === "M"'>
-              <label> Filet Mignon </label>
-
-              <p> Filet Mignon, Red Wine Demi, Potatoes Au Gratin, Creamed Spinach </p>
-
-              <label> Doneness <label>
-                  <div class="">
-                    <select name="entree-option" ng-model="user.confirmation.entree-option">
-                      <option value="">-- Select --</option>
-                      <option value="R">Medium Rare</option>
-                      <option value="W">Medium Well</option>
-                    </select>
-                  </div>
-            </div>
-            <div ng-if='user.confirmation.entree === "F"'>
-              <label> Pistachio-Crusted Cod </label>
-
-              <p> Pistachio-Crusted Cod, Lemon-Herb Butter, Potato Hash, Broccolini </p>
-            </div>
-            <div ng-if='user.confirmation.entree === "V"'>
-              <label> Thai Coconut Curry </label>
-
-              <p> Thai Coconut Curry: Basmati Rice, Sweet Potato, Broccolini, Crispy Chickpeas, Green Onion </p>
-            </div>
-            <div ng-if='user.confirmation.entree === "K"'>
-              <label> Chicken Tenders </label>
-
-              <p> Chicken Tenders, French Fries, Fresh Steamed Vegetables </p>
-            </div>
-          </div>
+          <p> Onion, Gruyère Cheese </p>
 
           <br>
 
-          <div class="field">
-            <label>I am allergict to...</label>
-            <input type="text" placeholder="Dairy, Peanuts, etc..." ng-model="user.confirmation.allergies">
-          </div>
+          <div class="divided title">Salad</div>
+
+          <label> Mixed Salad </label>
+
+          <p> Mixed Greens, Strawberries, Walnuts, Gorgonzola, Balsamic Vinaigrette </p>
 
           <br>
 
-          <div class="field" ng-hide="regIsClosed">
-            <button type="submit" class="fluid ui purple button" ng-click="submitForm()">
-              Submit
-            </button>
-          </div>
+          <fieldset ng-disabled="regIsClosed">
 
-        </fieldset>
+            <div class="divided title">
+              <div class="entree">Entree</div>
+              <br>
+              <br>
+              <div class="entree entree-select field">
+                <select name="entree" ng-model="user.confirmation.entree" class="entree-select-style">
+                  <option value="">-- Select --</option>
+                  <option value="M">Beef</option>
+                  <option value="F">Fish</option>
+                  <option value="V">Vegetarian</option>
+                  <option value="K">Kid's</option>
+                </select>
+              </div>
+
+            </div>
+            <div>
+              <div ng-if='user.confirmation.entree === ""'>
+                <label> Please select an entree above </label>
+
+                <p> Entree details </p>
+              </div>
+              <div ng-if='user.confirmation.entree === "M"'>
+                <label> Filet Mignon </label>
+
+                <p> Filet Mignon, Red Wine Demi, Potatoes Au Gratin, Creamed Spinach </p>
+
+                <label> Doneness <label>
+                    <div class="">
+                      <select name="entree-option" ng-model="user.confirmation.entree-option">
+                        <option value="">-- Select --</option>
+                        <option value="R">Medium Rare</option>
+                        <option value="W">Medium Well</option>
+                      </select>
+                    </div>
+              </div>
+              <div ng-if='user.confirmation.entree === "F"'>
+                <label> Pistachio-Crusted Cod </label>
+
+                <p> Pistachio-Crusted Cod, Lemon-Herb Butter, Potato Hash, Broccolini </p>
+              </div>
+              <div ng-if='user.confirmation.entree === "V"'>
+                <label> Thai Coconut Curry </label>
+
+                <p> Thai Coconut Curry: Basmati Rice, Sweet Potato, Broccolini, Crispy Chickpeas, Green Onion </p>
+              </div>
+              <div ng-if='user.confirmation.entree === "K"'>
+                <label> Chicken Tenders </label>
+
+                <p> Chicken Tenders, French Fries, Fresh Steamed Vegetables </p>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="field">
+              <label>I am allergict to...</label>
+              <input type="text" placeholder="Dairy, Peanuts, etc..." ng-model="user.confirmation.allergies">
+            </div>
+
+            <br>
+
+            <div class="field" ng-hide="regIsClosed">
+              <button type="submit" class="fluid ui purple button" ng-click="submitForm()">
+                Submit
+              </button>
+            </div>
+
+          </fieldset>
+        </div>
       </div>
     </div>
   </div>
