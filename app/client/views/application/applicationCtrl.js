@@ -11,7 +11,7 @@ angular.module('reg')
     'settings',
     'Session',
     'UserService',
-    function($scope, $rootScope, $state, $http, currentUser, settings, Session, UserService) {
+    function ($scope, $rootScope, $state, $http, currentUser, settings, Session, UserService) {
 
       console.log(currentUser.data)
 
@@ -27,11 +27,31 @@ angular.module('reg')
 
       $scope.regIsClosed = Date.now() > settings.data.timeClose;
 
-      $scope.selectGuest = function(){
+      $scope.guests = [];
+      $scope.guests_loaded = false;
+
+      $scope.selectGuest = function () {
         console.log("SELECTED!")
       }
 
-      function _updateUser(e){
+      UserService
+        .getGuests()
+        .then(response => {
+          updateGuests(response.data);
+        });
+
+      function updateGuests(data) {
+        console.log(data)
+        $scope.guests.push({ _id: currentUser.data.id, firstName: currentUser.data.profile.firstName, lastName: currentUser.data.profile.lastName })
+        data.forEach(item => {
+          $scope.guests.push(item);
+        })
+        $scope.guests_loaded = true;
+        console.log($scope.guests)
+        // _setupForm();
+      }
+
+      function _updateUser(e) {
         console.log("test submit")
         // UserService
         //   .updateProfile(Session.getUserId(), $scope.user.profile)
@@ -44,7 +64,7 @@ angular.module('reg')
         //   });
       }
 
-      function _setupForm(){
+      function _setupForm() {
         // // Custom minors validation rule
         // $.fn.form.settings.rules.allowMinors = function (value) {
         //   return minorsValidation();
@@ -85,8 +105,8 @@ angular.module('reg')
         });
       }
 
-      $scope.submitForm = function(){
-        if ($('.ui.form').form('is valid')){
+      $scope.submitForm = function () {
+        if ($('.ui.form').form('is valid')) {
           _updateUser();
         } else {
           swal("Uh oh!", "Please Fill The Required Fields", "error");
