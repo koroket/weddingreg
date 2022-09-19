@@ -47,7 +47,7 @@
               <div class="guestParentContainer step2">
                 <div class="guestInfoContainer" ng-show="isInfoHovered">
                   <div class="guestInfoContainerText">
-                    If you/your guest does not need a meal (usually cases where they are few years old), please select "No Entree"
+                    If you/your guest does not need a meal please select "No Entree"
                   </div>
                 </div>
                 <div class="infoicon guestChildIcon" ng-Mouseover="guestInfoHovered()" ng-mouseleave="guestInfoUnhovered()">
@@ -68,7 +68,21 @@
 
                 <p> Filet Mignon, Red Wine Demi, Potatoes Au Gratin, Creamed Spinach </p>
 
-                <label> Doneness <label>
+                <div>
+                  <label class="doneness-label"> Doneness </label>
+                  <div class="guestParentContainer doneness-icon">
+                    <div class="guestInfoContainer" ng-show="isDonenessHovered">
+                      <div class="guestInfoContainerText">
+                        We are only able to offer 2 different types of doneness.
+                        Hopefully one of them is close to your liking!
+                      </div>
+                    </div>
+                    <div class="infoicon guestChildIcon" ng-Mouseover="donenessHovered()" ng-mouseleave="donenessUnhovered()">
+                      <img class="infoicon" ng-show="!isDonenessHovered" src="assets/images/info-unhovered.png" />
+                      <img class="infoicon" ng-show="isDonenessHovered" src="assets/images/info-hovered.png" />
+                    </div>
+                  </div>
+                </div>
                     <div class="">
                       <select name="entree-option" ng-model="guest.diningOption.entreeOption">
                         <option value="">-- Select --</option>
@@ -76,6 +90,7 @@
                         <option value="W">Medium Well</option>
                       </select>
                     </div>
+
               </div>
               <div ng-if='guest.diningOption.entree === "F"'>
                 <label> Pistachio-Crusted Cod </label>
@@ -97,7 +112,7 @@
             <br>
 
             <div class="field">
-              <label>I am allergict to...</label>
+              <label class="allergy-label">I am allergict to...</label>
               <input type="text" placeholder="Dairy, Peanuts, etc..." ng-model="guest.diningOption.dietaryRestrictions">
             </div>
 

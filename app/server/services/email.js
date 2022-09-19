@@ -57,7 +57,6 @@ function sendOne(templateName, options, data, callback) {
   });
 
   data.emailHeaderImage = EMAIL_HEADER_IMAGE;
-  data.emailHeaderImageFood = EMAIL_HEADER_IMAGE_FOOD;
   data.emailAddress = EMAIL_ADDRESS;
   data.hackathonName = HACKATHON_NAME;
   data.twitterHandle = TWITTER_HANDLE;
@@ -201,7 +200,6 @@ controller.sendPasswordChangedEmail = function (email, callback) {
 };
 
 controller.sendUpdateEmail = function (email, callback) {
-
   var options = {
     to: email,
     subject: "[" + HACKATHON_NAME + "]"
@@ -210,6 +208,8 @@ controller.sendUpdateEmail = function (email, callback) {
   var locals = {
     title: 'Event Update',
     body: 'Please log in and choose your prefered dining option and upload your covid vaccine card',
+    loginUrl: ROOT_URL,
+    emailHeaderImageFood: "https://www.dropbox.com/s/n9nbe8y6k2qb3f7/diningSplashSmall.jpg?raw=1"
   };
 
   /**

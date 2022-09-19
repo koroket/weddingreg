@@ -49,18 +49,30 @@ angular.module('reg')
       }
 
       function refreshUpdates(){
-        UserService
-          .getGuests()
-          .then(response => {
-            updateGuests(response.data);
-          }); 
+        if ($rootScope.currentUser.guests.length > 0)
+        {
+          UserService
+            .getGuests()
+            .then(response => {
+              updateGuests(response.data);
+            }); 
+        }
+        else {
+          updateGuests([])
+        }
       }
 
       $rootScope.$on("RecalculateUpdates", function(user){
+        console.log(user._id)
+        console.log($rootScope.currentUser._id)
         if (user._id == $rootScope.currentUser._id) {
+          console.log("detected change for main user")
           $rootScope.currentUser = user;
+          updateGuests([]);
         }
-        refreshUpdates();
+        else {
+          refreshUpdates();
+        }
       });
 
       refreshUpdates();

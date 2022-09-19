@@ -6,8 +6,9 @@ angular.module('reg')
     '$scope',
     '$state',
     '$stateParams',
+    'AuthService',
     'UserService',
-    function($scope, $state, $stateParams, UserService){
+    function($scope, $state, $stateParams, AuthService, UserService){
 
       $scope.pages = [];
       $scope.users = [];
@@ -133,7 +134,17 @@ angular.module('reg')
               .verify(user._id)
               .then(response => {
                 $scope.users[index] = response.data;
-                swal("Verified", response.data.profile.firstName + " has been verified in.", "success");
+                var email = $scope.users[index].email
+                console.log(email)
+                AuthService.sendUpdateEmail(email).then(res => {
+                  console.log(res)
+                  if (res.status && res.status == 200){
+                    swal("Verified", response.data.profile.firstName + " has been verified and email has been sent.", "success");
+                  }
+                  else {
+                    swal("Verified", response.data.profile.firstName + " has been verified but email failed to send.", "warning");
+                  }
+                })
               });
           });
         } else {

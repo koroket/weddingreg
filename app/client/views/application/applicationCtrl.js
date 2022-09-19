@@ -39,6 +39,16 @@ angular.module('reg')
         $scope.isInfoHovered = false;
       }
 
+      $scope.isDonenessHovered = false;
+
+      $scope.donenessHovered = function(){
+        $scope.isDonenessHovered = true;
+      }
+
+      $scope.donenessUnhovered = function(){
+        $scope.isDonenessHovered = false;
+      }
+
       UserService
         .getGuests()
         .then(response => {
