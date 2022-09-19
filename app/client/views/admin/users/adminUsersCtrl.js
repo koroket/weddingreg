@@ -102,8 +102,14 @@ angular.module('reg')
         UserService.getCSV();
       };
 
-      $scope.toggleVerify = function($event, user, index) {
+      $scope.toggleVerify = function($event, user, index, guest_index) {
         $event.stopPropagation();
+
+        var confirmationText = "Yes, verify them as our guest and send them next step email"
+        if (!isNaN(guest_index))
+        {
+          confirmationText = "Yes, verify them as our guest. No email for guests"
+        }
 
         if (!user.verified){
           swal({
@@ -119,7 +125,7 @@ angular.module('reg')
               checkIn: {
                 className: "danger-button",
                 closeModal: false,
-                text: "Yes, verify them as our guest and send them next step email",
+                text: confirmationText,
                 value: true,
                 visible: true
               }
@@ -133,18 +139,25 @@ angular.module('reg')
             UserService
               .verify(user._id)
               .then(response => {
-                $scope.users[index] = response.data;
-                var email = $scope.users[index].email
-                console.log(email)
-                AuthService.sendUpdateEmail(email).then(res => {
-                  console.log(res)
-                  if (res.status && res.status == 200){
-                    swal("Verified", response.data.profile.firstName + " has been verified and email has been sent.", "success");
-                  }
-                  else {
-                    swal("Verified", response.data.profile.firstName + " has been verified but email failed to send.", "warning");
-                  }
-                })
+                if (!isNaN(guest_index))
+                {
+                  $scope.users[index].guests[guest_index] = response.data;
+                  swal("Guest Verified", response.data.profile.firstName + " has been verified", "success");
+                }
+                else {
+                  $scope.users[index] = response.data;
+                  var email = $scope.users[index].email
+                  console.log(email)
+                  AuthService.sendUpdateEmail(email).then(res => {
+                    console.log(res)
+                    if (res.status && res.status == 200){
+                      swal("Verified", response.data.profile.firstName + " has been verified and email has been sent.", "success");
+                    }
+                    else {
+                      swal("Verified", response.data.profile.firstName + " has been verified but email failed to send.", "warning");
+                    }
+                  })
+                }
               });
           });
         } else {

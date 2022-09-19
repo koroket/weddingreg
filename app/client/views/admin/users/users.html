@@ -275,6 +275,13 @@
               </strong>
             </td>
             <td></td>
+            <td>
+              <!-- Declined -->
+              <i
+                ng-if="guest.status.declined"
+                class="red remove circle icon">
+              </i>
+            </td>
             <td
               class="collapsing">
 
@@ -285,7 +292,7 @@
               </i>
               <i
                 ng-if="!guest.verified"
-                class="red remove circle icon">
+                class="circle thin icon">
               </i>
 
               <!-- Submitted -->
@@ -295,18 +302,102 @@
               </i>
               <i
                 ng-if="!guest.status.completedProfile"
-                class="red remove circle icon">
+                class="circle thin icon">
               </i>
 
-              <!-- Admitted -->
+              <!-- Vaccine Submitted -->
               <i
-                ng-if="guest.status.admitted"
+                ng-if="guest.status.uploadedVaccine"
                 class="green check circle icon">
               </i>
               <i
-                ng-if="!guest.status.admitted"
-                class="thin circle icon">
+                ng-if="!guest.status.uploadedVaccine"
+                class="circle thin icon">
               </i>
+
+              <!-- Covid Test Submitted -->
+              <i
+                ng-if="guest.status.uploadedCovidTest"
+                class="green check circle icon">
+              </i>
+              <i
+                ng-if="!guest.status.uploadedCovidTest"
+                class="circle thin icon">
+              </i>
+            </td>
+
+            <!-- Hotel -->
+            <td
+              class="collapsing">
+
+              <i
+                ng-if="guest.wantsHotel && !guest.hasHotel"
+                class="no icon">
+              </i>
+              <i
+                ng-if="guest.wantsHotel && guest.hasHotel"
+                class="home icon">
+              </i>
+
+            </td>
+
+            <td
+              class="collapsing">
+              <!-- Vaccine Verified -->
+              <i
+                ng-if="!guest.status.uploadedVaccine"
+                class="circle thin icon">
+              </i>
+              <i
+                ng-if="guest.status.uploadedVaccine && !guest.status.verifiedVaccine"
+                class="question icon">
+              </i>
+              <i
+                ng-if="guest.status.uploadedVaccine && guest.status.verifiedVaccine"
+                class="green check circle icon">
+              </i>
+
+              <!-- Covid Test Verified -->
+              <i
+                ng-if="!guest.status.uploadedCovidTest"
+                class="circle thin icon">
+              </i>
+              <i
+                ng-if="guest.status.uploadedCovidTest && !guest.status.verifiedCovidTest"
+                class="question icon">
+              </i>
+              <i
+                ng-if="guest.status.uploadedCovidTest && guest.status.verifiedCovidTest"
+                class="green check circle icon">
+              </i>
+            </td>
+
+            <td
+              class="collapsing">
+              <button
+                ng-click="goUser($event, guest)"
+                class="ui circular mini basic icon button">
+                <i class="linkify icon"></i>
+              </button>
+            </td>
+
+            <td
+              class="right aligned collapsing">
+
+              <button
+                ng-click="toggleVerify($event, guest, $parent.$index, $index)"
+                class="ui circular mini basic green icon button">
+
+                <i
+                  ng-if="!guest.verified"
+                  class="flag outline icon"></i>
+
+                <i
+                  ng-if="guest.verified"
+                  class="green flag icon"></i>
+
+              </button>
+
             </td>
           <tr ng-if="0" ng-repeat-end></tr>
         </tbody>

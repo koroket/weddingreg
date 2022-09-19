@@ -60,6 +60,7 @@ angular.module('reg')
           newGuest["firstName"] = data[i].profile.firstName;
           newGuest["lastName"] = data[i].profile.lastName;
           newGuest["_id"] = data[i]._id
+          newGuest["verified"] = data[i].verified
           newGuests.push(newGuest)
         }
         $scope.guests = newGuests;
