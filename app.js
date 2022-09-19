@@ -40,8 +40,9 @@ var options = {
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log(body)
-      if (body && body.access_token) {
-        global.dropbox_access_token = body.access_token
+      console.log(body["access_token"])
+      if (body && body["access_token"]) {
+        global.dropbox_access_token = body["access_token"]
         return
       }
     }
