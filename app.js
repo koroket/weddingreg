@@ -77,9 +77,11 @@ var app             = express();
 var hostname  = 'bandoevents.com'
 var httpsPort = 443;
 
+var httpsOptions = {}
+
 if (process.env.NODE_ENV != 'dev')
 {
-  const httpsOptions = {
+  httpsOptions = {
     cert: fs.readFileSync('../ssl/bandoevents.com.crt'),
     ca:   fs.readFileSync('../ssl/bandoevents.com.ca-bundle'),
     key:  fs.readFileSync('../ssl/bandoevents.com.key')
