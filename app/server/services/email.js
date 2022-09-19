@@ -19,6 +19,7 @@ var EMAIL_PASS = process.env.EMAIL_PASS;
 var EMAIL_PORT = process.env.EMAIL_PORT;
 var EMAIL_CONTACT = process.env.EMAIL_CONTACT;
 var EMAIL_HEADER_IMAGE = process.env.EMAIL_HEADER_IMAGE;
+var EMAIL_HEADER_IMAGE_FOOD = process.env.EMAIL_HEADER_IMAGE_FOOD;
 if (EMAIL_HEADER_IMAGE.indexOf("https") == -1) {
   EMAIL_HEADER_IMAGE = ROOT_URL + EMAIL_HEADER_IMAGE;
 }
@@ -56,6 +57,7 @@ function sendOne(templateName, options, data, callback) {
   });
 
   data.emailHeaderImage = EMAIL_HEADER_IMAGE;
+  data.emailHeaderImageFood = EMAIL_HEADER_IMAGE_FOOD;
   data.emailAddress = EMAIL_ADDRESS;
   data.hackathonName = HACKATHON_NAME;
   data.twitterHandle = TWITTER_HANDLE;
@@ -186,6 +188,37 @@ controller.sendPasswordChangedEmail = function (email, callback) {
    * }
    */
   sendOne('email-basic', options, locals, function (err, info) {
+    if (err) {
+      console.log(err);
+    }
+    if (info) {
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+};
+
+controller.sendUpdateEmail = function (email, callback) {
+
+  var options = {
+    to: email,
+    subject: "[" + HACKATHON_NAME + "]"
+  };
+
+  var locals = {
+    title: 'Event Update',
+    body: 'Please log in and choose your prefered dining option and upload your covid vaccine card',
+  };
+
+  /**
+   * Email-update takes a few template values:
+   * {
+   *   verifyUrl: the url that the user must visit to verify their account
+   * }
+   */
+  sendOne('email-update', options, locals, function (err, info) {
     if (err) {
       console.log(err);
     }
