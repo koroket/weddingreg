@@ -39,10 +39,9 @@ var options = {
 
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
-      console.log(body)
-      console.log(body["access_token"])
-      if (body && body["access_token"]) {
-        global.dropbox_access_token = body["access_token"]
+      var bodyobj = JSON.parse(body)
+      if (bodyobj && bodyobj["access_token"]) {
+        global.dropbox_access_token = bodyobj["access_token"]
         return
       }
     }
