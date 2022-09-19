@@ -121,6 +121,10 @@ angular.module('reg')
           });
       };
 
+      authService.getDBAccessToken = function(){
+        return $http.get('/api/dbaccesstoken');
+      }
+
       return authService;
     }
   ]);

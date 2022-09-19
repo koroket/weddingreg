@@ -376,7 +376,7 @@ UserController.uploadToDropbox = function(file, path, callback) {
   const req = https.request('https://content.dropboxapi.com/2/files/upload', {
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer ' + process.env.DROPBOX_TOKEN,
+      'Authorization': 'Bearer ' + global.dropbox_access_token,
       'Dropbox-API-Arg': JSON.stringify({
         'path': path,
         'mode': 'overwrite',
@@ -392,10 +392,17 @@ UserController.uploadToDropbox = function(file, path, callback) {
       console.log(res)
       return callback("Server can not complete upload", undefined)
     }
+
     res.on('data', function(d) {
       process.stdout.write(d);
     }).on('end', function () {
-      callback(undefined, {"res":"good"})
+      if (res.statusCode != 200) {
+        console.log(res)
+        return callback("Server can not complete upload of your file :(", undefined)
+      }
+      else {
+        return callback(undefined, {"res":"good"})
+      }
     })
   });
   req.on('error', function(e){

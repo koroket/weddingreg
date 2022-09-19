@@ -9,11 +9,19 @@ angular.module('reg')
 
       $scope.user = currentUser.data;
 
+      $scope.dbAccessToken = "";
+
       $scope.sendUpdateEmail = function () {
         var email = $scope.user.email
         console.log(email)
         AuthService.sendUpdateEmail(email).then(res => {
           console.log(res)
+        })
+      };
+
+      $scope.getDBAccessToken = function () {
+        AuthService.getDBAccessToken().then(res => {
+          $scope.dbAccessToken = res.data;
         })
       };
 

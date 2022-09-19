@@ -132,7 +132,7 @@ angular.module('reg')
                 swal("File too large", "Your file size (" + sizeText + ") is over the limit of " + limit, "error");
               }
               else {
-                swal("Uh oh!", "Something went wrong.", "error");
+                swal("Uh oh!", response.data, "error");
               }
               
             });

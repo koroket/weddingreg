@@ -367,6 +367,10 @@ module.exports = function(router) {
     // });
   });
 
+  router.get('/dbaccesstoken', isAdmin, function(req, res){
+    defaultResponse(req,res)(null, global.dropbox_access_token)
+  })
+
   router.get('/faqs', isLoggedIn, function(req, res){
     return FaqController.getFaqs(defaultResponse(req, res));
   });
