@@ -5,6 +5,18 @@
 
   <div class="ui stackable page grid">
     <div class="column">
+      <div class="ui form status segment notifyboard">
+        <div class="field">
+          <div class="title">
+            Feel free to edit before
+          </div>
+          <div class="title">
+            {{ timeClose }}
+          </div>
+          <!-- <input type="datetime-local" ng-model="settings.timeClose"> -->
+        </div>
+      </div>
+      <br>
       <div class="guest-select-container" data-ng-repeat="guest in guests" style="display:inline-block">
         <button class="guest-select-button" ng-click="selectGuest(guest._id)" ng-model="guests[guest._id]" ng-disabled="guest._id == selectedGuest">
           {{guests[$index].profile.firstName}} {{guests[$index].profile.lastName}}

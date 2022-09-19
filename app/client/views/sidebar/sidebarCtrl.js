@@ -16,6 +16,7 @@ angular.module('reg')
 
       var settings = settings.data;
       var user = $rootScope.currentUser;
+      var isUpdating = false;
 
       console.log($rootScope.currentUser)
 
@@ -48,13 +49,14 @@ angular.module('reg')
         console.log($scope.covidOptionUpdates)
       }
 
-      function refreshUpdates(){
+      function refreshUpdates(callback){
         if ($rootScope.currentUser.guests.length > 0)
         {
           UserService
             .getGuests()
             .then(response => {
               updateGuests(response.data);
+              if (callback) { callback() }
             }); 
         }
         else {
@@ -62,16 +64,19 @@ angular.module('reg')
         }
       }
 
-      $rootScope.$on("RecalculateUpdates", function(user){
-        console.log(user._id)
-        console.log($rootScope.currentUser._id)
-        if (user._id == $rootScope.currentUser._id) {
-          console.log("detected change for main user")
-          $rootScope.currentUser = user;
-          updateGuests([]);
-        }
-        else {
-          refreshUpdates();
+      $rootScope.$on("RecalculateUpdates", function(event, user){
+        if (!isUpdating)
+        {
+          isUpdating = true;
+          console.log(user._id)
+          console.log($rootScope.currentUser._id)
+          if (user._id == $rootScope.currentUser._id) {
+            console.log("detected change for main user")
+            $rootScope.currentUser = user;
+          }
+          refreshUpdates(function () {
+            isUpdating = false;
+          });
         }
       });
 

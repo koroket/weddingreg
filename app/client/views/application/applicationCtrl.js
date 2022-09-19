@@ -10,8 +10,9 @@ angular.module('reg')
     'currentUser',
     'settings',
     'Session',
+    'SettingsService',
     'UserService',
-    function ($scope, $rootScope, $state, $http, currentUser, settings, Session, UserService) {
+    function ($scope, $rootScope, $state, $http, currentUser, settings, Session, SettingsService, UserService) {
 
       console.log(currentUser.data)
 
@@ -24,6 +25,22 @@ angular.module('reg')
 
       $scope.guests = [];
       $scope.guests_loaded = false;
+
+      $scope.settings = {};
+      SettingsService
+        .getPublicSettings()
+        .then(response => {
+          updateSettings(response.data);
+        });
+
+      var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', hour12: true };
+
+      function updateSettings(settings){
+        settings.timeClose = new Date(settings.timeClose);
+
+        $scope.timeClose = settings.timeClose.toLocaleDateString("en-US", options)
+        $scope.settings = settings;
+      }
 
       $scope.selectGuest = function (guestId) {
         $scope.selectedGuest = guestId

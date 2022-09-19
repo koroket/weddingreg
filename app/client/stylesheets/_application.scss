@@ -81,4 +81,17 @@
   .doneness-label {
     display: inline-block;
   }
+
+  .ui.segment.notifyboard {
+    height: auto;
+    .title {
+      font-family: Montserrat,"Helvetica Neue",Helvetica,sans-serif;
+      text-transform: uppercase;
+      text-align: center;
+      color: #473899;
+      font-weight: 700;
+      font-size: 0.8em;
+      letter-spacing: 4px;
+    }
+  }
 }

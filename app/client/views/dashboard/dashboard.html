@@ -102,17 +102,20 @@
           </div>
         </div>
 
-<!--         <div ng-if="dashState('openAndSubmitted')" class="description">
+        <div ng-if="dashState('openAndSubmitted')" class="description">
           <p>
-            <strong>
-              {{ DASHBOARD.SUBMITTED_TITLE }}
-            </strong>
+            Thank you for filling out dining/COVID info. Feel free to do the following until it's closer to the event!
           </p>
           <p>
-            {{ DASHBOARD.SUBMITTED }}
+            - Adjust Invitation information <a ui-sref-active="active" ui-sref="app.profile">here</a>
           </p>
-
-        </div> -->
+          <p>
+            - Check our <a ui-sref-active="active" ui-sref="app.faq">FAQ</a> to learn more about what you can expect and submit any questions for us!
+          </p>
+          <p>
+            - Adjust your dining preferences <a ui-sref-active="active" ui-sref="app.application">here</a>
+          </p>
+        </div>
 
         <div ng-if="dashState('closedAndIncomplete')">
           <p>
@@ -123,20 +126,6 @@
           <p>
             {{ DASHBOARD.CLOSED_AND_INCOMPLETE }}
           </p>
-        </div>
-
-        <div ng-if="dashState('closedAndSubmitted')" class="description">
-
-          <div class="markdown" ng-bind-html="waitlistText">
-          </div>
-
-          <div class="ui purple button" ui-sref="app.application">
-            View your application
-          </div>
-
-          <div class="ui pink button" ng-show="user.teamCode" ui-sref="app.team">
-            View your Team
-          </div>
         </div>
 
         <div class="description" ng-if="dashState('admittedAndCanConfirm')">
