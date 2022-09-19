@@ -149,19 +149,20 @@ fieldset {
 }
 
 #application .title {
-  font-family: Snell Roundhand, cursive;
+  font-family: "Lucida Handwriting", cursive;
   text-transform: none;
 }
 
 #application .form {
   text-align: center;
-  font-family: Snell Roundhand, cursive;
+  font-family: "Lucida Handwriting", cursive;
+  font-size: 1.2em;
 }
 
 #application label {
   display: block;
   margin: 0 0 0.28571429rem 0;
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, .87);
   font-size: .92857143em;
   font-weight: 700;
   text-transform: none;
