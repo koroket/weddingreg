@@ -6,8 +6,9 @@ angular.module('reg')
     '$scope',
     '$state',
     '$stateParams',
+    'AuthService',
     'UserService',
-    function($scope, $state, $stateParams, UserService){
+    function($scope, $state, $stateParams, AuthService, UserService){
 
       $scope.pages = [];
       $scope.users = [];
@@ -23,7 +24,7 @@ angular.module('reg')
         dietaryRestrictions: []
       }, profile: ''});
 
-      function updatePage(data){
+      function refreshPage(data) {
         $scope.users = data.users;
         $scope.currentPage = data.page;
         $scope.pageSize = data.size;
@@ -35,9 +36,42 @@ angular.module('reg')
         $scope.pages = p;
       }
 
+      function loadUser(data, i, callback) {
+        var user = data.users[i]
+        var guests = user.guests
+        if (guests.length > 0)
+        {
+          UserService.getGuestsById(user._id)
+            .then(response => {
+              console.log(response)
+              data.users[i].guests = response.data
+              callback(data);
+            })
+        }
+        else {
+          callback(data);
+        }
+      }
+
+      function updatePage(data){
+        var numCompleted = 0
+        for (var i = 0; i < data.users.length; i++){
+          loadUser(data, i, function(data){
+            numCompleted += 1
+            if (numCompleted == data.users.length)
+            {
+              refreshPage(data)
+            }
+          })
+        }
+      }
+
+      console.log("test")
+
       UserService
         .getPage($stateParams.page, $stateParams.size, $stateParams.query)
         .then(response => {
+          console.log(response.data)
           updatePage(response.data);
         });
 
@@ -66,6 +100,61 @@ angular.module('reg')
 
       $scope.getCSV = function(){
         UserService.getCSV();
+      };
+
+      $scope.toggleVerify = function($event, user, index) {
+        $event.stopPropagation();
+
+        if (!user.verified){
+          swal({
+            title: "Whoa, wait a minute!",
+            text: "You are about verify " + user.profile.firstName + "!",
+            icon: "warning",
+            buttons: {
+              cancel: {
+                text: "Cancel",
+                value: null,
+                visible: true
+              },
+              checkIn: {
+                className: "danger-button",
+                closeModal: false,
+                text: "Yes, verify them as our guest and send them next step email",
+                value: true,
+                visible: true
+              }
+            }
+          })
+          .then(value => {
+            if (!value) {
+              return;
+            }
+
+            UserService
+              .verify(user._id)
+              .then(response => {
+                $scope.users[index] = response.data;
+                var email = $scope.users[index].email
+                console.log(email)
+                AuthService.sendUpdateEmail(email).then(res => {
+                  console.log(res)
+                  if (res.status && res.status == 200){
+                    swal("Verified", response.data.profile.firstName + " has been verified and email has been sent.", "success");
+                  }
+                  else {
+                    swal("Verified", response.data.profile.firstName + " has been verified but email failed to send.", "warning");
+                  }
+                })
+              });
+          });
+        } else {
+          UserService
+            .unverify(user._id)
+            .then(response => {
+              $scope.users[index] = response.data;
+              swal("Unverified", response.data.profile.firstName + ' has been unverified.', "success");
+            });
+        }
       };
 
       $scope.toggleCheckIn = function($event, user, index) {
@@ -230,6 +319,7 @@ angular.module('reg')
       }
 
       $scope.rowClass = function(user) {
+        if (!user) { return 'warning' }
         if (user.admin){
           return 'admin';
         }

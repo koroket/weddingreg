@@ -1,88 +1,143 @@
 <div id="application" class="page">
   <div class="divided title">
-    Profile
+    Menu
   </div>
 
   <div class="ui stackable page grid">
     <div class="column">
-      <div class="ui form"
-            ng-class="{'loading': loading}">
-
-        <div class="divided title">Your information</div>
-
-        <fieldset ng-disabled="regIsClosed">
-
+      <div class="ui form status segment notifyboard">
         <div class="field">
-          <label> Email </label>
-          <input type="email"
-                 name="email"
-                 disabled="disabled"
-                 ng-model="user.email">
-        </div>
-
-        <div class="field">
-          <label> Full Name </label>
-          <input type="text"
-                 name="name"
-                 ng-model="user.profile.name">
-        </div>
-
-        <div class="field">
-          <label>Gender</label>
-          <select
-            name="gender"
-            ng-model="user.profile.gender">
-            <option value="">Gender</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-            <option value="O">Other</option>
-            <option value="N">I prefer not to answer.</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>I would describe myself as a...</label>
-          <input type="text"
-                 placeholder="Designer, Data Scientist, iOS Wizard, Hacker Extraordinaire"
-                 ng-model="user.profile.description">
-        </div>
-
-        <div class="field">
-          <label>
-              What would you like to learn or get out of HackMIT? (optional)
-          </label>
-          <textarea ng-model="user.profile.essay">
-          </textarea>
-        </div>
-
-        <div class="field"
-             ng-hide="isMitStudent">
-          <p>
-            Because of limitations imposed by MIT, we are not legally allowed to host
-            non-MIT minors (those under 18) for HackMIT 2015. Checking the box below affirms that you are or will be 18 years or older by September 19th, 2015.
-          </p>
-          <p>
-            <strong>
-            We will be checking ID. If you are a non-MIT minor, you will be turned away at the door.
-            </strong>
-          </p>
-          <div class="ui checkbox">
-            <input type="checkbox" id="adult" ng-model="user.profile.adult">
-            <label for="adult">I am 18 or older.</label>
+          <div class="title">
+            Feel free to edit before
           </div>
+          <div class="title">
+            {{ timeClose }}
+          </div>
+          <!-- <input type="datetime-local" ng-model="settings.timeClose"> -->
         </div>
+      </div>
+      <br>
+      <div class="guest-select-container" data-ng-repeat="guest in guests" style="display:inline-block">
+        <button class="guest-select-button" ng-click="selectGuest(guest._id)" ng-model="guests[guest._id]" ng-disabled="guest._id == selectedGuest">
+          {{guests[$index].profile.firstName}} {{guests[$index].profile.lastName}}
+          <div class="has-actionable" ng-show="guest.diningOptionUpdates > 0">{{ guest.diningOptionUpdates }}</div>
+        </button>
+      </div>
+      <div data-ng-repeat="guest in guests">
+        <div class="ui form status segment" ng-class="{'loading': loading}" ng-show="guest._id == selectedGuest">
 
-        <br>
+          <div class="divided title">Soup</div>
 
-        <div class="field" ng-hide="regIsClosed">
-          <button type="submit"
-                  class="fluid ui purple button"
-                  ng-click="submitForm()">
-            Submit
-          </button>
+          <label> French Onion Soup </label>
+
+          <p> Onion, Gruyère Cheese </p>
+
+          <br>
+
+          <div class="divided title">Salad</div>
+
+          <label> Mixed Salad </label>
+
+          <p> Mixed Greens, Strawberries, Walnuts, Gorgonzola Cheese, Balsamic Vinaigrette </p>
+
+          <br>
+
+          <fieldset ng-disabled="regIsClosed">
+
+            <div class="divided title">
+              <div class="entree entree-select field">
+                <select name="entree" ng-model="guest.diningOption.entree" class="entree-select-style">
+                  <option value="">-- Select --</option>
+                  <option value="M">Beef</option>
+                  <option value="F">Fish</option>
+                  <option value="V">Vegetarian</option>
+                  <option value="K">Kid's</option>
+                  <option value="U">No Entree</option>
+                </select>
+              </div>
+              <div class="entree">Entree</div>
+              <div class="guestParentContainer step2">
+                <div class="guestInfoContainer" ng-show="isInfoHovered">
+                  <div class="guestInfoContainerText">
+                    If you/your guest does not need a meal please select "No Entree"
+                  </div>
+                </div>
+                <div class="infoicon guestChildIcon" ng-Mouseover="guestInfoHovered()" ng-mouseleave="guestInfoUnhovered()">
+                  <img class="infoicon" ng-show="!isInfoHovered" src="assets/images/info-unhovered.png" />
+                  <img class="infoicon" ng-show="isInfoHovered" src="assets/images/info-hovered.png" />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div ng-if='guest.diningOption.entree === ""'>
+                <label> Please select an entree above </label>
+
+                <p> Entree details </p>
+              </div>
+              <div ng-if='guest.diningOption.entree === "M"'>
+                <label> Filet Mignon </label>
+
+                <p> Filet Mignon, Red Wine Demi, Potatoes Au Gratin, Creamed Spinach </p>
+
+                <div>
+                  <label class="doneness-label"> Doneness </label>
+                  <div class="guestParentContainer doneness-icon">
+                    <div class="guestInfoContainer" ng-show="isDonenessHovered">
+                      <div class="guestInfoContainerText">
+                        We are only able to offer 2 different types of doneness.
+                        Hopefully one of them is close to your liking!
+                      </div>
+                    </div>
+                    <div class="infoicon guestChildIcon" ng-Mouseover="donenessHovered()" ng-mouseleave="donenessUnhovered()">
+                      <img class="infoicon" ng-show="!isDonenessHovered" src="assets/images/info-unhovered.png" />
+                      <img class="infoicon" ng-show="isDonenessHovered" src="assets/images/info-hovered.png" />
+                    </div>
+                  </div>
+                </div>
+                    <div class="">
+                      <select name="entree-option" ng-model="guest.diningOption.entreeOption">
+                        <option value="">-- Select --</option>
+                        <option value="R">Medium Rare</option>
+                        <option value="W">Medium Well</option>
+                      </select>
+                    </div>
+
+              </div>
+              <div ng-if='guest.diningOption.entree === "F"'>
+                <label> Pistachio-Crusted Cod </label>
+
+                <p> Pistachio-Crusted Cod, Lemon-Herb Butter, Potato Hash, Broccolini </p>
+              </div>
+              <div ng-if='guest.diningOption.entree === "V"'>
+                <label> Thai Coconut Curry </label>
+
+                <p> Thai Coconut Curry: Basmati Rice, Sweet Potato, Broccolini, Crispy Chickpeas, Green Onion </p>
+              </div>
+              <div ng-if='guest.diningOption.entree === "K"'>
+                <label> Chicken Tenders </label>
+
+                <p> Chicken Tenders, French Fries, Fresh Steamed Vegetables </p>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="field">
+              <label class="allergy-label">I am allergict to...</label>
+              <input type="text" placeholder="Dairy, Peanuts, etc..." ng-model="guest.diningOption.dietaryRestrictions">
+            </div>
+
+            <br>
+
+            <div class="field" ng-hide="regIsClosed">
+              <button type="submit" class="fluid ui purple button" ng-click="submitForm($index)">
+                Save
+              </button>
+            </div>
+
+          </fieldset>
         </div>
-
-        </fieldset>
       </div>
     </div>
   </div>

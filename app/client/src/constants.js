@@ -6,8 +6,8 @@ angular.module('reg')
     })
     .constant('DASHBOARD', {
         PENDING: 'Will be approved soon! Please look out for an email for Dinner option menu!',
-        INCOMPLETE_TITLE: 'You still need to complete your application!',
-        INCOMPLETE: 'If you do not complete your application before the [APP_DEADLINE], you will not be considered for the admissions lottery!',
+        INCOMPLETE_TITLE: 'You still need to complete your dining option and/or COVID vaccine verification',
+        INCOMPLETE: "If you do not complete dining and COVID vaccine verification by [APP_DEADLINE]), we won't be able to host you!",
         SUBMITTED_TITLE: 'Your changes has been submitted!',
         SUBMITTED: 'Feel free to edit it at any time!',
         CLOSED_AND_INCOMPLETE_TITLE: 'Unfortunately, registration has closed, and the lottery process has begun.',

@@ -6,6 +6,8 @@ var json2csv = require('json2csv').parse;
 var path = require('path');
 
 var request = require('request');
+var multer          = require('multer')
+var upload          = multer()
 
 module.exports = function(router) {
 
@@ -60,6 +62,12 @@ module.exports = function(router) {
 
       if (user._id == userId || user.admin){
         return next();
+      }
+      for (var i = 0; i < user.guests.length; i++) {
+        if (user.guests[i] == userId) {
+          console.log("is guest owner!")
+          return next();
+        }
       }
       return res.status(400).send({
         message: 'Token does not match user id.'
@@ -255,6 +263,12 @@ module.exports = function(router) {
     UserController.updateProfileAndGuests(id, profile, guests, defaultResponse(req, res));
   });
 
+  router.put('/users/:id/dining', isOwnerOrAdmin, function(req, res){
+    var diningOption = req.body.diningOption;
+    var id = req.params.id;
+    UserController.updateDining(id, diningOption, defaultResponse(req, res));
+  });
+
   /**
    * [OWNER/ADMIN]
    *
@@ -265,6 +279,18 @@ module.exports = function(router) {
     var id = req.params.id;
 
     UserController.updateConfirmationById(id, confirmation, defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
+   * POST - Decline an acceptance.
+   */
+  router.post('/users/:id/vaccine', upload.single('file'), isOwnerOrAdmin, function(req, res){
+    var vaccineFile = req.file;
+    var id = req.params.id;
+
+    UserController.updateVaccine(id, vaccineFile, defaultResponse(req, res));
   });
 
   /**
@@ -380,6 +406,24 @@ module.exports = function(router) {
     var id = req.params.id;
     var user = req.user;
     UserController.admitUser(id, user, defaultResponse(req, res));
+  });
+
+  /**
+   * Check in a user. ADMIN ONLY, DUH
+   */
+  router.post('/users/:id/verify', isAdmin, function(req, res){
+    var id = req.params.id;
+    var user = req.user;
+    UserController.verifyById(id, user, defaultResponse(req, res));
+  });
+
+  /**
+   * Check in a user. ADMIN ONLY, DUH
+   */
+  router.post('/users/:id/unverify', isAdmin, function(req, res){
+    var id = req.params.id;
+    var user = req.user;
+    UserController.unverifyById(id, user, defaultResponse(req, res));
   });
 
   /**

@@ -103,6 +103,12 @@ var confirmation = {
   signatureCodeOfConduct: String,
 };
 
+var diningOption = {
+  entree: String,
+  entreeOption: String,
+  dietaryRestrictions: String
+}
+
 var status = {
   /**
    * Whether or not the user's profile has been completed.
@@ -148,6 +154,10 @@ var status = {
     type: Number
   },
   reimbursementGiven: {
+    type: Boolean,
+    default: false
+  },
+  uploadedVaccine: {
     type: Boolean,
     default: false
   }
@@ -227,8 +237,13 @@ var schema = new mongoose.Schema({
    */
   confirmation: confirmation,
 
+  diningOption: diningOption,
+
   status: status,
 
+  vaccineRef: {
+    type: String,
+  }
 });
 
 schema.set('toJSON', {

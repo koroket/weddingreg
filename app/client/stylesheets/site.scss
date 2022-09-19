@@ -50,6 +50,8 @@ $brand-tertiary: $tertiary;
 @import 'verify';
 @import 'team';
 @import 'admin';
+@import 'profile';
+@import 'covid';
 
 html,
 body {
@@ -146,5 +148,32 @@ fieldset {
   width: 190px;
 }
 
+#application .title {
+  font-family: "Lucida Handwriting", cursive;
+  text-transform: none;
+}
+
+#application .form {
+  text-align: center;
+  font-family: "Lucida Handwriting", cursive;
+  font-size: 1.2em;
+}
+
+#application label {
+  display: block;
+  margin: 0 0 0.28571429rem 0;
+  color: rgba(0, 0, 0, .87);
+  font-size: .92857143em;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.entree {
+  display: inline-block;
+}
+
+.entree-select {
+  width: 166px;
+}
 
 // @import 'animation';

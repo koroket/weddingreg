@@ -60,12 +60,12 @@ angular.module('reg')
         $scope.guests.splice(index, 1);
       }
 
-      $scope.guestInfoHovered = function(){
+      $scope.guestInfoHovered = function () {
         console.log("hover tested");
         $scope.isInfoHovered = true;
       }
 
-      $scope.guestInfoUnhovered = function(){
+      $scope.guestInfoUnhovered = function () {
         console.log("unhover tested");
         $scope.isInfoHovered = false;
       }
