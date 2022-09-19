@@ -57,6 +57,12 @@ angular.module('reg')
         });
       },
 
+      updateCovidVaccine: function(id, body) {
+        return $http.post(base + id + '/vaccine', body, {
+          headers: {'Content-Type': undefined}
+        })
+      },
+
       declineAdmission: function(id){
         return $http.post(base + id + '/decline');
       },

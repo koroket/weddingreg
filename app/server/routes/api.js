@@ -6,6 +6,8 @@ var json2csv = require('json2csv').parse;
 var path = require('path');
 
 var request = require('request');
+var multer          = require('multer')
+var upload          = multer()
 
 module.exports = function(router) {
 
@@ -265,6 +267,18 @@ module.exports = function(router) {
     var id = req.params.id;
 
     UserController.updateConfirmationById(id, confirmation, defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
+   * POST - Decline an acceptance.
+   */
+  router.post('/users/:id/vaccine', upload.single('file'), isOwnerOrAdmin, function(req, res){
+    var vaccineFile = req.file;
+    var id = req.params.id;
+
+    UserController.updateVaccine(id, vaccineFile, defaultResponse(req, res));
   });
 
   /**

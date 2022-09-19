@@ -1,0 +1,95 @@
+#covid {
+	.title {
+		margin-top: 15px;
+	}
+	.uploadButton {
+		margin: 10px;
+	}
+	.covid-step-text {
+		margin: 10px;
+	}
+}
+
+.covid-step-container {
+    margin: 10px;
+}
+
+.covid-step-label {
+	border-top-left-radius: 6px;
+    background: #3498db;
+    padding: 3px;
+    border-top-right-radius: 6px;
+    color: white;
+	font-weight: 600;
+}
+
+.ui.form input[type=file].chooseFile {
+	background: none;
+    border: none;
+}
+
+.covid-step-inside {
+	border: 1px solid rgba(34,36,38,.15);
+	position: relative;
+	width: 100%;
+    height: 180px;
+}
+
+.covid-step-label-container {
+	display: inline-flex;
+}
+
+.guestParentContainer.step2 {
+	padding-left: 4px;
+	.infoicon {
+		margin-top: 0px;
+	}	
+}
+
+.covid-test-cover {
+	height: 100%;
+    background: #7f8c8d;
+    width: 100%;
+    top: 0px;
+    position: absolute;
+    display: table;
+}
+
+.covid-test-cover-text {
+    display: table-cell;
+    vertical-align: middle;
+    text-align:center;
+}
+
+.done {
+	.covid-test-cover-text {
+		width: 100%;
+	    height: 100%;
+	    position: absolute;
+	    margin: 10px;
+	}	
+}
+
+.ui.form>p.covid-info {
+	text-align: left;
+    margin: 25px;
+}
+
+.ui.segment.info {
+	height: auto;
+}
+
+.done-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.cover-background {
+    width: 100%;
+    height: 100%;
+	background: rgba(46, 204, 113, 0.5);
+}
+
+.covid-test-cover.done {
+    background: white;
+}

@@ -150,6 +150,10 @@ var status = {
   reimbursementGiven: {
     type: Boolean,
     default: false
+  },
+  uploadedVaccine: {
+    type: Boolean,
+    default: false
   }
 };
 
@@ -229,6 +233,9 @@ var schema = new mongoose.Schema({
 
   status: status,
 
+  vaccineRef: {
+    type: String,
+  }
 });
 
 schema.set('toJSON', {

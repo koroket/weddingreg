@@ -6,6 +6,8 @@ var Stats = require('../services/stats');
 
 var validator = require('validator');
 var moment = require('moment');
+const https = require("https");
+const stream = require('stream');
 
 var UserController = {};
 
@@ -321,20 +323,26 @@ UserController.getPage = function(query, callback){
   var searchText = query.text;
 
   var findQuery = {};
+  var andQuery = []
+  andQuery.push({
+    'email' : { $exists: true }
+  })
   if (searchText.length > 0){
+    var orQuery = {}
     var queries = [];
     var re = new RegExp(searchText, 'i');
     queries.push({ email: re });
-    queries.push({ 'profile.name': re });
-    queries.push({ 'teamCode': re });
-
-    findQuery.$or = queries;
+    queries.push({ 'profile.firstName': re });
+    queries.push({ 'profile.lastName': re });
+    orQuery.$or = queries;
+    andQuery.push(orQuery)
   }
+  findQuery.$and = andQuery
 
   User
     .find(findQuery)
     .sort({
-      'profile.name': 'asc'
+      'profile.firstName': 'asc'
     })
     .select('+status.admittedBy')
     .skip(page * size)
@@ -369,6 +377,82 @@ UserController.getPage = function(query, callback){
 UserController.getById = function (id, callback){
   User.findById(id).exec(callback);
 };
+
+UserController.uploadToDropbox = function(file, path, callback) {
+
+  const req = https.request('https://content.dropboxapi.com/2/files/upload', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + process.env.DROPBOX_TOKEN,
+      'Dropbox-API-Arg': JSON.stringify({
+        'path': path,
+        'mode': 'overwrite',
+        'autorename': true, 
+        'mute': false,
+        'strict_conflict': false
+      }),
+        'Content-Type': 'application/octet-stream',
+    }
+  }, (res) => {
+    if (res.status && res.status != 200) {
+      console.log(res.status)
+      console.log(res)
+      return callback("Server can not complete upload", undefined)
+    }
+    res.on('data', function(d) {
+      process.stdout.write(d);
+    }).on('end', function () {
+      callback(undefined, {"res":"good"})
+    })
+  });
+  req.on('error', function(e){
+    console.log(e);
+    callback("Server can not complete upload", undefined)
+  })
+  req.write(file.buffer);
+  req.end();
+}
+
+UserController.updateVaccine = function(id, vaccineFile, callback){
+  console.log("UserController.updateVaccine: ")
+  console.log(vaccineFile)
+
+  // const bufferStream = new stream.PassThrough();
+  // bufferStream.end(vaccineFile.buffer);
+
+  if (vaccineFile.size > 10000000) {
+    return callback("File too large", undefined)
+  }
+
+  var original_file_name = ""
+  if (vaccineFile && vaccineFile.originalname){
+    original_file_name = vaccineFile.originalname
+  }
+  else{
+    original_file_name = "vaccine.undefined"
+  }
+
+  var unique_file_name = id + "_" + original_file_name
+  var uploadPath = '/Vaccination/' + unique_file_name
+  UserController.uploadToDropbox(vaccineFile, uploadPath, function (err, res) {
+    if (err) {
+      return callback("Server can not complete upload", undefined)
+    }
+    User.findOneAndUpdate({
+        _id: id
+      },
+        {
+          $set: {
+            'vaccineRef': unique_file_name,
+            'status.uploadedVaccine': true
+          }
+        },
+        {
+          new: true
+        },
+        callback);
+  })
+}
 
 UserController.updateProfileAndGuests = function(id, profile, guests, callback){
   console.log("UserController.updateProfileAndGuests: ")
@@ -647,10 +731,10 @@ function fetchGuests(guests, index, results, callback)
     }
     console.log(user)
     var guest_info = {};
-    guest_info.firstName = user.profile.firstName;
-    guest_info.lastName = user.profile.lastName;
-    guest_info._id = user._id;
-    results.push(guest_info)
+    // guest_info.firstName = user.profile.firstName;
+    // guest_info.lastName = user.profile.lastName;
+    // guest_info._id = user._id;
+    results.push(user)
     fetchGuests(guests, index + 1, results, callback);
   })
 }
