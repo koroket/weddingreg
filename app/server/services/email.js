@@ -61,12 +61,19 @@ function sendOne(templateName, options, data, callback) {
   data.hackathonName = HACKATHON_NAME;
   data.twitterHandle = TWITTER_HANDLE;
   data.facebookHandle = FACEBOOK_HANDLE;
+  data.unsubscribeUrl = ROOT_URL + '/unsubscribe'
 
   email.send({
     locals: data,
     message: {
       subject: options.subject,
-      to: options.to
+      to: options.to,
+      from: "Bando Family <admin@bandoevents.com>",
+      list: {
+        unsubscribe: {
+          url: "https://bandoevents.com/unsubscribe"
+        }
+      }
     },
     template: path.join(__dirname, "..", "emails", templateName),
   }).then(res => {
@@ -177,7 +184,7 @@ controller.sendPasswordChangedEmail = function (email, callback) {
 
   var locals = {
     title: 'Password Updated',
-    body: 'Somebody (hopefully you!) has successfully changed your password.',
+    body: 'Somebody (hopefully you!) has successfully changed your password.'
   };
 
   /**
