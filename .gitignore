@@ -4,6 +4,7 @@ node_modules/
 semantic/
 .env
 npm-shrinkwrap.json
+out.log
 
 # Output
 app/client/build/

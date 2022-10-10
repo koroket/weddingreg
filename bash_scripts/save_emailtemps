@@ -1,5 +1,5 @@
 #!/bin/bash
 
 DATE_ID=$(date +%m_%d_%Y_%H_%M_%S)
-mongoexport --collection=emailtemplates --db=admin --out=./faqs/$DATE_ID.json
+mongoexport --collection=emailtemplates --db=admin --out=./emailtemps/$DATE_ID.json
 cp ./emailtemps/$DATE_ID.json ./emailtemps/current.json
