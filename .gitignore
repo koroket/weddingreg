@@ -3,6 +3,7 @@ db/
 node_modules/
 semantic/
 .env
+npm-shrinkwrap.json
 
 # Output
 app/client/build/
