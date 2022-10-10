@@ -6,12 +6,16 @@ angular.module('reg')
     '$scope',
     '$state',
     '$stateParams',
+    '$sce',
     'AuthService',
     'UserService',
-    function($scope, $state, $stateParams, AuthService, UserService){
+    'EmailService',
+    function($scope, $state, $stateParams, $sce, AuthService, UserService, EmailService){
 
       $scope.pages = [];
       $scope.users = [];
+      $scope.emailTemplates = [];
+      $scope.selectedTemplateId = "";
 
       // Semantic-UI moves modal content into a dimmer at the top level.
       // While this is usually nice, it means that with our routing will generate
@@ -66,13 +70,21 @@ angular.module('reg')
         }
       }
 
-      console.log("test")
-
       UserService
         .getPage($stateParams.page, $stateParams.size, $stateParams.query)
         .then(response => {
           console.log(response.data)
           updatePage(response.data);
+        });
+
+      EmailService
+        .getAll()
+        .then(response => {
+          console.log(response.data)
+          if (response.data.length > 0) {
+            $scope.selectedTemplateId = response.data[0]._id;
+          }
+          $scope.emailTemplates = response.data;
         });
 
       $scope.$watch('queryText', function(queryText){
@@ -484,4 +496,28 @@ angular.module('reg')
 
       $scope.selectUser = selectUser;
 
+      $scope.previewEmailForUser = function() {
+        console.log("generating preview...")
+        console.log($scope.selectedUser)
+        EmailService.preview($scope.selectedTemplateId, $scope.selectedUser._id).then(response => {
+          console.log(response);
+          if (response && response.data) {
+            $scope.previewData = $sce.trustAsHtml(response.data);
+          }
+        })
+      }
+
+      $scope.sendEmailForUser = function() {
+        console.log("sending email...")
+        console.log($scope.selectedUser)
+        EmailService.send($scope.selectedTemplateId, $scope.selectedUser._id).then(response => {
+          console.log(response);
+          console.log("yay")
+          swal("Email Sent", "email has been sent", "success");
+        })
+      }
+
+      $scope.getEmailInfo = function(event, user, temp) {
+        $scope.selectedTemplateId = temp._id;
+      }
     }]);

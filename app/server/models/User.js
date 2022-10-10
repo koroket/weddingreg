@@ -239,6 +239,8 @@ var schema = new mongoose.Schema({
 
   diningOption: diningOption,
 
+  emailHistory: mongoose.Schema.Types.Mixed,
+
   status: status,
 
   vaccineRef: {

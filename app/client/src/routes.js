@@ -2,11 +2,13 @@ const angular = require('angular');
 const SettingsService = require('./services/SettingsService.js');
 const UserService = require('./services/UserService.js');
 const FaqService = require('./services/FaqService.js');
+const EmailService = require('./services/EmailService.js');
 
 const AdminCtrl = require('../views/admin/adminCtrl.js');
 const AdminSettingsCtrl = require('../views/admin/settings/adminSettingsCtrl.js');
 const AdminStatsCtrl = require('../views/admin/stats/adminStatsCtrl.js');
 const AdminUserCtrl = require('../views/admin/user/adminUserCtrl.js');
+const AdminEmailCtrl = require('../views/admin/emails/adminEmailsCtrl.js');
 const AdminUsersCtrl = require('../views/admin/users/adminUsersCtrl.js');
 const ApplicationCtrl = require('../views/application/applicationCtrl.js');
 const ConfirmationCtrl = require('../views/confirmation/confirmationCtrl.js');
@@ -19,6 +21,7 @@ const SidebarCtrl = require('../views/sidebar/sidebarCtrl.js');
 const CovidCtrl = require('../views/covid/covidCtrl.js');
 const VerifyCtrl = require('../views/verify/verifyCtrl.js');
 const TodoCtrl = require('../views/todo/todoCtrl.js');
+const UnsubscribeCtrl = require('../views/unsubscribe/unsubscribeCtrl.js');
 
 angular.module('reg')
   .config([
@@ -46,6 +49,16 @@ angular.module('reg')
             'settings': function (SettingsService) {
               return SettingsService.getPublicSettings();
             }
+          }
+        })
+        .state('unsubscribe', {
+          url: "/unsubscribe",
+          templateUrl: "views/unsubscribe/unsubscribe.html",
+          controller: 'UnsubscribeCtrl',
+          data: {
+            requireLogin: false
+          },
+          resolve: {
           }
         })
         .state('app', {
@@ -213,6 +226,11 @@ angular.module('reg')
           url: "/admin/settings",
           templateUrl: "views/admin/settings/settings.html",
           controller: 'AdminSettingsCtrl',
+        })
+        .state('app.admin.emails', {
+          url: "/admin/emails",
+          templateUrl: "views/admin/emails/emails.html",
+          controller: 'AdminEmailsCtrl'
         })
         .state('reset', {
           url: "/reset/:token",

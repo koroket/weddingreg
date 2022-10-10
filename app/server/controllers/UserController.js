@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var User = require('../models/User');
 var Settings = require('../models/Settings');
+var EmailTemplate = require('../models/EmailTemplate');
 var Mailer = require('../services/email');
 var Stats = require('../services/stats');
 
@@ -270,17 +271,15 @@ UserController.createUser = function (email, password, firstName,
               console.log("guests created, sending email")
               var token = cbuser.generateAuthToken();
 
-              // Send over a verification email
-              var verificationToken = cbuser.generateEmailVerificationToken();
-              Mailer.sendVerificationEmail(cbuser, cbuser.email, verificationToken);
-
-              return callback(
-                null,
-                {
-                  token: token,
-                  user: cbuser
-                }
-              );
+              Mailer.sendPostAcceptance(cbuser, function(err, res){
+                return callback(
+                  null,
+                  {
+                    token: token,
+                    user: cbuser
+                  }
+                );
+              });
             }
           })
         })
@@ -881,7 +880,7 @@ UserController.sendVerificationEmailById = function (id, callback) {
         return callback(err);
       }
       var token = user.generateEmailVerificationToken();
-      Mailer.sendVerificationEmail(user, user.email, token);
+      Mailer.sendPostAcceptance(user);
       return callback(err, user);
     });
 };
@@ -901,8 +900,68 @@ UserController.sendPasswordResetEmail = function (email, callback) {
       }
 
       var token = user.generateTempAuthToken();
-      Mailer.sendPasswordResetEmail(email, token, callback);
+      Mailer.sendPasswordResetEmail(user, token, callback);
     });
+};
+
+function loadGuests(user, doLoad, callback) {
+  if (doLoad && user.guests.length > 0) {
+    UserController.getGuests(user._id, function(err, res){
+      if (err) {
+        return callback(err, res)
+      }
+      user.loadedGuests = res;
+      callback(err, user);
+    })
+    return;
+  }
+  user.loadedGuests = [];
+  return callback(undefined, user);
+}
+
+function loadGuestsAndSendEmail(user, template, options, callback) {
+  loadGuests(user, template.loadGuests, function(err, res){
+    if (err) {
+      return callback(err, res);
+    }
+    Mailer.sendTemplateEmail(res, template, options, {}, callback);
+  })
+}
+
+function generateEmailWithOption(uid, options, templateId, callback) {
+  User
+  .findById(uid)
+  .exec(function (err, user) {
+    if (err | !user) {
+      console.log(err);
+      return callback(err)
+    }
+    EmailTemplate.findById(templateId).exec(function(terr, template){
+      if (terr || !template) {
+        console.log(terr)
+        return callback(terr);
+      }
+      if (!options.preview)
+      {
+        options.subject = template.subject;
+        options.to = user.email
+      }
+      return loadGuestsAndSendEmail(user, template, options, callback);
+    })
+  })
+}
+
+UserController.previewEmail = function (uid, templateId, callback) {
+  var options = {
+    preview: true
+  };
+  generateEmailWithOption(uid, options, templateId, callback);
+};
+
+UserController.sendTemplateEmail = function (uid, templateId, callback) {
+  var options = {
+  };
+  generateEmailWithOption(uid, options, templateId, callback);
 };
 
 /**
@@ -919,7 +978,7 @@ UserController.sendUpdateEmail = function (email, callback) {
         return callback(err);
       }
 
-      Mailer.sendUpdateEmail(email, callback);
+      Mailer.sendUpdateEmail(user, callback);
     });
 };
 
@@ -1000,7 +1059,7 @@ UserController.resetPassword = function (token, password, callback) {
           return callback(err);
         }
 
-        Mailer.sendPasswordChangedEmail(user.email);
+        Mailer.sendPasswordChangedEmail(user);
         return callback(null, {
           message: 'Password successfully reset!'
         });

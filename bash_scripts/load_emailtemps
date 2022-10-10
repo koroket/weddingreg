@@ -1,0 +1,3 @@
+#!/bin/bash
+
+mongoimport --collection=emailtemplates --db=admin --file=./emailtemps/current.json

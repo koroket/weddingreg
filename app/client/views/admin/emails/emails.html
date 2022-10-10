@@ -1,0 +1,111 @@
+<div class="ui segment">
+
+  <div class="ui stackable grid">
+    <div class="three wide column">
+      <div class="ui divider"></div>
+      <br>
+    </div>
+    <div>
+      <button ng-click="newEmail()">New Email</button>
+    </div>
+    <div id="table-container" class="thirteen wide column">
+      <div class="ui header">
+        Email Templates
+      </div>
+      <div class="ui long template modal">
+        <i class="close icon"></i>
+        <form class="profile-form" ng-disabled="regIsClosed">
+          <div class="field">
+            <label> Name </label>
+            <input name="name" ng-model="selectedTemplate.name">
+          </div>
+          <div class="field">
+            <label> Subject </label>
+            <input name="subject" ng-model="selectedTemplate.subject">
+          </div>
+          <div class="field">
+            <label> Image </label>
+            <input name="imageurl" ng-model="selectedTemplate.imageURL">
+          </div>
+          <div class="field">
+            <label> Load Guests </label>
+            <select ng-model="selectedTemplate.loadGuests">
+              <option ng-value="false">false</option>
+              <option ng-value="true">true</option>
+            </select>
+          </div>
+          <div class="field">
+            <label> Track in Admin </label>
+            <select ng-model="selectedTemplate.trackInAdmin">
+              <option ng-value="false">false</option>
+              <option ng-value="true">true</option>
+            </select>
+          </div>
+          <div class="field">
+            <label> Data </label>
+            <textarea class="htmlinput" ng-model="selectedTemplate.data"></textarea>
+          </div>
+          <div class="field">
+            <label> Text Alt </label>
+            <textarea class="htmlinput" ng-model="selectedTemplate.textData"></textarea>
+          </div>
+        </form>
+
+        <div ng-bind-html="previewData"></div>
+
+        <div>
+          <div ng-click="save()" class="ui right labeled icon button">
+            Save
+            <i class="checkmark icon"></i>
+          </div>
+        </div>
+
+        <div>
+          <div ng-click="sendMyself()" class="ui right labeled icon button">
+            Send Myself
+            <i class="checkmark icon"></i>
+          </div>
+        </div>
+
+        <div>
+          <div ng-click="preview()" class="ui right labeled icon button">
+            Preview
+            <i class="checkmark icon"></i>
+          </div>
+        </div>
+
+        <div class="actions">
+          <div class="ui positive right labeled icon button">
+            Nothing
+            <i class="checkmark icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <table
+        class="ui celled selectable compact users table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Subject</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-if="0" ng-repeat-start="temp in emailTemplates"></tr>
+          <tr
+            ng-click="selectTemplate(temp, $index)">
+            <td>
+              <strong>
+                {{temp.name}}
+              </strong>
+            </td>
+            <td>{{temp.subject}}</td>
+          </tr>
+          <tr ng-if="0" ng-repeat-end></tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>

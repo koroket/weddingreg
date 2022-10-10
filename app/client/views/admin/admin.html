@@ -3,19 +3,18 @@
     GOD MODE
   </div>
 
-  <div class="ui three item menu">
-    <a class="item" ui-sref="app.admin.stats" ui-sref-active="active">
-      Stats
-    </a>
-
-    <a class="item" ui-sref="app.admin.users" ui-sref-active="active">
-      Users
-    </a>
-
-    <a class="item" ui-sref="app.admin.settings" ui-sref-active="active">
-      Settings
-    </a>
-  </div>
+  <table
+    class="ui celled selectable compact table">
+    <tbody>
+      <tr>
+        <td ui-sref="app.admin.stats" ui-sref-active="active">Stats</td>
+        <th ui-sref="app.admin.users" ui-sref-active="active">Users</th>
+        <th ui-sref="app.admin.settings" ui-sref-active="active">Settings</th>
+        <th ui-sref="app.admin.emails" ui-sref-active="active">Emails</th>
+      </tr>
+    </tbody>
+  <table>
+    
   <!-- View for admin panel content -->
   <ui-view></ui-view>
 

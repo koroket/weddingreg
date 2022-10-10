@@ -4,6 +4,8 @@ var smtpTransport = require('nodemailer-smtp-transport');
 
 var templatesDir = path.join(__dirname, '../templates');
 var Email = require('email-templates');
+var User = require('../models/User');
+var EmailTemplate = require('../models/EmailTemplate');
 const { url } = require('inspector');
 
 var ROOT_URL = process.env.ROOT_URL;
@@ -42,12 +44,120 @@ var controller = {};
 
 controller.transporter = transporter;
 
-function sendOne(templateName, options, data, callback) {
-  if (NODE_ENV === "dev") {
-    console.log(templateName);
-    console.log(JSON.stringify(data, "", 2));
+function logEmailHistory(user, template, callback) {
+  if (!user.emailHistory)
+  {
+    user.emailHistory = {}
   }
 
+  user.emailHistory[template._id] = true;
+
+  User
+    .findOneAndUpdate({
+      _id: user._id
+    }, {
+      $set: {
+        emailHistory: user.emailHistory
+      }
+    }, {
+      new: true
+    },
+    callback);
+}
+
+function sendOneByTemplateName(tname, user, locals, callback) {
+  EmailTemplate
+    .findOneByName(tname)
+    .exec(function (err, template) {
+      if (err || !template) {
+        console.log(err)
+        return callback(err);
+      }
+      var options = {
+        to: user.email,
+        subject: template.subject
+      };
+      return controller.sendTemplateEmail(user, template, options, locals, callback);
+    });
+}
+
+function postRenderSend(email, options, data, child, childText, callback) {
+  data.child = child;
+  data.childText = childText;
+  if (options.preview)
+  {
+    email
+    .render(path.join(__dirname, "../", "emails", "email-basic", "html.pug"), data)
+    .then(function(res){
+      if (callback) {
+        return callback(undefined, res);
+      }
+      return;
+    })
+    .catch(function(err) {
+      console.log(err)
+      if (callback) {
+        return callback(err, undefined);
+      }
+      return;
+    });
+    return;
+  }
+
+  email.send({
+    locals: data,
+    message: {
+      subject: options.subject,
+      to: options.to,
+      from: "Bando Family <admin@bandoevents.com>",
+      list: {
+        unsubscribe: {
+          url: "https://bandoevents.com/unsubscribe"
+        }
+      }
+    },
+    template: path.join(__dirname, "..", "emails", "email-basic"),
+  }).then(res => {
+    logEmailHistory(data.user, data.template, function(err, emailHistoryRes){
+      if (err) {
+        if (callback) {
+          return callback(err, res);
+        }
+        return;
+      }
+      var combined = {};
+      combined.emailHistoryData = emailHistoryRes;
+      combined.sendData = res
+      if (callback) {
+        return callback(err, combined);
+      }
+    });
+    return;
+  }).catch(err => {
+    console.log(err)
+    if (callback) {
+      return callback(err, undefined);
+    }
+    return;
+  });
+}
+
+function renderChildTextThenSend(templateName, email, options, data, child, callback) {
+  email
+  .render(path.join(__dirname, "../", "emailsDynamic", templateName + "_ALT_text"), data)
+  .then(function(res){
+    console.log(res)
+    postRenderSend(email, options, data, child, res, callback);
+  })
+  .catch(function(err) {
+    console.log(err)
+    if (callback) {
+      callback(err, undefined);
+    }
+  });
+}
+
+function renderChildHtmlThenSend(templateName, options, data, callback) {
   const email = new Email({
     message: {
       from: EMAIL_ADDRESS
@@ -63,24 +173,13 @@ function sendOne(templateName, options, data, callback) {
   data.facebookHandle = FACEBOOK_HANDLE;
   data.unsubscribeUrl = ROOT_URL + '/unsubscribe'
 
-  email.send({
-    locals: data,
-    message: {
-      subject: options.subject,
-      to: options.to,
-      from: "Bando Family <admin@bandoevents.com>",
-      list: {
-        unsubscribe: {
-          url: "https://bandoevents.com/unsubscribe"
-        }
-      }
-    },
-    template: path.join(__dirname, "..", "emails", templateName),
-  }).then(res => {
-    if (callback) {
-      callback(undefined, res);
-    }
-  }).catch(err => {
+  email
+  .render(path.join(__dirname, "../", "emailsDynamic", templateName), data)
+  .then(function(res){
+    console.log(res)
+    renderChildTextThenSend(templateName, email, options, data, res, callback);
+  })
+  .catch(function(err) {
     console.log(err)
     if (callback) {
       callback(err, undefined);
@@ -88,44 +187,15 @@ function sendOne(templateName, options, data, callback) {
   });
 }
 
-/**
- * Send a verification email to a user, with a verification token to enter.
- * @param  {[type]}   email    [description]
- * @param  {[type]}   token    [description]
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
- */
-controller.sendVerificationEmail = function (user, email, token, callback) {
-
-  var options = {
-    to: email,
-    subject: HACKATHON_NAME
-  };
-
-  var locals = {
-    verifyUrl: ROOT_URL + '/verify/' + token,
-    firstName: user.firstName,
-    lastName: user.lastName
-  };
-
-  /**
-   * Eamil-verify takes a few template values:
-   * {
-   *   verifyUrl: the url that the user must visit to verify their account
-   * }
-   */
-  sendOne('email-verify', options, locals, function (err, info) {
-    if (err) {
+controller.sendPostAcceptance = function (user, callback) {
+  sendOneByTemplateName('PostRegister', user, {}, function (err, res) {
+    if (err) { 
       console.log(err);
     }
-    if (info) {
-      console.log(info.message);
-    }
-    if (callback) {
-      callback(err, info);
-    }
+    // it's fine if this email doesn't go through just keep it successful
+    // otherwise user might be confused email already taken.
+    callback(undefined, user)
   });
-
 };
 
 /**
@@ -134,40 +204,11 @@ controller.sendVerificationEmail = function (user, email, token, callback) {
  * @param  {[type]}   token    [description]
  * @param  {Function} callback [description]
  */
-controller.sendPasswordResetEmail = function (email, token, callback) {
-
-  var options = {
-    to: email,
-    subject: "" + HACKATHON_NAME + " - Password reset requested!"
-  };
-
+controller.sendPasswordResetEmail = function (user, token, callback) {
   var locals = {
-    title: 'Password Reset Request',
-    subtitle: '',
-    description: 'Somebody (hopefully you!) has requested that your password be reset. If ' +
-      'this was not you, feel free to disregard this email. This link will expire in one hour.',
     actionUrl: ROOT_URL + '/reset/' + token,
-    actionName: "Reset Password"
   };
-
-  /**
-   * Eamil-verify takes a few template values:
-   * {
-   *   verifyUrl: the url that the user must visit to verify their account
-   * }
-   */
-  sendOne('email-link-action', options, locals, function (err, info) {
-    if (err) {
-      console.log(err);
-    }
-    if (info) {
-      console.log(info.message);
-    }
-    if (callback) {
-      callback(err, info);
-    }
-  });
-
+  sendOneByTemplateName('PasswordReset', user, locals, callback);
 };
 
 /**
@@ -175,49 +216,25 @@ controller.sendPasswordResetEmail = function (email, token, callback) {
  * @param  {[type]}   email    [description]
  * @param  {Function} callback [description]
  */
-controller.sendPasswordChangedEmail = function (email, callback) {
-
-  var options = {
-    to: email,
-    subject: "[" + HACKATHON_NAME + "] - Your password has been changed!"
-  };
-
-  var locals = {
-    title: 'Password Updated',
-    body: 'Somebody (hopefully you!) has successfully changed your password.'
-  };
-
-  /**
-   * Eamil-verify takes a few template values:
-   * {
-   *   verifyUrl: the url that the user must visit to verify their account
-   * }
-   */
-  sendOne('email-basic', options, locals, function (err, info) {
-    if (err) {
-      console.log(err);
-    }
-    if (info) {
-      console.log(info.message);
-    }
-    if (callback) {
-      callback(err, info);
-    }
-  });
+controller.sendPasswordChangedEmail = function (user, callback) {
+  sendOneByTemplateName('PasswordChanged', user, {}, callback);
 };
 
-controller.sendUpdateEmail = function (email, callback) {
-  var options = {
-    to: email,
-    subject: "[" + HACKATHON_NAME + "]"
-  };
+controller.sendUpdateEmail = function (user, callback) {
+  sendOneByTemplateName('PostAcceptance', user, {}, callback);
+};
 
-  var locals = {
-    title: 'Event Update',
-    body: 'Please log in and choose your prefered dining option and upload your covid vaccine card',
-    loginUrl: ROOT_URL,
-    emailHeaderImageFood: "https://www.dropbox.com/s/n9nbe8y6k2qb3f7/diningSplashSmall.jpg?raw=1"
-  };
+controller.sendTemplateEmail = function (user, template, options, locals, callback) {
+  var imageUrl = "https://www.dropbox.com/s/qevjvq61jvxcka9/JenandMike.jpeg?raw=1"
+
+  if (template.imageURL) {
+    imageUrl = template.imageURL
+  }
+
+  locals.loginUrl = ROOT_URL;
+  locals.imageUrl = imageUrl;
+  locals.user = user;
+  locals.template = template;
 
   /**
    * Email-update takes a few template values:
@@ -225,7 +242,7 @@ controller.sendUpdateEmail = function (email, callback) {
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-update', options, locals, function (err, info) {
+  renderChildHtmlThenSend(template.name, options, locals, function (err, info) {
     if (err) {
       console.log(err);
     }

@@ -121,6 +121,14 @@ angular.module('reg')
           });
       };
 
+      authService.sendReminderEmail = function (user_id) {
+        return $http
+          .post('/auth/email', {
+            uid: user_id,
+            type: 'reminder'
+          });
+      };
+
       authService.getDBAccessToken = function(){
         return $http.get('/api/dbaccesstoken');
       }

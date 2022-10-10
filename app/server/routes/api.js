@@ -1,6 +1,7 @@
 var UserController = require('../controllers/UserController');
 var SettingsController = require('../controllers/SettingsController');
 var FaqController = require('../controllers/FaqController');
+var EmailController = require('../controllers/EmailController');
 var User = require('../models/User');
 var json2csv = require('json2csv').parse;
 var path = require('path');
@@ -371,6 +372,52 @@ module.exports = function(router) {
     defaultResponse(req,res)(null, global.dropbox_access_token)
   })
 
+  router.get('/emailTemplates', isAdmin, function(req, res){
+    return EmailController.getTemplates(defaultResponse(req, res));
+  })
+
+  router.get('/emailTemplates/:name', isAdmin, function(req, res){
+    var name = req.params.name
+    return EmailController.getTemplateByName(name, defaultResponse(req, res));
+  })
+
+  router.put('/emailTemplates/update', isAdmin, function(req, res){
+    console.log("test")
+    var id = req.body._id;
+    var name = req.body.name;
+    var subject = req.body.subject;
+    var data = req.body.data
+    var textData = req.body.textData;
+    var imageurl = req.body.imageurl
+    var loadGuests = req.body.loadGuests;
+    if (loadGuests === 'true') {
+      loadGuests = true
+    }
+    var trackInAdmin = req.body.trackInAdmin;
+    if (trackInAdmin === 'true') {
+      trackInAdmin = true
+    }
+    return EmailController.updateById(id, name, subject, imageurl, loadGuests, trackInAdmin, data, textData, defaultResponse(req, res));
+  });
+
+  router.put('/emailTemplates/preview/:id', isAdmin, function(req, res){
+    var id = req.params.id;
+    var uid = req.body.uid;
+    if (!uid) {
+      uid = req.user._id;
+    }
+    UserController.previewEmail(uid, id, defaultResponse(req, res))
+  })
+
+  router.put('/emailTemplates/sendEmail/:id', isAdmin, function(req, res){
+    var id = req.params.id;
+    var uid = req.body.uid;
+    if (!uid) {
+      uid = req.user._id;
+    }
+    UserController.sendTemplateEmail(uid, id, defaultResponse(req, res))
+  })
+
   router.get('/faqs', isLoggedIn, function(req, res){
     return FaqController.getFaqs(defaultResponse(req, res));
   });
@@ -579,5 +626,4 @@ module.exports = function(router) {
     var allowMinors = req.body.allowMinors;
     SettingsController.updateField('allowMinors', allowMinors, defaultResponse(req, res));
   });
-
 };

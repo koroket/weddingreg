@@ -1,0 +1,18 @@
+| Hi #{user.profile.firstName},
+| Complete your selections before the deadline.
+if !user.status.completedProfile || !user.status. uploadedVaccine
+  | Looks like you still need to complete the following:
+  if !user.status.completedProfile
+    | - Select dining preference
+  if !user.status. uploadedVaccine
+    | - Upload COVID Vaccine
+each guest in user.loadedGuests
+  if  !guest.status.completedProfile || !guest.status.uploadedVaccine
+    | Your guest #{guest.profile.firstName} is missing the following
+    if !guest.status.completedProfile
+      | - Dining preference
+    if !user.status. uploadedVaccine
+      | - Uploaded COVID Vaccine
+| Additionally we have extended the deadline from the original date as we have been notified that there were some issues getting the original email.
+|
+| Login here: #{loginUrl}

@@ -1,0 +1,6 @@
+{"_id":{"$oid":"634248891b983a180d357b41"},"__v":0,"imageURL":null,"loadGuests":false,"name":"PostRegister","subject":"Thanks for registering!"}
+{"_id":{"$oid":"634249189093d6182fe42002"},"subject":"Password Reset Request","name":"PasswordReset","__v":0,"imageURL":null,"loadGuests":false,"trackInAdmin":false}
+{"_id":{"$oid":"63426029e5a1012296d3b455"},"subject":"Your password has been updated","name":"PasswordChanged","__v":0,"imageURL":null,"loadGuests":false,"trackInAdmin":false}
+{"_id":{"$oid":"634260f0e5a1012296d3b466"},"subject":"Dining options now available","name":"PostAcceptance","__v":0,"imageURL":"https://www.dropbox.com/s/n9nbe8y6k2qb3f7/diningSplashSmall.jpg?raw=1","loadGuests":false}
+{"_id":{"$oid":"634295389bb8e23ae49a5ce6"},"subject":"Complete your selections","name":"DiningReminder","__v":0,"imageURL":"https://www.dropbox.com/s/n9nbe8y6k2qb3f7/diningSplashSmall.jpg?raw=1","loadGuests":true,"trackInAdmin":true}
+{"_id":{"$oid":"634306f480393c69bb774e41"},"loadGuests":true,"subject":"Complete your selections","name":"Reminder Test","__v":0,"imageURL":"https://www.dropbox.com/s/n9nbe8y6k2qb3f7/diningSplashSmall.jpg?raw=1"}
