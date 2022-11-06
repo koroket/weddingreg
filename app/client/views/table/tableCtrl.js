@@ -18,6 +18,14 @@ angular.module('reg')
         $scope.elements = [];
         $scope.objEditState = {};
         $scope.objEditState.innerState = 'default';
+        $scope.settings = {
+            width: "800px",
+            height: "1200px"
+        };
+        $scope.settingsNum = {
+            width: 800,
+            height: 1200
+        }
         var createState = {};
 
         $scope.users = [];
@@ -52,6 +60,11 @@ angular.module('reg')
             }
         })
 
+        $scope.updateSize = function() {
+            $scope.settings.width = $scope.settingsNum.width + "px";
+            $scope.settings.height = $scope.settingsNum.height + "px";
+        }
+
         $scope.objClick = function(e, obj) {
             if ($scope.state === 'default') {
                 $scope.state = 'objEdit';
@@ -75,6 +88,19 @@ angular.module('reg')
             user.tableid = "_UNDEFINED_";
             UserService.updateTableId(user._id, user.tableid).then(response => {
                 console.log("table updated");
+            })
+        }
+
+        $scope.moveUserFromTable = function(user) {
+            $scope.objEditState.selectedUser = user;
+            $scope.objEditState.innerState = 'moveUser';
+        }
+
+        $scope.completeUserMove = function($event, obj) {
+            var user = $scope.objEditState.selectedUser;
+            user.tableid = obj.data._id;
+            UserService.updateTableId(user._id, user.tableid).then(response => {
+                $scope.objEditState.innerState = 'default';
             })
         }
 
@@ -141,7 +167,7 @@ angular.module('reg')
                     createState.currentElem = newElem;
                     newElem.type = 'table';
                     newElem.data = {
-                        tableid: 'ariel'
+                        tableid: 'TableName'
                     }
                     // newElem.data.users = [];
                     $scope.elements.push(newElem);
@@ -158,8 +184,8 @@ angular.module('reg')
                     }
                     
                     TableService.update(undefined, data).then(response => {
-                        if (response && response.data) {
-                            newElem._id = response.data._id;
+                        if (response) {
+                            newElem._id = response._id;
                         }
                         console.log("table updated");
                     })

@@ -386,7 +386,7 @@ angular.module('reg')
             .unmarkTestUser(user._id)
             .then(response => {
               $scope.users[index] = response.data;
-              swal("Unmarked as Test user", response.data.profile.firstName + ' has been unmarked as tets user.', "success");
+              swal("Unmarked as Test user", response.data.profile.firstName + ' has been unmarked as test user.', "success");
             });
         }
       };
