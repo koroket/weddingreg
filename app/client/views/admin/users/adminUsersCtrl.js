@@ -337,6 +337,60 @@ angular.module('reg')
         }
       };
 
+      $scope.toggleTestAccount = function($event, user, index, guest_index) {
+        $event.stopPropagation();
+
+        var confirmationText = "Yes, mark as test user"
+
+        if (!user.status.testAccount){
+          swal({
+            title: "Whoa, wait a minute!",
+            text: "You are about to mark " + user.profile.firstName + " as a test Account!",
+            icon: "warning",
+            buttons: {
+              cancel: {
+                text: "Cancel",
+                value: null,
+                visible: true
+              },
+              checkIn: {
+                className: "danger-button",
+                closeModal: false,
+                text: confirmationText,
+                value: true,
+                visible: true
+              }
+            }
+          })
+          .then(value => {
+            if (!value) {
+              return;
+            }
+
+            UserService
+              .markTestUser(user._id)
+              .then(response => {
+                if (!isNaN(guest_index))
+                {
+                  $scope.users[index].guests[guest_index] = response.data;
+                  swal("Guest Marked as test user", response.data.profile.firstName + " has been marked as test user", "success");
+                }
+                else {
+                  $scope.users[index] = response.data;
+                  swal("User Marked as test user", response.data.profile.firstName + " has been marked as test user", "success");
+                }
+              });
+          });
+        } else {
+          UserService
+            .unmarkTestUser(user._id)
+            .then(response => {
+              $scope.users[index] = response.data;
+              swal("Unmarked as Test user", response.data.profile.firstName + ' has been unmarked as tets user.', "success");
+            });
+        }
+      };
+
       function formatTime(time){
         if (time) {
           return moment(time).format('MMMM Do YYYY, h:mm:ss a');

@@ -147,6 +147,14 @@ angular.module('reg')
         return $http.post(base + id + '/removeadmin');
       },
 
+      markTestUser: function(id){
+        return $http.post(base + id + '/markTestUser');
+      },
+
+      unmarkTestUser: function(id){
+        return $http.post(base + id + '/unmarkTestUser');
+      },
+
       updateTableId: function(id, tableid) {
         return $http.put(base + id + '/table', {
           tableid: tableid

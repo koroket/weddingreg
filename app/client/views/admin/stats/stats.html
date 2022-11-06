@@ -24,6 +24,26 @@
           <i class="green circle check icon"></i>
           <div class="content">
             <strong>
+            Total NonTest Users
+            </strong> :
+            {{stats.users}}
+          </div>
+        </div>
+        <div
+          class="item">
+          <i class="green circle check icon"></i>
+          <div class="content">
+            <strong>
+            Total Test Users
+            </strong> :
+            {{stats.testUsers}}
+          </div>
+        </div>
+        <div
+          class="item">
+          <i class="green circle check icon"></i>
+          <div class="content">
+            <strong>
             Verified Users
             </strong> :
             {{stats.verified}} ({{stats.verified / stats.total * 100 | number: 1}}%)

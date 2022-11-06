@@ -10,6 +10,8 @@ function calculateStats(){
     lastUpdated: 0,
 
     total: 0,
+    testUsers: 0,
+    users: 0,
 
     verified: 0,
     submitted: 0,
@@ -38,6 +40,12 @@ function calculateStats(){
       newStats.total = users.length;
 
       async.each(users, function(user, callback){
+        if (user.status.testAccount) {
+          newStats.testUsers += 1;
+          callback();
+          return;
+        }
+        newStats.users += 1;
 
         // Count verified
         newStats.verified += user.verified ? 1 : 0;

@@ -305,6 +305,20 @@
 
               </button>
 
+              <button
+                ng-click="toggleTestAccount($event, user, $index)"
+                class="ui circular mini basic green icon button">
+
+                <i
+                  ng-if="!user.status.testAccount"
+                  class="flag outline icon"></i>
+
+                <i
+                  ng-if="user.status.testAccount"
+                  class="green flag icon"></i>
+
+              </button>
+
             </td>
           </tr>
           <tr
@@ -457,7 +471,29 @@
                   class="green flag icon"></i>
 
               </button>
+              <button
+                class="ui circular mini basic green icon button">
+                <i
+                  class="outline icon"></i>
+              </button>
+              <button
+                class="ui circular mini basic green icon button">
+                <i
+                  class="outline icon"></i>
+              </button>
+              <button
+                ng-click="toggleTestAccount($event, guest, $parent.$index, $index)"
+                class="ui circular mini basic green icon button">
 
+                <i
+                  ng-if="!guest.status.testAccount"
+                  class="flag outline icon"></i>
+
+                <i
+                  ng-if="guest.status.testAccount"
+                  class="green flag icon"></i>
+
+              </button>
             </td>
           <tr ng-if="0" ng-repeat-end></tr>
         </tbody>

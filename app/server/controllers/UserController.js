@@ -1179,6 +1179,33 @@ UserController.checkOutById = function (id, user, callback) {
     callback);
 };
 
+UserController.markTestAccount = function (id, user, callback) {
+  User.findOneAndUpdate({
+    _id: id
+  }, {
+    $set: {
+      'status.testAccount': true
+    }
+  }, {
+    new: true
+  },
+    callback);
+};
+
+UserController.unmarkTestAccount = function (id, user, callback) {
+  User.findOneAndUpdate({
+    _id: id
+  }, {
+    $set: {
+      'status.testAccount': false,
+      'status.checkInTime': Date.now()
+    }
+  }, {
+    new: true
+  },
+    callback);
+};
+
 /**
  * [ADMIN ONLY]
  *

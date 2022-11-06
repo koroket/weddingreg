@@ -159,7 +159,12 @@ var status = {
   uploadedVaccine: {
     type: Boolean,
     default: false
-  }
+  },
+  testAccount: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 };
 
 // define the schema for our admin model
