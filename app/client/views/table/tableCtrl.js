@@ -31,11 +31,41 @@ angular.module('reg')
         $scope.users = [];
         $scope.elementMap = {};
 
+        function verifyOrphanedGuests(users){
+            var orphanedGuests = {}
+            console.log("orphans...")
+            for (var i = 0; i < users.length; i++) {
+                var user = users[i];
+                if (!user.email) {
+                    orphanedGuests[user.id] = user;
+                }
+            }
+            for (var i = 0; i < users.length; i++) {
+                var user = users[i];
+                for (var j = 0; j < user.guests.length; j++) {
+                    var guest = user.guests[j];
+                    delete orphanedGuests[guest];
+                }
+            }
+            console.log(orphanedGuests);
+            $scope.orphanedGuests = orphanedGuests;
+        }
+
         UserService
         .getAll()
         .then(response => {
           console.log(response.data)
-          $scope.users = response.data;
+          verifyOrphanedGuests(response.data);
+          var filtered = response.data.filter(function(user) {
+              if (!user.status.declined &&
+                  !user.status.testAccount)
+              {
+                  return true;
+              }
+              return false;
+          })
+          console.log(filtered)
+          $scope.users = filtered;
         });
 
         TableService.getAll().then(response => {
@@ -213,5 +243,12 @@ angular.module('reg')
         }
         $scope.doneAddElement = function() {
             $scope.state = "default";
+        }
+
+        $scope.deleteOrphan = function(key) {
+            UserService.destroyUser(key).then(response => {
+                console.log("detroyed orphan")
+                delete $scope.orphanedGuests[key];
+            })
         }
     }]);

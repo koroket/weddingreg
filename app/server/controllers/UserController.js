@@ -1256,4 +1256,8 @@ UserController.getStats = function (callback) {
   return callback(null, Stats.getUserStats());
 };
 
+UserController.removeById = function(id, callback) {
+  User.remove({_id:id},callback)
+}
+
 module.exports = UserController;

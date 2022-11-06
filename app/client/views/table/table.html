@@ -4,6 +4,32 @@
   </div>
   <div class="userContainer">
   		<div>
+  			Orphaned Guests
+  		</div>
+	  <table>
+			<thead>
+			  <tr>
+			    <th>Name</th>
+			    <th>Actions</th>
+			  </tr>
+			</thead>
+		  <tbody>
+		  	<tr data-ng-repeat="(key, guest) in orphanedGuests" class="user">
+				<td>
+		          <strong>
+		            {{guest.profile.firstName}} {{guest.profile.lastName}}
+		            &nbsp;
+		          </strong>
+		        </td>
+		        <td>
+		        	<button ng-click="deleteOrphan(key)">Delete Orphan</button>
+		        </td>
+		  	</tr>
+		  </tbody>
+	  </table>  	
+  </div>
+  <div class="userContainer">
+  		<div>
   			Unassigned Users
   		</div>
 	  <table>

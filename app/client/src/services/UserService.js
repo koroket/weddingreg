@@ -177,6 +177,10 @@ angular.module('reg')
           numUpdates += 1
         }
         return numUpdates
+      },
+
+      destroyUser: function(id) {
+        return $http.post(base + id + '/destroy');
       }
     };
   }
