@@ -1,0 +1,71 @@
+<div id="table" class="page">
+  <div class="divided title">
+    Tables List
+  </div>
+  <div class="userContainer">
+  		<div>
+  			Unassigned Users
+  		</div>
+	  <table>
+			<thead>
+			  <tr>
+			    <th>Name</th>
+			    <th>Table</th>
+			    <th>Actions</th>
+			  </tr>
+			</thead>
+		  <tbody>
+		  	<tr data-ng-repeat="user in users" class="user" ng-if="elementMap[user.tableid] == undefined">
+				<td>
+		          <strong>
+		            {{user.profile.firstName}} {{user.profile.lastName}}
+		            &nbsp;
+		          </strong>
+		        </td>
+				<td>
+		          <strong>
+		            {{elementMap[user.tableid].data.tableid}}
+		            &nbsp;
+		          </strong>
+		        </td>
+		        <td>
+		        	<button ng-if="objEditState.innerState==='editUsers'" ng-click="addUserToTable(user)">Add to Table</button>
+		        </td>
+		  	</tr>
+		  </tbody>
+	  </table>  	
+  </div>
+  <div>
+  	<button class="addElement" ng-click="addElement()" ng-if="state!=='create'">Add element</button>
+  	<button class="doneAddElement" ng-click="doneAddElement()" ng-if="state==='create'">Done adding</button>
+  </div>
+  <div class="table-display" ng-mousedown="tableDisplayMouseDown($event)" ng-mousemove="tableDisplayMouseMove($event)">
+  	<div data-ng-repeat="obj in elements" ng-style="obj.style" class="element" ng-click="objClick($event, obj)">
+  		<div class="objMenu" ng-if="state === 'objEdit' && objEditState.selected==obj">
+  			<button ng-click="objSaveTableName($event, obj)" ng-if="objEditState.innerState === 'editName'">Save Table Name</button>
+  			<button ng-click="objEditTableName($event, obj)" ng-if="objEditState.innerState !== 'editName'">Edit Table Name</button>
+  			<button ng-click="objEditMove($event, obj)" ng-if="objEditState.innerState !== 'move'">Move</button>
+  			<button ng-click="objDoneMove($event, obj)" ng-if="objEditState.innerState === 'move'">Done</button>
+  			<button ng-click="objSaveUsers($event, obj)" ng-if="objEditState.innerState === 'editUsers'">Save Users</button>
+  			<button ng-click="objAddUsers($event, obj)" ng-if="objEditState.innerState !== 'editUsers'">Add Users</button>
+  		</div>
+  		<label class="tableName" ng-if="objEditState.selected!=obj || objEditState.innerState !== 'editName'">{{obj.data.tableid}}</label>
+        <input class="tableName" ng-model="obj.data.tableid" ng-if="objEditState.selected==obj && objEditState.innerState === 'editName'">
+		  <table class="tableCandidate">
+			  <tbody>
+			  	<tr data-ng-repeat="user in users" class="user" ng-if="user.tableid === obj.data._id">
+					<td>
+			          <strong>
+			            {{user.profile.firstName}} {{user.profile.lastName}}
+			            &nbsp;
+			          </strong>
+			        </td>
+			        <td>
+			        	<button ng-if="state === 'objEdit' && objEditState.selected==obj" ng-click="removeUserFromTable(user)">Remove</button>
+			        </td>
+			  	</tr>
+			  </tbody>
+		  </table>
+  	</div>
+  </div>
+</div>

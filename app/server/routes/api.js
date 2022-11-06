@@ -2,6 +2,7 @@ var UserController = require('../controllers/UserController');
 var SettingsController = require('../controllers/SettingsController');
 var FaqController = require('../controllers/FaqController');
 var EmailController = require('../controllers/EmailController');
+var TableController = require('../controllers/TableController');
 var User = require('../models/User');
 var json2csv = require('json2csv').parse;
 var path = require('path');
@@ -323,6 +324,14 @@ module.exports = function(router) {
     UserController.getGuests(id, defaultResponse(req, res));
   });
 
+  router.put('/users/:id/table', isAdmin, function(req, res){
+    var tableid = req.body.tableid;
+    var id = req.params.id;
+
+    UserController.updateTable(id, tableid, defaultResponse(req, res));
+
+  });
+
   /**
    * Update a teamcode. Join/Create a team here.
    * {
@@ -625,5 +634,15 @@ module.exports = function(router) {
   router.put('/settings/minors', isAdmin, function(req, res){
     var allowMinors = req.body.allowMinors;
     SettingsController.updateField('allowMinors', allowMinors, defaultResponse(req, res));
+  });
+
+  router.get('/tables', isAdmin, function(req, res){
+    return TableController.getTables(defaultResponse(req, res));
+  });
+
+  router.put('/tables/update', isAdmin, function(req, res){
+    var id = req.body._id;
+    var updateData = req.body.updateData;
+    return TableController.updateById(id, updateData, defaultResponse(req, res));
   });
 };

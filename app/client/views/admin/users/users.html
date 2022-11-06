@@ -110,7 +110,8 @@
             <th>E-mail address</th>
             <th>Declined</th>
             <th>V/F/CV/CT</th>
-            <th>Hotel</th>
+            <th>Entree</th>
+            <th>Dietary Restrictions</th>
             <th>CV/CT</th>
             <th>Email Sent</th>
             <th></th>
@@ -185,15 +186,27 @@
             <td
               class="collapsing">
 
-              <i
-                ng-if="user.wantsHotel && !user.hasHotel"
-                class="no icon">
-              </i>
-              <i
-                ng-if="user.wantsHotel && user.hasHotel"
-                class="home icon">
-              </i>
+              <div ng-if="user.diningOption.entree === 'M'">
+                Filet Mignon ({{user.diningOption.entreeOption}})
+              </div>
+              <div ng-if="user.diningOption.entree === 'F'">
+                Cod
+              </div>
+              <div ng-if="user.diningOption.entree === 'V'">
+                Vegetarian
+              </div>
+              <div ng-if="user.diningOption.entree === 'K'">
+                Kid
+              </div>
+              <div ng-if="user.diningOption.entree === 'U'">
+                No Food
+              </div>
+            </td>
 
+            <td>
+              <div>
+                {{user.diningOption.dietaryRestrictions}}
+              </div>
             </td>
 
             <td
@@ -357,19 +370,31 @@
               </i>
             </td>
 
-            <!-- Hotel -->
+            <!-- Entree -->
             <td
               class="collapsing">
 
-              <i
-                ng-if="guest.wantsHotel && !guest.hasHotel"
-                class="no icon">
-              </i>
-              <i
-                ng-if="guest.wantsHotel && guest.hasHotel"
-                class="home icon">
-              </i>
+              <div ng-if="guest.diningOption.entree === 'M'">
+                Filet Mignon ({{guest.diningOption.entreeOption}})
+              </div>
+              <div ng-if="guest.diningOption.entree === 'F'">
+                Cod
+              </div>
+              <div ng-if="guest.diningOption.entree === 'V'">
+                Vegetarian
+              </div>
+              <div ng-if="guest.diningOption.entree === 'K'">
+                Kid
+              </div>
+              <div ng-if="guest.diningOption.entree === 'U'">
+                No Food
+              </div>
+            </td>
 
+            <td>
+              <div>
+                {{guest.diningOption.dietaryRestrictions}}
+              </div>
             </td>
 
             <td

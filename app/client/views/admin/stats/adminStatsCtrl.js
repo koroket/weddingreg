@@ -10,6 +10,7 @@ angular.module('reg')
         .getStats()
         .then(stats => {
           $scope.stats = stats.data;
+          console.log(stats.data)
           $scope.loading = false;
         });
 

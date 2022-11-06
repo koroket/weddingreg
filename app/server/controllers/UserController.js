@@ -707,6 +707,20 @@ UserController.declineById = function (id, callback) {
     callback);
 };
 
+UserController.updateTable = function(id, tableid, callback) {
+  User.findOneAndUpdate({
+    '_id': id
+  },
+    {
+      $set: {
+        'tableid': tableid
+      }
+    }, {
+    new: true
+  },
+    callback);  
+}
+
 /**
  * Verify a user's email based on an email verification token.
  * @param  {[type]}   token    token

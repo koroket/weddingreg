@@ -3,6 +3,7 @@ const SettingsService = require('./services/SettingsService.js');
 const UserService = require('./services/UserService.js');
 const FaqService = require('./services/FaqService.js');
 const EmailService = require('./services/EmailService.js');
+const TableService = require('./services/TableService.js');
 
 const AdminCtrl = require('../views/admin/adminCtrl.js');
 const AdminSettingsCtrl = require('../views/admin/settings/adminSettingsCtrl.js');
@@ -22,6 +23,7 @@ const CovidCtrl = require('../views/covid/covidCtrl.js');
 const VerifyCtrl = require('../views/verify/verifyCtrl.js');
 const TodoCtrl = require('../views/todo/todoCtrl.js');
 const UnsubscribeCtrl = require('../views/unsubscribe/unsubscribeCtrl.js');
+const TableCtrl = require('../views/table/tableCtrl.js');
 
 angular.module('reg')
   .config([
@@ -110,6 +112,19 @@ angular.module('reg')
           url: "/",
           templateUrl: "views/todo/todo.html",
           controller: 'TodoCtrl',
+          resolve: {
+            currentUser: function (UserService) {
+              return UserService.getCurrentUser();
+            },
+            settings: function (SettingsService) {
+              return SettingsService.getPublicSettings();
+            }
+          },
+        })
+        .state('app.table', {
+          url: "/",
+          templateUrl: "views/table/table.html",
+          controller: 'TableCtrl',
           resolve: {
             currentUser: function (UserService) {
               return UserService.getCurrentUser();

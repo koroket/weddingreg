@@ -147,6 +147,12 @@ angular.module('reg')
         return $http.post(base + id + '/removeadmin');
       },
 
+      updateTableId: function(id, tableid) {
+        return $http.put(base + id + '/table', {
+          tableid: tableid
+        });
+      },
+
       hasDiningUpdates: function(guest){
         var numUpdates = 0;
         if (!guest.status.completedProfile)

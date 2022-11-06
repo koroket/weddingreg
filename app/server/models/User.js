@@ -54,8 +54,7 @@ var profile = {
     enum : {
       values: 'M F O N'.split(' ')
     }
-  },
-
+  }
 };
 
 // Only after confirmed
@@ -245,6 +244,10 @@ var schema = new mongoose.Schema({
 
   vaccineRef: {
     type: String,
+  },
+
+  tableid: {
+    type: String
   }
 });
 
