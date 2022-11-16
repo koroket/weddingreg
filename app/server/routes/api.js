@@ -470,6 +470,7 @@ module.exports = function(router) {
   });
 
   router.put('/surveys/submitAnswers', isOwnerOrAdmin, function(req, res){
+    console.log("submit answers")
     var id = req.body._id;
     var answers = req.body.surveyAnswers;
     return SurveyController.updateAnswersForUser(id, answers, defaultResponse(req, res));
