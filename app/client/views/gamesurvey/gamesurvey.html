@@ -1,0 +1,91 @@
+<div id="survey" class="page">
+  <div class="divided title">
+    Game Survey
+  </div>
+
+  <div class="ui stackable page grid">
+    <div class="column">
+      <div class="ui segment info" ng-if="user.admin">
+        <div
+          class="ui form">
+
+          <div class="title">
+            Admin Panel:
+          </div>
+          <div class="surveyList" data-ng-repeat="survey in surveys">
+            <div>
+              <div>
+                <div class="questionInput" style="text-align:left;">
+                  <input ng-model="survey.question">
+                </div>
+                <button class="save" ng-click="saveSurvey($index)">Save</button>
+                <button class="edit" ng-click="deleteSurvey($index)">Delete</button>
+              </div>
+            </div>
+          </div>
+          <button class="addSurvey" ng-click="addSurvey()">Add Survey +</button>
+        </div>
+        <br>
+      </div>
+      <div class="ui segment info">
+        <div
+          class="ui form">
+
+          <div class="title">
+            Family Feud: 
+          </div>
+
+          <div class="title">
+            Bridesmaids vs Groomsmen Edition
+          </div>
+
+          <p class="survey-info">
+            One of the games/entertainment that we will have at the event will be our own short version of Family Feud!
+            <br>
+            <br>
+            For those who do not know Family Feud, it is a game where two sides will try to guess the most popular answer among a given audience. (ex: We asked 100 men, why were you late to work? The most common answers might be "car out of battery", "woke up late", etc)
+            <br>
+            <br>
+            In this case, the audience will be all of you! To keep it on theme, the Bridesmaids and Groomsmen will be trying to guess the most common answers for these baby related questions. Please help us by submitting your answers to the questions that will be used for the game!
+            <br>
+            <br>
+            Note: This section of the site is not accessible for the Bridesmaids and Groomsmen. We kindly ask you not to let them know about the questions before hand.
+          </p>
+
+          <br>
+        </div>
+      </div>
+      <br>
+      <div class="guest-select-container" data-ng-repeat="guest in guests" style="display:inline-block">
+        <button class="guest-select-button" ng-click="selectGuest(guest._id)" ng-model="guests[guest._id]" ng-disabled="guest._id == selectedGuest">
+          {{guests[$index].profile.firstName}} {{guests[$index].profile.lastName}}
+          <div class="has-actionable" ng-show="guest.surveyOptionUpdates > 0">{{ guest.surveyOptionUpdates }}</div>
+        </button>
+      </div>
+      <div data-ng-repeat="guest in guests">
+        <div class="ui form status segment" ng-class="{'loading': loading}" ng-show="guest._id == selectedGuest">
+
+          <fieldset>
+
+            <div class="divided title">
+
+            <div class="field" data-ng-repeat="survey in surveys">
+              <label class="surveyQuestionLabel">{{survey.question}}</label>
+              <input type="text" placeholder="Answer" ng-model="guest.surveyAnswers[survey._id]">
+              <div class="missingField" ng-if="survey.invalid">Please fill this out</div>
+            </div>
+
+            <br>
+
+            <div class="field" ng-hide="regIsClosed">
+              <button type="submit" class="fluid ui purple button" ng-click="submitForm(guest)">
+                Save
+              </button>
+            </div>
+
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

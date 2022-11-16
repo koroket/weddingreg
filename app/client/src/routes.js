@@ -4,6 +4,7 @@ const UserService = require('./services/UserService.js');
 const FaqService = require('./services/FaqService.js');
 const EmailService = require('./services/EmailService.js');
 const TableService = require('./services/TableService.js');
+const SurveyService = require('./services/SurveyService.js');
 
 const AdminCtrl = require('../views/admin/adminCtrl.js');
 const AdminSettingsCtrl = require('../views/admin/settings/adminSettingsCtrl.js');
@@ -24,6 +25,7 @@ const VerifyCtrl = require('../views/verify/verifyCtrl.js');
 const TodoCtrl = require('../views/todo/todoCtrl.js');
 const UnsubscribeCtrl = require('../views/unsubscribe/unsubscribeCtrl.js');
 const TableCtrl = require('../views/table/tableCtrl.js');
+const GamesurveyCtrl = require('../views/gamesurvey/gamesurveyCtrl.js');
 
 angular.module('reg')
   .config([
@@ -183,6 +185,22 @@ angular.module('reg')
           url: "/covid",
           templateUrl: "views/covid/covid.html",
           controller: 'CovidCtrl',
+          data: {
+            requireVerified: true
+          },
+          resolve: {
+            currentUser: function (UserService) {
+              return UserService.getCurrentUser();
+            },
+            settings: function (SettingsService) {
+              return SettingsService.getPublicSettings();
+            }
+          }
+        })
+        .state('app.survey', {
+          url: "/survey",
+          templateUrl: "views/gamesurvey/gamesurvey.html",
+          controller: 'GamesurveyCtrl',
           data: {
             requireVerified: true
           },

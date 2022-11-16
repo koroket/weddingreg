@@ -181,6 +181,15 @@ angular.module('reg')
 
       destroyUser: function(id) {
         return $http.post(base + id + '/destroy');
+      },
+
+      hasSurveyUpdates: function(guest) {
+        var numUpdates = 0;
+        if (!guest.status.completedSurvey) 
+        {
+          numUpdates +=1
+        }
+        return numUpdates;
       }
     };
   }

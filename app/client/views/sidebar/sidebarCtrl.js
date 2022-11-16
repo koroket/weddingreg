@@ -39,14 +39,15 @@ angular.module('reg')
         }
         var diningOptionUpdates = 0;
         var covidOptionUpdates = 0;
+        var surveyOptionUpdates = 0;
         for (var i = 0; i < allUsers.length; i++) {
           diningOptionUpdates+=UserService.hasDiningUpdates(allUsers[i]);
-          covidOptionUpdates+=UserService.hasCovidUpdates(allUsers[i])
+          covidOptionUpdates+=UserService.hasCovidUpdates(allUsers[i]);
+          surveyOptionUpdates+=UserService.hasSurveyUpdates(allUsers[i]);
         }
         $scope.diningOptionUpdates = diningOptionUpdates
         $scope.covidOptionUpdates = covidOptionUpdates
-        console.log($scope.diningOptionUpdates)
-        console.log($scope.covidOptionUpdates)
+        $scope.surveyOptionUpdates = surveyOptionUpdates;
       }
 
       function refreshUpdates(callback){

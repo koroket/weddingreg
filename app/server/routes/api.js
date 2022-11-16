@@ -3,6 +3,7 @@ var SettingsController = require('../controllers/SettingsController');
 var FaqController = require('../controllers/FaqController');
 var EmailController = require('../controllers/EmailController');
 var TableController = require('../controllers/TableController');
+var SurveyController = require('../controllers/SurveyController');
 var User = require('../models/User');
 var json2csv = require('json2csv').parse;
 var path = require('path');
@@ -454,6 +455,29 @@ module.exports = function(router) {
   router.put('/faqs/delete', isAdmin, function(req, res){
     var id = req.body._id;
     return FaqController.deleteById(id, defaultResponse(req, res));
+  });
+
+  // SURVEY
+
+  router.get('/surveys', isLoggedIn, function(req, res){
+    return SurveyController.getSurveys(defaultResponse(req, res));
+  });
+
+  router.put('/surveys/update', isAdmin, function(req, res){
+    var id = req.body._id;
+    var question = req.body.question;
+    return SurveyController.updateById(id, question, defaultResponse(req, res));
+  });
+
+  router.put('/surveys/submitAnswers', isOwnerOrAdmin, function(req, res){
+    var id = req.body._id;
+    var answers = req.body.surveyAnswers;
+    return SurveyController.updateAnswersForUser(id, answers, defaultResponse(req, res));
+  });
+
+  router.put('/surveys/delete', isAdmin, function(req, res){
+    var id = req.body._id;
+    return SurveyController.deleteById(id, defaultResponse(req, res));
   });
 
   /**

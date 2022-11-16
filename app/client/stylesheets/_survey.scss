@@ -1,0 +1,106 @@
+#survey {
+
+  .status {
+    text-align: center;
+    opacity: 80%;
+  }
+
+  #school .title {
+    text-align: left;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+}
+
+#survey {
+  .ui.segment {
+    margin: 0;
+  }
+
+  .guest-select-container {
+    font-size: 0;
+  }
+
+  .guest-select-button {
+    font-size: 14px;
+    height: 40px;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-top: 1px solid #000;
+    border-bottom: none;
+    /* border-radius: 10px; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    .has-actionable {
+      height: 24px;
+      width: 24px;
+      line-height: 22px;
+    }
+  }
+
+  .guest-select-button:hover {
+    background-color: #82eaea;
+  }
+
+  button[disabled] {
+    background: darkgray;
+  }
+
+  button[disabled]:hover {
+    background: darkgray;
+  }
+
+  .has-actionable {
+    margin-left: 9px;
+  }
+
+  .guestParentContainer {
+    display: inline-block;
+    float: none;
+  }
+
+  .guestInfoContainerText {
+    font-family: "Lucida Handwriting";
+    font-size: 13px;
+  }
+
+  .allergy-label {
+    font-family: "Lucida Handwriting";
+  }
+
+  p {
+      font-size: 15px;
+  }
+
+  .doneness-icon {
+    padding-top: 6px;
+    display: inline-block;
+  }
+
+  .doneness-label {
+    display: inline-block;
+  }
+
+  .ui.segment.notifyboard {
+    height: auto;
+    .title {
+      font-family: Montserrat,"Helvetica Neue",Helvetica,sans-serif;
+      text-transform: uppercase;
+      text-align: center;
+      color: #473899;
+      font-weight: 700;
+      font-size: 0.8em;
+      letter-spacing: 4px;
+    }
+  }
+
+  .missingField {
+    background: #e17055;
+  }
+
+  .surveyQuestionLabel {
+    letter-spacing: 0px;
+  }
+
+}

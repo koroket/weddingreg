@@ -25,6 +25,11 @@
       Covid Process
       <div class="has-actionable" ng-if="covidOptionUpdates > 0">{{ covidOptionUpdates }}</div>
     </div>
+
+    <div ui-sref-active="active" ui-sref="app.survey" ng-show="!currentUser.status.declined" class="item">
+      Game Survey
+      <div class="has-actionable" ng-if="surveyOptionUpdates > 0">{{ surveyOptionUpdates }}</div>
+    </div>
   </div>
 
   <div ng-show="currentUser.admin">

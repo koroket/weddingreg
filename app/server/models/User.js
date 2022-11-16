@@ -165,6 +165,11 @@ var status = {
     required: true,
     default: false,
   },
+  completedSurvey: {
+    type: Boolean,
+    required: true,
+    default: false,
+  }
 };
 
 // define the schema for our admin model
@@ -244,6 +249,8 @@ var schema = new mongoose.Schema({
   diningOption: diningOption,
 
   emailHistory: mongoose.Schema.Types.Mixed,
+
+  surveyAnswers: mongoose.Schema.Types.Mixed,
 
   status: status,
 
