@@ -169,7 +169,12 @@ var status = {
     type: Boolean,
     required: true,
     default: false,
-  }
+  },
+  isBridesmaidGroomsmen: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 };
 
 // define the schema for our admin model
