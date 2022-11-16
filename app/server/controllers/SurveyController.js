@@ -68,6 +68,8 @@ SurveyController.deleteById = function(id, callback){
 
 
 SurveyController.updateAnswersForUser = function(id, answers, callback) {
+  console.log(id);
+  console.log(answers);
   User.findOneAndUpdate({
     _id: id
   },
