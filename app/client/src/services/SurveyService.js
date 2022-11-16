@@ -6,6 +6,7 @@ angular.module('reg')
 
     var faqs = '/api/surveys';
     var base = faqs + '/';
+    var userbase = '/api/users/'
 
     return {
       getAll: function(){
@@ -26,9 +27,8 @@ angular.module('reg')
       },
 
       updateSurveyAnswers: function(user){
-        return $http.put(base + 'submitAnswers', {
-          surveyAnswers: user.surveyAnswers,
-          _id: user._id
+        return $http.put(userbase + user._id + '/submitAnswers', {
+          surveyAnswers: user.surveyAnswers
         });
       },
     };

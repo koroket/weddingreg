@@ -469,9 +469,9 @@ module.exports = function(router) {
     return SurveyController.updateById(id, question, defaultResponse(req, res));
   });
 
-  router.put('/surveys/submitAnswers', isOwnerOrAdmin, function(req, res){
+  router.put('/users/:id/submitAnswers', isOwnerOrAdmin, function(req, res){
     console.log("submit answers")
-    var id = req.body._id;
+    var id = req.params.id;
     var answers = req.body.surveyAnswers;
     return SurveyController.updateAnswersForUser(id, answers, defaultResponse(req, res));
   });
