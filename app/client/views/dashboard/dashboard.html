@@ -71,9 +71,6 @@
           <p>
             - Check our <a ui-sref-active="active" ui-sref="app.faq">FAQ</a> to learn more about what you can expect and submit any questions for us!
           </p>
-          <p ng-show="!user.status.isBridesmaidGroomsmen">
-            - Submit your Family Feud Answers <a ui-sref-active="active" ui-sref="app.faq">Here</a>!
-          </p>
         </div>
         <!-- 
         <div ng-class="settings.timeClose"
@@ -117,6 +114,9 @@
           </p>
           <p>
             - Adjust your dining preferences <a ui-sref-active="active" ui-sref="app.application">here</a>
+          </p>
+          <p ng-show="!user.status.isBridesmaidGroomsmen">
+            - Submit your Family Feud Answers <a ui-sref-active="active" ui-sref="app.faq">here</a>!
           </p>
         </div>
 
