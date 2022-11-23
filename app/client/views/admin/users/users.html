@@ -109,7 +109,7 @@
             <th>Name</th>
             <th>E-mail address</th>
             <th>Declined</th>
-            <th>V/F/CV/CT</th>
+            <th>V/F/CV/CT/S</th>
             <th>Entree</th>
             <th>Dietary Restrictions</th>
             <th>CV/CT</th>
@@ -178,6 +178,15 @@
               </i>
               <i
                 ng-if="!user.status.uploadedCovidTest"
+                class="circle thin icon">
+              </i>
+
+              <i
+                ng-if="user.surveyAnswers"
+                class="green check circle icon">
+              </i>
+              <i
+                ng-if="!user.surveyAnswers"
                 class="circle thin icon">
               </i>
             </td>
@@ -380,6 +389,15 @@
               </i>
               <i
                 ng-if="!guest.status.uploadedCovidTest"
+                class="circle thin icon">
+              </i>
+
+              <i
+                ng-if="guest.surveyAnswers"
+                class="green check circle icon">
+              </i>
+              <i
+                ng-if="!guest.surveyAnswers"
                 class="circle thin icon">
               </i>
             </td>
