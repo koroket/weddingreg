@@ -1,0 +1,44 @@
+<div id="adminSurvey" class="page">
+  <div class="divided title">
+    Admin Survey
+  </div>
+  <div class="userContainer">
+  	<div>
+  		<div data-ng-repeat="survey in surveys">
+  			<div>
+  				Q: {{survey.question}}
+  			</div>
+  			<div>
+  				Total: {{surveyTotal[survey._id]}}
+  			</div>
+  		</div>
+  	</div>
+		<div>
+			Users
+		</div>
+	  <table>
+			<thead>
+			  <tr>
+			    <th>Name</th>
+		        <th data-ng-repeat="survey in surveys">
+	              {{survey.question}}
+	            </th>	   
+			  </tr>
+			</thead>
+		  <tbody>
+		  	<tr data-ng-repeat="user in users" class="user" ng-if="elementMap[user.tableid] == undefined">
+				<td>
+		          <strong>
+		            {{user.profile.firstName}} {{user.profile.lastName}}
+		            &nbsp;
+		          </strong>
+		        </td>
+		        <td data-ng-repeat="survey in surveys">
+	              <label class="surveyAnswerLabel">{{user.surveyAnswers[survey._id]}}</label>
+	            </td>
+		  	</tr>
+		  </tbody>
+	  </table>  	
+  </div>
+
+</div>

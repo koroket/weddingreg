@@ -26,6 +26,7 @@ const TodoCtrl = require('../views/todo/todoCtrl.js');
 const UnsubscribeCtrl = require('../views/unsubscribe/unsubscribeCtrl.js');
 const TableCtrl = require('../views/table/tableCtrl.js');
 const GamesurveyCtrl = require('../views/gamesurvey/gamesurveyCtrl.js');
+const SurveyAdminCtrl = require('../views/surveyAdmin/surveyAdminCtrl.js');
 
 angular.module('reg')
   .config([
@@ -201,6 +202,22 @@ angular.module('reg')
           url: "/survey",
           templateUrl: "views/gamesurvey/gamesurvey.html",
           controller: 'GamesurveyCtrl',
+          data: {
+            requireVerified: true
+          },
+          resolve: {
+            currentUser: function (UserService) {
+              return UserService.getCurrentUser();
+            },
+            settings: function (SettingsService) {
+              return SettingsService.getPublicSettings();
+            }
+          }
+        })
+        .state('app.surveyAdmin', {
+          url: "/surveyAdmin",
+          templateUrl: "views/surveyAdmin/surveyAdmin.html",
+          controller: 'SurveyAdminCtrl',
           data: {
             requireVerified: true
           },
