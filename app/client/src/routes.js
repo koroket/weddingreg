@@ -27,6 +27,7 @@ const UnsubscribeCtrl = require('../views/unsubscribe/unsubscribeCtrl.js');
 const TableCtrl = require('../views/table/tableCtrl.js');
 const GamesurveyCtrl = require('../views/gamesurvey/gamesurveyCtrl.js');
 const SurveyAdminCtrl = require('../views/surveyAdmin/surveyAdminCtrl.js');
+const DayofCtrl = require('../views/dayof/dayofCtrl.js');
 
 angular.module('reg')
   .config([
@@ -294,6 +295,14 @@ angular.module('reg')
           url: "/verify/:token",
           templateUrl: "views/verify/verify.html",
           controller: 'VerifyCtrl',
+          data: {
+            requireLogin: false
+          }
+        })
+        .state('dayof', {
+          url: "/dayof",
+          templateUrl: "views/dayof/dayof.html",
+          controller: 'DayofCtrl',
           data: {
             requireLogin: false
           }

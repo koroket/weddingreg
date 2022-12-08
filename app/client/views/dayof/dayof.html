@@ -1,0 +1,114 @@
+<div id="dayof" class="page">
+  <div class="divided title">
+    Day Of Information
+  </div>
+  <div class="ui stackable centered page grid">
+    <div class="column">
+      <div class="ui segment info">
+        <div
+          class="ui form">
+
+          <div class="title">
+            Welcome!
+          </div>
+
+          <p class="covid-info">
+            We are super excited to see you!
+            <br>
+            Here are some information that might be helpful to get the most out of our event!
+          </p>
+
+          <br>
+        </div>
+      </div>
+      <br>
+      <div class="guest-select-container" data-ng-repeat="tab in tabs" style="display:inline-block">
+        <button class="guest-select-button" ng-click="selectTab(tab._id)" ng-model="tabs[tab._id]" ng-disabled="tab._id == selectedTab">
+          {{tab._id}}
+        </button>
+      </div>
+
+      <div data-ng-repeat="tab in tabs" ng-show="tab._id === selectedTab">
+        <div class="ui segment" ng-show="'Games' === selectedTab">
+          <div
+            class="ui form">
+
+            <p class="covid-info">
+              If you are trying to access the games during the event and you see this message
+              <br>
+              It means that you are not on the correct WiFi
+              <br>
+              All the games will require you to be on our WiFi where the games are accessible
+              <br>
+              <br>
+              <label>
+                WiFi: MikeJen2022
+              </label>
+             
+              <br>
+              <label>
+                Password: weddingshower
+              </label>
+              <br>
+              <br>
+              Please join this WiFi, then refresh the page. Thanks!
+            </p>
+
+            <br>
+          </div>
+        </div>
+        <div class="ui segment" ng-show="'Photobooth' === selectedTab">
+          <div
+            class="ui form">
+
+            <p class="covid-info">
+              We have a photo booth setup for you to the left corner of the room!
+              <br>
+              Please enjoy it! Here are the instrusctions on how to use it.
+              <br>
+              (Instructions will also be there at the photobooth)
+            </p>
+            <img src="/assets/images/photobooth.jpg" width="100%">
+          </div>
+        </div>
+        <div class="ui segment" ng-show="'Beverages' === selectedTab">
+          <div
+            class="ui form">
+            <p class="covid-info">
+              Please enjoy all the NonAlcoholic/Alcoholic Beverages at the bar!
+              <br>
+              (Alcohol service will end right at 9pm)
+              <br>
+              We've also prepare a "Her Drink" and "His Drink" for the night
+              <br>
+              (Sorry if they run out, there's a limited quantity of the her/his drinks)
+            </p>
+            <img src="/assets/images/barmenunonalc.jpg" width="100%">
+            <img src="/assets/images/barmenualc.jpg" width="100%">
+            <img src="/assets/images/drinks.jpg" width="100%">
+          </div>
+        </div>
+        <div class="ui segment" ng-show="'Schedule' === selectedTab">
+          <div
+            class="ui form">
+            <p class="covid-info">
+              
+            </p>
+            <img src="/assets/images/schedule.jpg" width="100%">
+          </div>
+        </div>
+        <div class="ui segment" ng-show="'Notes' === selectedTab">
+          <div
+            class="ui form">
+            <p class="covid-info">
+              - Outside area is accessible! There should be heated lamps to keep you warm as well.
+              <br>
+              - Don't forget to bring home the party favour!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
