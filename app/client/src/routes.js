@@ -305,7 +305,7 @@ angular.module('reg')
           controller: 'DayofCtrl',
           data: {
             requireLogin: false
-          }
+          },
         })
         .state('404', {
           url: "/404",

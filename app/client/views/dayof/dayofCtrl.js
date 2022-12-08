@@ -1,8 +1,11 @@
 angular.module('reg')
   .controller('DayofCtrl', [
     '$scope',
-    function($scope){
-
+    'Session',
+    function($scope, Session){
+      var token = Session.getToken();
+      console.log(token)
+      $scope.token = token
       $scope.selectedTab = "Games"
 
       $scope.tabs = [{
