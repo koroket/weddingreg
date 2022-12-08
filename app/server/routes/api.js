@@ -296,6 +296,13 @@ module.exports = function(router) {
     UserController.updateVaccine(id, vaccineFile, defaultResponse(req, res));
   });
 
+  router.post('/users/:id/covidtest', upload.single('file'), isOwnerOrAdmin, function(req, res){
+    var covidTestFile = req.file;
+    var id = req.params.id;
+
+    UserController.updateCovidTest(id, covidTestFile, defaultResponse(req, res));
+  });
+
   /**
    * [OWNER/ADMIN]
    *

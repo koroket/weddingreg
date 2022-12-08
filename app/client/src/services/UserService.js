@@ -69,6 +69,12 @@ angular.module('reg')
         })
       },
 
+      updateCovidTest: function(id, body) {
+        return $http.post(base + id + '/covidtest', body, {
+          headers: {'Content-Type': undefined}
+        })
+      },
+
       declineAdmission: function(id){
         return $http.post(base + id + '/decline');
       },
@@ -173,6 +179,10 @@ angular.module('reg')
       hasCovidUpdates: function(guest){
         var numUpdates = 0;
         if (!guest.status.uploadedVaccine)
+        {
+          numUpdates += 1
+        }
+        if (!guest.status.uploadedCovidTest)
         {
           numUpdates += 1
         }

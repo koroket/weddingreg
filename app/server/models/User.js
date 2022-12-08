@@ -175,6 +175,10 @@ var status = {
     required: true,
     default: false,
   },
+  uploadedCovidTest: {
+    type: Boolean,
+    default: false
+  },
 };
 
 // define the schema for our admin model
@@ -260,6 +264,10 @@ var schema = new mongoose.Schema({
   status: status,
 
   vaccineRef: {
+    type: String,
+  },
+
+  covidtestRef: {
     type: String,
   },
 

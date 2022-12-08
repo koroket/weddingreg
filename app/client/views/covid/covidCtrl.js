@@ -106,7 +106,7 @@ angular.module('reg')
               guest.wantsToReupload = false;
               $rootScope.$emit("RecalculateUpdates", response.data);
               guest.covidOptionUpdates = UserService.hasCovidUpdates(response.data);
-              swal("Saved!", "COVID information has been saved", "success").then(value => {
+              swal("Saved!", "COVID Test Results have been saved", "success").then(value => {
                 // $state.go("app.dashboard");
               });
             }, response => {
@@ -141,18 +141,64 @@ angular.module('reg')
 
 
 
-      $scope.testFileChanged = function(event) {
+      $scope.testFileChanged = function(event, index) {
         // $scope.file = event.target.files[0];
         console.log(event)
+        $scope.guests[index].testFile = event.target.files[0];
       }
 
       $scope.testReupload = function() {
-        $scope.wantsToReupload = true;
+        $scope.wantsToReuploadTest = true;
       }
     
       // OnClick of button Upload
-      $scope.onTestUpload = function() {
+      $scope.onTestUpload = function(index) {
+          var guest = $scope.guests[index];
+          $scope.loading = true;
 
+          // Create form data
+          var formData = new FormData();
+          var file = guest.testFile
+            
+          // Store form name as "file" with file data
+          formData.append("file", file, file.name);
+          UserService.updateCovidTest(guest._id, formData)
+            .then(response => {
+              $scope.guests[index] = response.data
+              guest.wantsToReuploadTest = false;
+              $rootScope.$emit("RecalculateUpdates", response.data);
+              guest.covidOptionUpdates = UserService.hasCovidUpdates(response.data);
+              swal("Saved!", "COVID information has been saved", "success").then(value => {
+                // $state.go("app.dashboard");
+              });
+            }, response => {
+              console.log(response)
+              if ((response.status && response.status == 413) ||
+                  response.data === 'File too large')
+              {
+                var limit = "10MB"
+                var sizeText = ""
+                if (file.size > 1000000) {
+                  var sizeInMB = file.size/1000000
+                  sizeText = sizeInMB + "MB"
+                }
+                else if (file.size > 1000) {
+                  var sizeInkB = file.size/1000
+                  sizeText = sizeInkB + "kB"
+                }
+                else {
+                  var sizeInb = file.size
+                  sizeText = sizeInb + "bytes"
+                }
+
+                swal("File too large", "Your file size (" + sizeText + ") is over the limit of " + limit, "error");
+              }
+              else {
+                swal("Uh oh!", response.data, "error");
+              }
+              
+            });
+          console.log(formData)
       }
 
 

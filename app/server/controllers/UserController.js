@@ -453,6 +453,47 @@ UserController.updateVaccine = function(id, vaccineFile, callback){
   })
 }
 
+UserController.updateCovidTest = function(id, vaccineFile, callback){
+  console.log("UserController.updateCovidTest: ")
+  console.log(vaccineFile)
+
+  // const bufferStream = new stream.PassThrough();
+  // bufferStream.end(vaccineFile.buffer);
+
+  if (vaccineFile.size > 10000000) {
+    return callback("File too large", undefined)
+  }
+
+  var original_file_name = ""
+  if (vaccineFile && vaccineFile.originalname){
+    original_file_name = vaccineFile.originalname
+  }
+  else{
+    original_file_name = "covidtest.undefined"
+  }
+
+  var unique_file_name = id + "_" + original_file_name
+  var uploadPath = '/Covidtest/' + unique_file_name
+  UserController.uploadToDropbox(vaccineFile, uploadPath, function (err, res) {
+    if (err) {
+      return callback("Server can not complete upload", undefined)
+    }
+    User.findOneAndUpdate({
+        _id: id
+      },
+        {
+          $set: {
+            'covidtestRef': unique_file_name,
+            'status.uploadedCovidTest': true
+          }
+        },
+        {
+          new: true
+        },
+        callback);
+  })
+}
+
 UserController.updateProfileAndGuests = function (id, profile, guests, callback) {
   console.log("UserController.updateProfileAndGuests: ")
   console.log(guests)

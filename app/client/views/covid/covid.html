@@ -77,7 +77,7 @@
               </div>
             </div>
 
-            <div class="covid-step-container" ng-disabled="isDisabled">
+            <div class="covid-step-container">
               <div class="covid-step-label-container">
                 <label class="covid-step-label"> Step 2: COVID Test Result</label>
                 <div class="guestParentContainer step2">
@@ -99,16 +99,26 @@
                 <input type="file"
                   class="chooseFile"
                   ng-model="guest.unusedTestField"
-                  ng-upload-change="testFileChanged($event, $index)"
-                  ng-disabled="isDisabled">
+                  ng-upload-change="testFileChanged($event, $index)">
 
                 <button ng-click="onTestUpload($index)"
-                    class="btn btn-success"
-                    ng-disabled="isDisabled">
+                    class="ui purple button uploadButton">
                     Upload
                 </button>
-                <div class="covid-test-cover">
-                  <p class="covid-test-cover-text">Uploading Test Results will become available 3 days prior to the event. We will also send out an email as a reminder. Thanks!</p>
+                <div class="covid-test-cover done" ng-if="guest.status.uploadedCovidTest && !guest.wantsToReuploadTest">
+                  <div class="cover-background">
+                    <div class="covid-test-cover-text">
+                      <div class="done-icon-container"> 
+                        <img class="done-icon" src="assets/images/done-icon.svg" />
+                      </div>
+                      Thanks for uploading your COVID Test Result!
+                      <br>
+                      <button ng-click="reuploadTest($index)"
+                        class="ui purple button">
+                        Reupload
+                      </button>
+                    </div>         
+                  </div>
                 </div>
               </div>
             </div>
