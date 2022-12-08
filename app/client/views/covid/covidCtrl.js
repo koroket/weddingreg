@@ -150,6 +150,10 @@ angular.module('reg')
       $scope.testReupload = function() {
         $scope.wantsToReuploadTest = true;
       }
+
+      $scope.reuploadTest = function(index) {
+        $scope.guests[index].wantsToReuploadTest = true;
+      }
     
       // OnClick of button Upload
       $scope.onTestUpload = function(index) {
